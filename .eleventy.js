@@ -1,8 +1,12 @@
 module.exports = function(eleventyConfig) {
+  // Strictly forces Eleventy to copy the entire admin folder AND your images folder
+  eleventyConfig.addPassthroughCopy({ "src/admin": "admin" });
+  eleventyConfig.addPassthroughCopy({ "src/images": "images" });
+
   return {
     dir: {
-      input: "src",      // Tells the factory where our raw files live
-      output: "_site"    // Tells the factory where to put the finished website
+      input: "src",
+      output: "_site"
     }
   };
 };
