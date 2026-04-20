@@ -1,1 +1,93 @@
-<h1>Welcome to the RangMeera Dashboard Workshop!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Necklaces | RangMeera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-color: #fcf6f2; --text-main: #1d1d1f; --text-light: #86868b; --pink: #e23b70; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); }
+        h1, h2 { font-family: 'Playfair Display', serif; }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; height: 130px; background-color: rgba(252, 246, 242, 0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .nav-left, .nav-right { flex: 1; display: flex; align-items: center; }
+        .nav-left { justify-content: flex-start; }
+        .nav-right { justify-content: flex-end; }
+        
+        .logo-link { flex: 0 1 auto; width: 280px; display: flex; justify-content: center; }
+        .logo-img { width: 100%; height: auto; max-height: 100px; object-fit: contain; }
+        
+        .nav-item { text-decoration: none; color: var(--text-main); font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
+        .nav-item:hover { color: var(--pink); }
+        
+        .dropdown { position: relative; }
+        .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #ffffff; min-width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 12px; padding: 15px 0; z-index: 1001; text-align: left; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
+        .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
+
+        .catalog-header { position: relative; padding: 200px 5% 80px; text-align: center; z-index: 1; }
+        .catalog-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/images/logo.png'); background-size: 45%; background-position: center; background-repeat: no-repeat; opacity: 0.04; z-index: -1; pointer-events: none; }
+        .catalog-header h1 { font-size: 3rem; margin-bottom: 10px; }
+        .catalog-header p { color: var(--text-light); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; padding: 0 5% 100px; }
+        .product-card { background: #ffffff; border-radius: 20px; overflow: hidden; transition: transform 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: left; display: flex; flex-direction: column;}
+        .product-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .product-image { width: 100%; height: 350px; object-fit: cover; background-color: #f5f5f7; }
+        .product-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1;}
+        .product-code { color: var(--text-light); font-size: 0.8rem; margin-bottom: 5px; display: block; letter-spacing: 0.5px; text-transform: uppercase;}
+        .product-info h3 { font-size: 1.1rem; font-family: 'Inter', sans-serif; font-weight: 600; margin-bottom: 8px; color: var(--text-main);}
+        
+        .product-info .desc { color: var(--text-light); font-size: 0.9rem; line-height: 1.5; margin-bottom: 20px; flex-grow: 1;}
+        .product-info .desc p { margin: 0; }
+        
+        .price { font-weight: 600; color: var(--pink); font-size: 1.1rem;}
+        footer { text-align: center; padding: 40px; border-top: 1px solid rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="nav-item">Home</a>
+        </div>
+        
+        <a href="/" class="logo-link">
+            <img src="/images/logo.png" alt="RangMeera Logo" class="logo-img">
+        </a>
+
+        <div class="nav-right">
+            <div class="dropdown">
+                <a href="#" class="nav-item">Catalog ▾</a>
+                <div class="dropdown-content">
+                    <a href="/">Necklaces</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="catalog-header">
+        <h1>Necklaces</h1>
+        <p>Explore our timeless collection of handcrafted necklaces.</p>
+    </div>
+
+    <div class="grid">
+        {% for item in collections.necklaces %}
+        <div class="product-card">
+            <img src="{{ item.data.image }}" alt="{{ item.data.name }}" class="product-image">
+            <div class="product-info">
+                <span class="product-code">CODE: {{ item.data.title }}</span>
+                <h3>{{ item.data.name }}</h3>
+                <div class="desc">{{ item.templateContent }}</div>
+                <span class="price">MRP: ₹{{ item.data.price }}</span>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+
+    <footer><p>&copy; 2026 RangMeera. All rights reserved.</p></footer>
+</body>
+</html>
