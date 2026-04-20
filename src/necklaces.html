@@ -45,6 +45,11 @@
         .product-info .desc p { margin: 0; }
         
         .price { font-weight: 600; color: var(--pink); font-size: 1.1rem;}
+        .price-wrapper { margin-top: 10px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .old-price { text-decoration: line-through; color: var(--text-light); font-size: 0.95rem; }
+        .new-price { font-weight: 600; color: var(--text-main); font-size: 1.1rem; }
+        .discount-tag { background: var(--pink); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;}
+        .delivery-fee { font-size: 0.8rem; color: var(--text-light); display: block; margin-top: 5px; }
         footer { text-align: center; padding: 40px; border-top: 1px solid rgba(0,0,0,0.05); }
     </style>
 </head>
@@ -82,7 +87,20 @@
                 <span class="product-code">CODE: {{ item.data.title }}</span>
                 <h3>{{ item.data.name }}</h3>
                 <div class="desc">{{ item.templateContent }}</div>
-                <span class="price">MRP: ₹{{ item.data.price }}</span>
+                
+                {% if item.data.sale_price %}
+                    <div class="price-wrapper">
+                        <span class="old-price">MRP ₹{{ item.data.price }}</span>
+                        <span class="new-price">₹{{ item.data.sale_price }}</span>
+                        <span class="discount-tag">SALE</span>
+                    </div>
+                {% else %}
+                    <span class="price">MRP: ₹{{ item.data.price }}</span>
+                {% endif %}
+
+                {% if item.data.delivery_fee %}
+                    <span class="delivery-fee">+ ₹{{ item.data.delivery_fee }} Delivery</span>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
