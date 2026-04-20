@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: Rangmeera/rangmeera-cms
+  branch: main
+
+media_folder: "src/images" # Where your uploaded necklace photos will go
+public_folder: "/images"
+
+collections:
+  - name: "necklaces"
+    label: "Necklaces Catalog"
+    folder: "src/necklaces"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Product Code (e.g., NK-001)", name: "title", widget: "string"}
+      - {label: "Necklace Name", name: "name", widget: "string"}
+      - {label: "Price (MRP)", name: "price", widget: "string"}
+      - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Description", name: "body", widget: "markdown"}
