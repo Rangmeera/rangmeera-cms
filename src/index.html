@@ -158,6 +158,18 @@
         .scroll-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); transition: background 0.5s ease; }
         .scroll-link:hover .scroll-overlay { background: rgba(0,0,0,0.4); }
 
+        /* NARRATIVE BRIDGES (The Spacers) */
+        .narrative-bridge { height: 65vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 10%; background-color: var(--bg-color); position: relative; z-index: 2; }
+        .narrative-bridge.cool-bridge { background-color: #f4f4f6; } 
+        
+        .narrative-content { max-width: 700px; opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .scroll-section.is-visible .narrative-content { opacity: 1; transform: translateY(0); }
+        
+        .narrative-content h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 20px; color: var(--text-main); }
+        .cool-bridge .narrative-content h2 { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 4px; font-size: 2rem; font-weight: 500; color: #1c1c1c; }
+        
+        .narrative-content p { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: var(--text-light); line-height: 1.8; }
+
         .gallery-section { padding: 100px 5%; text-align: center; }
         .gallery-section h2 { font-size: 2.5rem; margin-bottom: 15px; }
         .gallery-section > p { color: var(--text-light); margin-bottom: 60px; }
@@ -212,11 +224,25 @@
 
     <div id="collections-container">
         
+        <section class="scroll-section narrative-bridge">
+            <div class="narrative-content">
+                <h2>The Royal Lineage</h2>
+                <p>Rooted in centuries of artistry, our Heritage pieces bring the opulence of royal Indian courts into the modern era. Crafted with antique gold finishes and vibrant Navratna-inspired stones, each piece is a testament to timeless elegance.</p>
+            </div>
+        </section>
+
         <section class="scroll-section">
             <a href="/necklaces.html?collection=Heritage" class="scroll-link">
                 <img src="/images/heritage-collage.jpg" alt="The Heritage Collection" class="scroll-bg">
                 <div class="scroll-overlay" style="background: rgba(0,0,0,0.05);"></div>
             </a>
+        </section>
+
+        <section class="scroll-section narrative-bridge cool-bridge">
+            <div class="narrative-content">
+                <h2>Modern Brilliance</h2>
+                <p>Step into the spotlight. The Lumière Collection defines contemporary glamour, featuring razor-sharp geometric cuts, premium American Diamonds, and cool silver tones designed for your most spectacular evenings.</p>
+            </div>
         </section>
 
         <section class="scroll-section">
@@ -264,17 +290,14 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // The Observer watches for elements entering the screen
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    // If 20% of the image is on screen, trigger the reveal!
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
                     }
                 });
             }, { threshold: 0.2 }); 
             
-            // Tell the observer to watch our collection sections
             document.querySelectorAll('.scroll-section').forEach((section) => {
                 observer.observe(section);
             });
