@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping & Delivery | RangMeera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-color: #fcf6f2; --text-main: #1d1d1f; --text-light: #86868b; --pink: #e23b70; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        h1, h2 { font-family: 'Playfair Display', serif; }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; height: 130px; background-color: rgba(252, 246, 242, 0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .nav-left, .nav-right { flex: 1; display: flex; align-items: center; }
+        .nav-left { justify-content: flex-start; } .nav-right { justify-content: flex-end; }
+        .logo-link { flex: 0 1 auto; width: 280px; display: flex; justify-content: center; }
+        .logo-img { width: 100%; height: auto; max-height: 100px; object-fit: contain; }
+        .nav-item { text-decoration: none; color: var(--text-main); font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; }
+        .nav-item:hover { color: var(--pink); }
+
+        .policy-container { max-width: 800px; margin: 180px auto 100px; padding: 0 5%; }
+        .policy-container h1 { font-size: 2.5rem; margin-bottom: 30px; text-align: center; }
+        .policy-container h2 { font-size: 1.5rem; margin-top: 40px; margin-bottom: 15px; }
+        .policy-container p, .policy-container li { color: var(--text-light); margin-bottom: 15px; font-size: 1.05rem; }
+        .policy-container ul { margin-left: 20px; margin-bottom: 20px; }
+        
+        footer { text-align: center; padding: 40px; border-top: 1px solid rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left"><a href="/" class="nav-item">Home</a></div>
+        <a href="/" class="logo-link"><img src="/images/logo.png" alt="RangMeera Logo" class="logo-img"></a>
+        <div class="nav-right"><a href="/necklaces.html" class="nav-item">Catalog</a></div>
+    </nav>
+
+    <div class="policy-container">
+        <h1>Shipping & Delivery Policy</h1>
+        <p>We partner with reliable courier services to ensure your RangMeera jewelry reaches you safely and securely.</p>
+
+        <h2>1. Order Processing Time</h2>
+        <p>All orders are processed and dispatched within <strong>2 to 3 business days</strong>. Please note that we do not dispatch orders on Sundays or public holidays.</p>
+
+        <h2>2. Estimated Delivery Time</h2>
+        <p>Once dispatched, standard delivery usually takes <strong>4 to 7 business days</strong> depending on your location within India. Delivery to remote areas may take slightly longer.</p>
+
+        <h2>3. Shipping Charges</h2>
+        <p>Shipping charges are calculated at checkout based on your location and the weight of your order. Any specific promotional free shipping offers will be automatically applied at checkout.</p>
+
+        <h2>4. Order Tracking</h2>
+        <p>As soon as your package is dispatched, you will receive a tracking link via email or SMS so you can monitor your delivery status in real-time.</p>
+    </div>
+
+    <footer><p>&copy; 2026 RangMeera. All rights reserved.</p></footer>
+</body>
+</html>
