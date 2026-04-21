@@ -146,6 +146,18 @@
         }
         .cta-button:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
 
+        /* CINEMATIC SCROLL REVEAL STYLES */
+        .scroll-section { height: 100vh; width: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .scroll-section.is-visible { opacity: 1; transform: translateY(0); }
+        
+        .scroll-link { width: 100%; height: 100%; display: block; text-decoration: none; position: relative; }
+        
+        .scroll-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.1); transition: transform 2s ease-out; }
+        .scroll-section.is-visible .scroll-bg { transform: scale(1); }
+        
+        .scroll-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); transition: background 0.5s ease; }
+        .scroll-link:hover .scroll-overlay { background: rgba(0,0,0,0.4); }
+
         .gallery-section { padding: 100px 5%; text-align: center; }
         .gallery-section h2 { font-size: 2.5rem; margin-bottom: 15px; }
         .gallery-section > p { color: var(--text-light); margin-bottom: 60px; }
@@ -168,6 +180,7 @@
         .price { font-weight: 600; color: var(--text-main); margin-top: 10px; display: block; }
 
         footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(0,0,0,0.05); }
+
     </style>
 </head>
 <body>
@@ -196,6 +209,24 @@
         <p>Where Elegance Meets Tradition. Discover a curated collection of premium ornaments designed for your most unforgettable moments.</p>
         <a href="/necklaces.html" class="cta-button">Preview the Collection</a>
     </header>
+
+    <div id="collections-container">
+        
+        <section class="scroll-section">
+            <a href="/necklaces.html?collection=Heritage" class="scroll-link">
+                <img src="/images/heritage-collage.jpg" alt="The Heritage Collection" class="scroll-bg">
+                <div class="scroll-overlay" style="background: rgba(0,0,0,0.05);"></div>
+            </a>
+        </section>
+
+        <section class="scroll-section">
+            <a href="/necklaces.html?collection=Lumiere" class="scroll-link">
+                <img src="/images/lumiere-collage.jpg" alt="The Lumière Collection" class="scroll-bg">
+                <div class="scroll-overlay" style="background: rgba(0,0,0,0.05);"></div>
+            </a>
+        </section>
+
+    </div>
 
     <section id="collection" class="gallery-section">
         <h2>Featured Pieces</h2>
@@ -231,5 +262,23 @@
         <p style="color: var(--text-light); font-size: 0.9rem;">&copy; 2026 RangMeera. All rights reserved.</p>
     </footer>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // The Observer watches for elements entering the screen
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // If 20% of the image is on screen, trigger the reveal!
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.2 }); 
+            
+            // Tell the observer to watch our collection sections
+            document.querySelectorAll('.scroll-section').forEach((section) => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
