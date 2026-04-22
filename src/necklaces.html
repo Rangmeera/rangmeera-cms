@@ -28,14 +28,19 @@
         .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
         .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
 
-        .catalog-header { position: relative; padding: 200px 5% 80px; text-align: center; z-index: 1; }
+        .catalog-header { position: relative; padding: 200px 5% 40px; text-align: center; z-index: 1; }
         .catalog-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/images/logo.png'); background-size: 45%; background-position: center; background-repeat: no-repeat; opacity: 0.04; z-index: -1; pointer-events: none; }
         .catalog-header h1 { font-size: 3rem; margin-bottom: 10px; }
         .catalog-header p { color: var(--text-light); }
 
+        /* SMART FILTER STYLES */
+        .collection-filters { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px auto 50px; max-width: 800px; }
+        .filter-btn { background: transparent; border: 1px solid #dcdcdc; padding: 12px 28px; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; font-family: 'Inter', sans-serif; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; color: #4a4a4a; }
+        .filter-btn.active, .filter-btn:hover { background: #1c1c1c; color: #ffffff; border-color: #1c1c1c; }
+
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; padding: 0 5% 100px; }
         .product-card { background: #ffffff; border-radius: 20px; overflow: hidden; transition: transform 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: left; display: flex; flex-direction: column;}
-        .product-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .product-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.08); cursor: pointer; }
         .product-image { width: 100%; height: 350px; object-fit: contain; background-color: #ffffff; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.03); }
         .product-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1;}
         .product-code { color: var(--text-light); font-size: 0.8rem; margin-bottom: 5px; display: block; letter-spacing: 0.5px; text-transform: uppercase;}
@@ -51,8 +56,8 @@
         .discount-tag { background: var(--pink); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;}
         .delivery-fee { font-size: 0.8rem; color: var(--text-light); display: block; margin-top: 5px; }
         footer { text-align: center; padding: 40px; border-top: 1px solid rgba(0,0,0,0.05); }
+        
         /* POPUP MODAL STYLES */
-        .product-card { cursor: pointer; }
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; display: flex; gap: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); cursor: default; }
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; line-height: 1; }
@@ -63,6 +68,9 @@
         .buy-btn { background-color: var(--text-main); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 30px; cursor: pointer; margin-top: 20px; font-weight: 500; transition: all 0.3s; width: 100%; font-family: 'Inter', sans-serif;}
         .buy-btn:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
         @media (max-width: 768px) { .modal-content { flex-direction: column; padding: 20px; } .modal-image { max-height: 300px; } }
+        
+        /* Simple fade animation for filtering */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -91,10 +99,16 @@
         <p>Explore our timeless collection of handcrafted necklaces.</p>
     </div>
 
+    <div class="collection-filters">
+        <button class="filter-btn active" data-filter="all">All Pieces</button>
+        <button class="filter-btn" data-filter="Heritage">The Heritage Collection</button>
+        <button class="filter-btn" data-filter="Lumiere">The Lumière Collection</button>
+    </div>
+
     <div class="grid">
         {% for item in collections.necklaces %}
         
-        <div class="product-card" onclick="document.getElementById('modal-{{ item.fileSlug }}').style.display='flex'">
+        <div class="product-card" data-collection="{{ item.data.collection_type }}" onclick="document.getElementById('modal-{{ item.fileSlug }}').style.display='flex'">
             <img src="{{ item.data.image }}" alt="{{ item.data.name }}" class="product-image">
             <div class="product-info">
                 <span class="product-code">CODE: {{ item.data.title }}</span>
@@ -148,9 +162,63 @@
         </div>
         
         {% endfor %}
-        </div>
+    </div>
 
     <footer><p>&copy; 2026 RangMeera. All rights reserved.</p></footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Small delay to ensure CMS content is fully injected
+            setTimeout(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const collectionParam = urlParams.get('collection');
+                const buttons = document.querySelectorAll('.filter-btn');
+                const cards = document.querySelectorAll('.product-card');
+
+                // The Filter Engine
+                function filterProducts(filterValue) {
+                    cards.forEach(card => {
+                        const cardCollection = card.getAttribute('data-collection') || "";
+                        
+                        // Check if we want to show all, or if the card matches the requested collection
+                        if (filterValue === 'all' || cardCollection.includes(filterValue) || (filterValue === 'Lumiere' && cardCollection.includes('Lumière'))) {
+                            card.style.display = 'flex'; // Keeping your flex layout intact
+                            card.style.animation = 'none'; // Reset animation
+                            card.offsetHeight; // Trigger reflow
+                            card.style.animation = 'fadeIn 0.5s ease forwards';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // Update active state on buttons
+                    buttons.forEach(btn => {
+                        if (btn.getAttribute('data-filter') === filterValue) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+
+                // 1. Check if the user arrived from a homepage click
+                if (collectionParam) {
+                    filterProducts(collectionParam);
+                }
+
+                // 2. Listen for manual clicks on the filter buttons
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const filterValue = e.target.getAttribute('data-filter');
+                        filterProducts(filterValue);
+                        
+                        // Cleanly update the URL without refreshing the page
+                        const newUrl = filterValue === 'all' ? window.location.pathname : `${window.location.pathname}?collection=${filterValue}`;
+                        window.history.pushState({}, '', newUrl);
+                    });
+                });
+            }, 100); 
+        });
+    </script>
 </body>
 </html>
-
