@@ -193,6 +193,15 @@
 
         footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(0,0,0,0.05); }
 
+        /* THE MOBILE FIX: Making everything fit seamlessly on phones */
+        @media (max-width: 768px) { 
+            .scroll-section { height: 60vh; min-height: 400px; } 
+            .scroll-bg { object-fit: contain; object-position: center; } 
+            .narrative-bridge { height: auto; padding: 80px 5%; }
+            .narrative-content h2 { font-size: 2.2rem; }
+            .cool-bridge .narrative-content h2 { font-size: 1.6rem; }
+        }
+
     </style>
 </head>
 <body>
