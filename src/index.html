@@ -162,13 +162,19 @@
         .split-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); transition: background 0.5s ease; z-index: 1;}
         .split-item:hover .split-overlay, .full-banner:hover .split-overlay { background: rgba(0,0,0,0.55); }
 
-        /* TEXT ANIMATIONS (Pushed down to accommodate existing image text) */
-        .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); margin-top: 140px; }
+        /* TEXT ANIMATIONS & TARGETED POSITIONING */
+        .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .scroll-section.is-visible .collection-content { opacity: 1; transform: translateY(0); }
         
-        .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; letter-spacing: 0.5px; font-weight: 300; }
+        /* Pushing Necklaces text below embedded headings */
+        .split-item .collection-content { margin-top: 240px; }
         
-        .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px;}
+        /* Pushing Earrings text into the negative space gap */
+        .full-banner .collection-content { margin-top: 280px; }
+        
+        .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; letter-spacing: 0.5px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        
+        .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);}
         .split-item:hover .collection-btn, .full-banner:hover .collection-btn { background: #ffffff; color: var(--text-main); }
 
         /* THE MOBILE FIX */
@@ -176,7 +182,8 @@
             .split-collections { flex-direction: column; height: auto; } 
             .split-item { height: 60vh; min-height: 400px; width: 100%; }
             .full-banner { height: 60vh; min-height: 400px; }
-            .collection-content { margin-top: 80px; } /* Reduced spacing for smaller screens */
+            .split-item .collection-content { margin-top: 140px; }
+            .full-banner .collection-content { margin-top: 160px; }
             .collection-content p { font-size: 0.95rem; }
         }
 
