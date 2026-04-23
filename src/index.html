@@ -146,38 +146,37 @@
         }
         .cta-button:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
 
-        /* CINEMATIC SCROLL REVEAL STYLES */
-        .scroll-section { height: 100vh; width: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .scroll-section.is-visible { opacity: 1; transform: translateY(0); }
+        /* EDGE-TO-EDGE COLLECTION BANNERS */
+        #collections-container { display: flex; flex-direction: column; width: 100%; }
+
+        .split-collections { display: flex; width: 100%; height: 100vh; overflow: hidden; }
         
-        /* COLLECTION BANNERS (OVERLAID TEXT & FALLBACK BACKGROUND) */
-        .split-collections { display: flex; width: 100%; height: 100vh; overflow: hidden; opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .split-collections.is-visible, .full-banner.is-visible { opacity: 1; transform: translateY(0); }
+        .split-item { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-decoration: none; text-align: center; padding: 20px; background-color: #1a1a1a; cursor: pointer; }
         
-        .split-item { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-decoration: none; text-align: center; padding: 20px; background-color: #1a1a1a;}
-        .split-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease-out; z-index: 0;}
-        .split-item:hover .split-bg, .full-banner:hover .split-bg { transform: scale(1.05); }
+        .full-banner { width: 100%; height: 85vh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background-color: #1a1a1a; text-decoration: none; cursor: pointer; }
+
+        /* Image & Overlay Effects */
+        .split-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); z-index: 0; }
+        .split-item:hover .split-bg, .full-banner:hover .split-bg { transform: scale(1.04); }
         
         .split-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); transition: background 0.5s ease; z-index: 1;}
         .split-item:hover .split-overlay, .full-banner:hover .split-overlay { background: rgba(0,0,0,0.55); }
 
-        .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(30px); transition: all 1s ease 0.3s; }
+        /* TEXT ANIMATIONS (Only the text moves now!) */
+        .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .scroll-section.is-visible .collection-content { opacity: 1; transform: translateY(0); }
         
-        .collection-content h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 15px; }
-        .collection-content p { font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; opacity: 0.95; }
+        .collection-content h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 15px; }
+        .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; }
         
         .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px;}
-        .collection-btn:hover { background: #ffffff; color: var(--text-main); }
-
-        /* FULL WIDTH BANNER (EARRINGS) */
-        .full-banner { width: 100%; height: 85vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); text-align: center; margin-top: 5px; background-color: #1a1a1a;}
+        .split-item:hover .collection-btn, .full-banner:hover .collection-btn { background: #ffffff; color: var(--text-main); }
 
         /* THE MOBILE FIX */
         @media (max-width: 768px) { 
             .split-collections { flex-direction: column; height: auto; } 
-            .split-item { height: 60vh; min-height: 400px; }
-            .full-banner { height: 60vh; min-height: 400px; margin-top: 0;}
+            .split-item { height: 60vh; min-height: 400px; width: 100%; }
+            .full-banner { height: 60vh; min-height: 400px; }
             .collection-content h2 { font-size: 2.2rem; }
             .collection-content p { font-size: 0.95rem; }
         }
@@ -264,39 +263,39 @@
 
     <div id="collections-container">
 
-        <section class="scroll-section split-collections">
+        <div class="split-collections">
             
-            <div class="split-item">
+            <a href="/necklaces.html?collection=Heritage" class="split-item scroll-section">
                 <img src="/images/heritage-collage.jpg" alt="The Heritage Collection" class="split-bg">
                 <div class="split-overlay"></div>
                 <div class="collection-content">
                     <h2>The Royal Lineage</h2>
                     <p>Rooted in centuries of artistry. Bring the opulence of royal Indian courts into the modern era.</p>
-                    <a href="/necklaces.html?collection=Heritage" class="collection-btn">Explore Heritage Collection</a>
+                    <span class="collection-btn">Explore Heritage Collection</span>
                 </div>
-            </div>
+            </a>
             
-            <div class="split-item">
+            <a href="/necklaces.html?collection=Lumiere" class="split-item scroll-section">
                 <img src="/images/lumiere-collage.jpg" alt="The Lumière Collection" class="split-bg">
                 <div class="split-overlay"></div>
                 <div class="collection-content">
                     <h2>Modern Brilliance</h2>
                     <p>Step into the spotlight with razor-sharp geometric cuts and cool silver tones.</p>
-                    <a href="/necklaces.html?collection=Lumiere" class="collection-btn">Explore Lumière Collection</a>
+                    <span class="collection-btn">Explore Lumière Collection</span>
                 </div>
-            </div>
+            </a>
             
-        </section>
+        </div>
 
-        <section class="scroll-section full-banner">
+        <a href="/earrings.html" class="full-banner scroll-section">
             <img src="/images/earrings-collage.png" alt="The Earrings Collection" class="split-bg">
             <div class="split-overlay"></div>
             <div class="collection-content">
                 <h2>The Earrings</h2>
                 <p>Frame your face in luxury. Explore our curated selection of intricate studs, dramatic drops, and traditional chandbalis designed to catch every light.</p>
-                <a href="/earrings.html" class="collection-btn">Explore Earrings Collection</a>
+                <span class="collection-btn">Explore Earrings Collection</span>
             </div>
-        </section>
+        </a>
 
     </div>
 
@@ -320,7 +319,7 @@
                 });
             }, { threshold: 0.2 }); 
             
-            document.querySelectorAll('.scroll-section, .split-collections').forEach((section) => {
+            document.querySelectorAll('.scroll-section').forEach((section) => {
                 observer.observe(section);
             });
         });
