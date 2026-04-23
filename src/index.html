@@ -162,12 +162,11 @@
         .split-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); transition: background 0.5s ease; z-index: 1;}
         .split-item:hover .split-overlay, .full-banner:hover .split-overlay { background: rgba(0,0,0,0.55); }
 
-        /* TEXT ANIMATIONS (Only the text moves now!) */
-        .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        /* TEXT ANIMATIONS (Pushed down to accommodate existing image text) */
+        .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); margin-top: 140px; }
         .scroll-section.is-visible .collection-content { opacity: 1; transform: translateY(0); }
         
-        .collection-content h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 15px; }
-        .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; }
+        .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; letter-spacing: 0.5px; font-weight: 300; }
         
         .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px;}
         .split-item:hover .collection-btn, .full-banner:hover .collection-btn { background: #ffffff; color: var(--text-main); }
@@ -177,7 +176,7 @@
             .split-collections { flex-direction: column; height: auto; } 
             .split-item { height: 60vh; min-height: 400px; width: 100%; }
             .full-banner { height: 60vh; min-height: 400px; }
-            .collection-content h2 { font-size: 2.2rem; }
+            .collection-content { margin-top: 80px; } /* Reduced spacing for smaller screens */
             .collection-content p { font-size: 0.95rem; }
         }
 
@@ -269,7 +268,6 @@
                 <img src="/images/heritage-collage.jpg" alt="The Heritage Collection" class="split-bg">
                 <div class="split-overlay"></div>
                 <div class="collection-content">
-                    <h2>The Royal Lineage</h2>
                     <p>Rooted in centuries of artistry. Bring the opulence of royal Indian courts into the modern era.</p>
                     <span class="collection-btn">Explore Heritage Collection</span>
                 </div>
@@ -279,7 +277,6 @@
                 <img src="/images/lumiere-collage.jpg" alt="The Lumière Collection" class="split-bg">
                 <div class="split-overlay"></div>
                 <div class="collection-content">
-                    <h2>Modern Brilliance</h2>
                     <p>Step into the spotlight with razor-sharp geometric cuts and cool silver tones.</p>
                     <span class="collection-btn">Explore Lumière Collection</span>
                 </div>
@@ -291,7 +288,6 @@
             <img src="/images/earrings-collage.png" alt="The Earrings Collection" class="split-bg">
             <div class="split-overlay"></div>
             <div class="collection-content">
-                <h2>The Earrings</h2>
                 <p>Frame your face in luxury. Explore our curated selection of intricate studs, dramatic drops, and traditional chandbalis designed to catch every light.</p>
                 <span class="collection-btn">Explore Earrings Collection</span>
             </div>
