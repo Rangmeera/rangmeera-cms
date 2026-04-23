@@ -3,7 +3,7 @@ backend:
   repo: Rangmeera/rangmeera-cms
   branch: main
 
-media_folder: "src/images" # Where your uploaded necklace photos will go
+media_folder: "src/images" # Where your uploaded photos will go
 public_folder: "/images"
 
 collections:
@@ -23,8 +23,9 @@ collections:
       - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
       - {label: "Description", name: "body", widget: "markdown"}
-      - { label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection" }
-    name: "earrings"
+      - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
+
+  - name: "earrings"
     label: "Earrings Catalog"
     folder: "src/earrings"
     create: true
@@ -40,5 +41,58 @@ collections:
       - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
       - {label: "Description", name: "body", widget: "markdown"}
-      - { label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection" }
-      
+      - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
+
+  - name: "bracelets"
+    label: "Bracelets Catalog"
+    folder: "src/bracelets"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Product Code (e.g., BR-001)", name: "title", widget: "string"}
+      - {label: "Bracelet Name", name: "name", widget: "string"}
+      - {label: "Regular Price (MRP)", name: "price", widget: "string"}
+      - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
+      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Primary Color", name: "color", widget: "string", required: false}
+      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Description", name: "body", widget: "markdown"}
+      - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
+
+  - name: "bangles"
+    label: "Bangles Catalog"
+    folder: "src/bangles"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Product Code (e.g., BG-001)", name: "title", widget: "string"}
+      - {label: "Bangle Name", name: "name", widget: "string"}
+      - {label: "Regular Price (MRP)", name: "price", widget: "string"}
+      - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
+      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Primary Color", name: "color", widget: "string", required: false}
+      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Description", name: "body", widget: "markdown"}
+      - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
+
+  - name: "rings"
+    label: "Rings Catalog"
+    folder: "src/rings"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Product Code (e.g., RG-001)", name: "title", widget: "string"}
+      - {label: "Ring Name", name: "name", widget: "string"}
+      - {label: "Regular Price (MRP)", name: "price", widget: "string"}
+      - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
+      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Primary Color", name: "color", widget: "string", required: false}
+      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Description", name: "body", widget: "markdown"}
+      - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}

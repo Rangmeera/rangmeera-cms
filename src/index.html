@@ -158,14 +158,28 @@
         .scroll-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); transition: background 0.5s ease; }
         .scroll-link:hover .scroll-overlay { background: rgba(0,0,0,0.4); }
 
-        /* SPLIT SCREEN LAYOUT FOR NECKLACES */
+        /* NEW: COLLECTION BANNERS (OVERLAID TEXT & FALLBACK BACKGROUND) */
         .split-collections { display: flex; width: 100%; height: 100vh; overflow: hidden; opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .split-collections.is-visible { opacity: 1; transform: translateY(0); }
-        .split-item { flex: 1; position: relative; overflow: hidden; text-decoration: none; display: block; }
-        .split-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease-out; }
-        .split-item:hover .split-bg { transform: scale(1.05); }
-        .split-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); transition: background 0.5s ease; }
-        .split-item:hover .split-overlay { background: rgba(0,0,0,0.35); }
+        .split-collections.is-visible, .full-banner.is-visible { opacity: 1; transform: translateY(0); }
+        
+        .split-item { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-decoration: none; text-align: center; padding: 20px; background-color: #1a1a1a;}
+        .split-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease-out; z-index: 0;}
+        .split-item:hover .split-bg, .full-banner:hover .split-bg { transform: scale(1.05); }
+        
+        .split-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); transition: background 0.5s ease; z-index: 1;}
+        .split-item:hover .split-overlay, .full-banner:hover .split-overlay { background: rgba(0,0,0,0.55); }
+
+        .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(30px); transition: all 1s ease 0.3s; }
+        .scroll-section.is-visible .collection-content { opacity: 1; transform: translateY(0); }
+        
+        .collection-content h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 15px; }
+        .collection-content p { font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; opacity: 0.95; }
+        
+        .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px;}
+        .collection-btn:hover { background: #ffffff; color: var(--text-main); }
+
+        /* FULL WIDTH BANNER (EARRINGS) */
+        .full-banner { width: 100%; height: 85vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); text-align: center; margin-top: 5px; background-color: #1a1a1a;}
 
         /* NARRATIVE BRIDGES */
         .narrative-bridge { height: 65vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 10%; background-color: var(--bg-color); position: relative; z-index: 2; }
@@ -179,18 +193,19 @@
         
         .narrative-content p { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: var(--text-light); line-height: 1.8; }
 
-        footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(0,0,0,0.05); }
-
         /* THE MOBILE FIX */
         @media (max-width: 768px) { 
-            .scroll-section { height: 60vh; min-height: 400px; } 
-            .scroll-bg { object-fit: contain; object-position: center; } 
-            .split-collections { flex-direction: column; height: 100vh; } /* 50vh per image */
-            .split-bg { object-fit: cover; }
+            .split-collections { flex-direction: column; height: auto; } 
+            .split-item { height: 60vh; min-height: 400px; }
+            .full-banner { height: 60vh; min-height: 400px; margin-top: 0;}
+            .collection-content h2 { font-size: 2.2rem; }
+            .collection-content p { font-size: 0.95rem; }
             .narrative-bridge { height: auto; padding: 80px 5%; }
             .narrative-content h2 { font-size: 2.2rem; }
             .cool-bridge .narrative-content h2 { font-size: 1.6rem; }
         }
+
+        footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(0,0,0,0.05); }
 
         /* LUXURY ACCOUNT SLIDE-OUT DRAWER */
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1999; display: none; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.4s ease; }
@@ -267,11 +282,11 @@
     <header class="hero">
         <h1>Exquisite Craftsmanship.</h1>
         <p>Where Elegance Meets Tradition. Discover a curated collection of premium ornaments designed for your most unforgettable moments.</p>
-        <a href="/necklaces.html" class="cta-button">Preview the Collection</a>
+        <a href="#collections-container" class="cta-button">Preview the Collection</a>
     </header>
 
     <div id="collections-container">
-        
+
         <section class="scroll-section narrative-bridge">
             <div class="narrative-content">
                 <h2>The Necklaces</h2>
@@ -280,14 +295,27 @@
         </section>
 
         <section class="scroll-section split-collections">
-            <a href="/necklaces.html?collection=Heritage" class="split-item">
+            
+            <div class="split-item">
                 <img src="/images/heritage-collage.jpg" alt="The Heritage Collection" class="split-bg">
                 <div class="split-overlay"></div>
-            </a>
-            <a href="/necklaces.html?collection=Lumiere" class="split-item">
+                <div class="collection-content">
+                    <h2>The Royal Lineage</h2>
+                    <p>Rooted in centuries of artistry. Bring the opulence of royal Indian courts into the modern era.</p>
+                    <a href="/necklaces.html?collection=Heritage" class="collection-btn">Explore Heritage Collection</a>
+                </div>
+            </div>
+            
+            <div class="split-item">
                 <img src="/images/lumiere-collage.jpg" alt="The Lumière Collection" class="split-bg">
                 <div class="split-overlay"></div>
-            </a>
+                <div class="collection-content">
+                    <h2>Modern Brilliance</h2>
+                    <p>Step into the spotlight with razor-sharp geometric cuts and cool silver tones.</p>
+                    <a href="/necklaces.html?collection=Lumiere" class="collection-btn">Explore Lumière Collection</a>
+                </div>
+            </div>
+            
         </section>
 
         <section class="scroll-section narrative-bridge cool-bridge">
@@ -297,11 +325,14 @@
             </div>
         </section>
 
-        <section class="scroll-section">
-            <a href="/earrings.html" class="scroll-link">
-                <img src="/images/earrings-collage.jpg" alt="The Earrings Collection" class="scroll-bg">
-                <div class="scroll-overlay" style="background: rgba(0,0,0,0.05);"></div>
-            </a>
+        <section class="scroll-section full-banner">
+            <img src="/images/earrings-collage.jpg" alt="The Earrings Collection" class="split-bg">
+            <div class="split-overlay"></div>
+            <div class="collection-content">
+                <h2>The Earrings</h2>
+                <p>From breathtaking statement pieces to elegant daily wear.</p>
+                <a href="/earrings.html" class="collection-btn">Explore Earrings Collection</a>
+            </div>
         </section>
 
     </div>
@@ -326,7 +357,6 @@
                 });
             }, { threshold: 0.2 }); 
             
-            // Re-targeting all animated sections including our new split layout
             document.querySelectorAll('.scroll-section, .split-collections').forEach((section) => {
                 observer.observe(section);
             });
@@ -353,14 +383,12 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // UI Elements
         const authBtn = document.getElementById('auth-btn');
         const drawer = document.getElementById('account-drawer');
         const overlay = document.getElementById('drawer-overlay');
         const closeBtn = document.getElementById('close-drawer');
         const logoutBtn = document.getElementById('logout-btn');
 
-        // Drawer Functions
         function openDrawer() {
             drawer.classList.add('open');
             overlay.classList.add('active');
@@ -376,11 +404,9 @@
         closeBtn.addEventListener('click', closeDrawer);
         overlay.addEventListener('click', closeDrawer);
 
-        // State Observer: Populate the drawer if logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 authBtn.textContent = "My Account";
-                // Inject Google data into the drawer HTML
                 document.getElementById('profile-name').textContent = user.displayName;
                 document.getElementById('profile-email').textContent = user.email;
                 document.getElementById('profile-pic').src = user.photoURL || '/images/logo.png';
@@ -390,7 +416,6 @@
             }
         });
 
-        // Click Action for Navigation Button
         authBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             if (auth.currentUser) {
@@ -411,7 +436,6 @@
             }
         });
 
-        // Logout Button Inside Drawer
         logoutBtn.addEventListener('click', async () => {
             await signOut(auth);
         });
