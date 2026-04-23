@@ -158,7 +158,7 @@
         .scroll-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); transition: background 0.5s ease; }
         .scroll-link:hover .scroll-overlay { background: rgba(0,0,0,0.4); }
 
-        /* NARRATIVE BRIDGES (The Spacers) */
+        /* NARRATIVE BRIDGES */
         .narrative-bridge { height: 65vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 10%; background-color: var(--bg-color); position: relative; z-index: 2; }
         .narrative-bridge.cool-bridge { background-color: #f4f4f6; } 
         
@@ -174,18 +174,10 @@
         .gallery-section h2 { font-size: 2.5rem; margin-bottom: 15px; }
         .gallery-section > p { color: var(--text-light); margin-bottom: 60px; }
 
-        .grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px; max-width: 1200px; margin: 0 auto;
-        }
-
-        .product-card {
-            background: #ffffff; border-radius: 20px; overflow: hidden;
-            transition: transform 0.4s ease, box-shadow 0.4s ease; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .product-card { background: #ffffff; border-radius: 20px; overflow: hidden; transition: transform 0.4s ease, box-shadow 0.4s ease; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .product-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
         .product-image { width: 100%; height: 400px; object-fit: cover; background-color: #f5f5f7; }
-        
         .product-info { padding: 25px; text-align: left; }
         .product-info h3 { font-size: 1.2rem; margin-bottom: 5px; font-family: 'Inter', sans-serif; font-weight: 500; }
         .product-info p { color: var(--text-light); font-size: 0.9rem; }
@@ -193,7 +185,6 @@
 
         footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(0,0,0,0.05); }
 
-        /* THE MOBILE FIX: Making everything fit seamlessly on phones */
         @media (max-width: 768px) { 
             .scroll-section { height: 60vh; min-height: 400px; } 
             .scroll-bg { object-fit: contain; object-position: center; } 
@@ -202,6 +193,30 @@
             .cool-bridge .narrative-content h2 { font-size: 1.6rem; }
         }
 
+        /* -----------------------------------------
+           NEW: LUXURY ACCOUNT SLIDE-OUT DRAWER 
+           ----------------------------------------- */
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1999; display: none; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.4s ease; }
+        .drawer-overlay.active { display: block; opacity: 1; }
+        
+        .account-drawer { position: fixed; top: 0; right: -450px; width: 450px; max-width: 100vw; height: 100vh; background: #ffffff; box-shadow: -10px 0 40px rgba(0,0,0,0.15); z-index: 2000; transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 50px 40px; display: flex; flex-direction: column; overflow-y: auto; }
+        .account-drawer.open { right: 0; }
+        
+        .close-drawer { position: absolute; top: 30px; right: 35px; font-size: 2.5rem; cursor: pointer; color: var(--text-light); line-height: 1; transition: color 0.3s; }
+        .close-drawer:hover { color: var(--pink); }
+        
+        .profile-header { display: flex; align-items: center; gap: 25px; margin-bottom: 40px; margin-top: 20px; }
+        .profile-pic { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--text-main); padding: 3px; }
+        .profile-info h3 { font-family: 'Playfair Display', serif; margin-bottom: 5px; font-size: 1.8rem; color: var(--text-main); }
+        .profile-info p { color: var(--text-light); font-size: 0.95rem; }
+        
+        .drawer-section { margin-bottom: 40px; }
+        .drawer-section h4 { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); }
+        
+        .empty-state { color: var(--text-light); font-size: 0.95rem; background: #fafafa; padding: 25px; border-radius: 15px; text-align: center; border: 1px dashed rgba(0,0,0,0.1); line-height: 1.6; }
+        
+        .logout-btn { margin-top: auto; background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 15px; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; width: 100%; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 500;}
+        .logout-btn:hover { background: var(--text-main); color: #fff; }
     </style>
 </head>
 <body>
@@ -225,6 +240,31 @@
             <a href="#" id="auth-btn" class="nav-item" style="margin-left: 30px; font-weight: 500;">Login</a>
         </div>
     </nav>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="account-drawer" id="account-drawer">
+        <span class="close-drawer" id="close-drawer">&times;</span>
+        
+        <div class="profile-header">
+            <img src="/images/logo.png" alt="Profile Picture" class="profile-pic" id="profile-pic">
+            <div class="profile-info">
+                <h3 id="profile-name">Loading...</h3>
+                <p id="profile-email">Loading...</p>
+            </div>
+        </div>
+        
+        <div class="drawer-section">
+            <h4>My Orders</h4>
+            <div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>
+        </div>
+        
+        <div class="drawer-section">
+            <h4>Saved Addresses</h4>
+            <div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>
+        </div>
+        
+        <button class="logout-btn" id="logout-btn">Log Out</button>
+    </div>
 
     <header class="hero">
         <h1>Exquisite Craftsmanship.</h1>
@@ -315,12 +355,11 @@
     </script>
 
     <script type="module">
-        // 1. Import the specific Firebase tools we need from Google's CDN
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // 2. YOUR FIREBASE CONFIGURATION
+        // Your exact config keys
         const firebaseConfig = {
             apiKey: "AIzaSyA7X33xKrmG8RA-4C6eSSOvN-gjNxFQ3s0",
             authDomain: "rangmeera-c5bc3.firebaseapp.com",
@@ -330,53 +369,72 @@
             appId: "1:765951044396:web:c9d2ffbf624f90aad75a89"
         };
 
-        // 3. Boot up Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // 4. Grab the Navigation Button
+        // UI Elements
         const authBtn = document.getElementById('auth-btn');
+        const drawer = document.getElementById('account-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        const closeBtn = document.getElementById('close-drawer');
+        const logoutBtn = document.getElementById('logout-btn');
 
-        // 5. The State Observer: Checks if the user is already logged in
+        // Drawer Functions
+        function openDrawer() {
+            drawer.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevents scrolling behind the drawer
+        }
+        
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+
+        // State Observer: Populate the drawer if logged in!
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // If logged in, change the button to say 'My Account'
                 authBtn.textContent = "My Account";
+                // Inject Google data into the drawer HTML
+                document.getElementById('profile-name').textContent = user.displayName;
+                document.getElementById('profile-email').textContent = user.email;
+                document.getElementById('profile-pic').src = user.photoURL || '/images/logo.png';
             } else {
-                // If logged out, show 'Login'
                 authBtn.textContent = "Login";
+                closeDrawer(); // Auto-close if they log out
             }
         });
 
-        // 6. The Click Action: What happens when they click the button
+        // Click Action for Navigation Button
         authBtn.addEventListener('click', async (e) => {
             e.preventDefault();
-            
             if (auth.currentUser) {
-                // Temporary Action: If already logged in, clicking logs them out
-                await signOut(auth);
-                alert("You have been securely logged out of RangMeera.");
+                openDrawer(); // Show the beautiful profile slide-out!
             } else {
-                // If logged out, trigger the Google Sign-In Popup
                 try {
                     const result = await signInWithPopup(auth, provider);
                     const user = result.user;
-                    
-                    // Automatically create a profile document for them in your Firestore Database
                     await setDoc(doc(db, "users", user.uid), {
                         name: user.displayName,
                         email: user.email,
                         profilePic: user.photoURL,
                         lastLogin: new Date()
                     }, { merge: true }); 
-                    
                 } catch (error) {
                     console.error("Login Failed:", error.message);
-                    alert("Login failed. Please check the console for details.");
                 }
             }
+        });
+
+        // Logout Button Inside Drawer
+        logoutBtn.addEventListener('click', async () => {
+            await signOut(auth);
         });
     </script>
 </body>
