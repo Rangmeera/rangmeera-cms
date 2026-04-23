@@ -222,6 +222,7 @@
                     <a href="/necklaces.html">Necklaces</a>
                 </div>
             </div>
+            <a href="#" id="auth-btn" class="nav-item" style="margin-left: 30px; font-weight: 500;">Login</a>
         </div>
     </nav>
 
@@ -310,6 +311,72 @@
             document.querySelectorAll('.scroll-section').forEach((section) => {
                 observer.observe(section);
             });
+        });
+    </script>
+
+    <script type="module">
+        // 1. Import the specific Firebase tools we need from Google's CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // 2. YOUR FIREBASE CONFIGURATION
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7X33xKrmG8RA-4C6eSSOvN-gjNxFQ3s0",
+            authDomain: "rangmeera-c5bc3.firebaseapp.com",
+            projectId: "rangmeera-c5bc3",
+            storageBucket: "rangmeera-c5bc3.firebasestorage.app",
+            messagingSenderId: "765951044396",
+            appId: "1:765951044396:web:c9d2ffbf624f90aad75a89"
+        };
+
+        // 3. Boot up Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        // 4. Grab the Navigation Button
+        const authBtn = document.getElementById('auth-btn');
+
+        // 5. The State Observer: Checks if the user is already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // If logged in, change the button to say 'My Account'
+                authBtn.textContent = "My Account";
+            } else {
+                // If logged out, show 'Login'
+                authBtn.textContent = "Login";
+            }
+        });
+
+        // 6. The Click Action: What happens when they click the button
+        authBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            if (auth.currentUser) {
+                // Temporary Action: If already logged in, clicking logs them out
+                await signOut(auth);
+                alert("You have been securely logged out of RangMeera.");
+            } else {
+                // If logged out, trigger the Google Sign-In Popup
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
+                    
+                    // Automatically create a profile document for them in your Firestore Database
+                    await setDoc(doc(db, "users", user.uid), {
+                        name: user.displayName,
+                        email: user.email,
+                        profilePic: user.photoURL,
+                        lastLogin: new Date()
+                    }, { merge: true }); 
+                    
+                } catch (error) {
+                    console.error("Login Failed:", error.message);
+                    alert("Login failed. Please check the console for details.");
+                }
+            }
         });
     </script>
 </body>
