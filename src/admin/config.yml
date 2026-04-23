@@ -24,4 +24,21 @@ collections:
       - {label: "Product Image", name: "image", widget: "image"}
       - {label: "Description", name: "body", widget: "markdown"}
       - { label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection" }
+    name: "earrings"
+    label: "Earrings Catalog"
+    folder: "src/earrings"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Product Code (e.g., EA-001)", name: "title", widget: "string"}
+      - {label: "Earrings Name", name: "name", widget: "string"}
+      - {label: "Regular Price (MRP)", name: "price", widget: "string"}
+      - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
+      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Primary Color", name: "color", widget: "string", required: false}
+      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Description", name: "body", widget: "markdown"}
+      - { label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection" }
       
