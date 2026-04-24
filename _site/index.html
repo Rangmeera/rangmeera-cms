@@ -1,1 +1,414 @@
-<h1>Welcome to the RangMeera Dashboard Workshop!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RangMeera | Where Elegance Meets Tradition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fcf6f2; 
+            --text-main: #1d1d1f; 
+            --text-light: #86868b;
+            --gold: #d4af37;
+            --pink: #e23b70;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        /* CENTERED LUXURY NAVIGATION */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            height: 130px; 
+            background-color: rgba(252, 246, 242, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-left, .nav-right {
+            flex: 1; 
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-left { justify-content: flex-start; }
+        .nav-right { justify-content: flex-end; }
+
+        .logo-link {
+            flex: 0 1 auto;
+            width: 280px; 
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: auto;
+            max-height: 100px;
+            object-fit: contain;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+
+        .nav-item:hover { color: var(--pink); }
+
+        /* Dropdown */
+        .dropdown { position: relative; }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0; 
+            background-color: #ffffff;
+            min-width: 220px; /* Slightly wider to accommodate new text */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            padding: 15px 0;
+            z-index: 1001;
+            text-align: left;
+        }
+
+        .dropdown:hover .dropdown-content { display: block; }
+
+        .dropdown-content a {
+            color: var(--text-main);
+            padding: 10px 25px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85rem;
+            transition: background 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #fdf8f4;
+            color: var(--pink);
+        }
+
+        /* HERO & ELEGANT WATERMARK */
+        .hero {
+            position: relative; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 150px 20px 50px; 
+            z-index: 1; 
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('/images/logo.png');
+            background-size: 55%; 
+            background-position: center 30%;
+            background-repeat: no-repeat;
+            opacity: 0.04; 
+            z-index: -1; 
+            pointer-events: none; 
+        }
+
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 10px; letter-spacing: -0.5px; }
+        .hero p { font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--text-light); margin-bottom: 40px; max-width: 600px; }
+
+        .cta-button {
+            display: inline-block; padding: 15px 35px; background-color: var(--text-main);
+            color: white; text-decoration: none; border-radius: 30px; font-size: 1rem; transition: all 0.3s;
+        }
+        .cta-button:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
+
+        /* EDGE-TO-EDGE COLLECTION BANNERS */
+        #collections-container { display: flex; flex-direction: column; width: 100%; }
+
+        .split-collections { display: flex; width: 100%; height: 100vh; overflow: hidden; }
+        
+        .split-item { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-decoration: none; text-align: center; padding: 20px; background-color: #1a1a1a; cursor: pointer; }
+        
+        .full-banner { width: 100%; height: 85vh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background-color: #1a1a1a; text-decoration: none; cursor: pointer; }
+
+        /* Image & Overlay Effects */
+        .split-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); z-index: 0; }
+        .split-item:hover .split-bg, .full-banner:hover .split-bg { transform: scale(1.04); }
+        
+        .split-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); transition: background 0.5s ease; z-index: 1;}
+        .split-item:hover .split-overlay, .full-banner:hover .split-overlay { background: rgba(0,0,0,0.55); }
+
+        /* TEXT ANIMATIONS & TARGETED POSITIONING */
+        .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: flex; flex-direction: column; align-items: center;}
+        .scroll-section.is-visible .collection-content { opacity: 1; transform: translateY(0); }
+        
+        /* Pushing Necklaces text deeply below embedded headings */
+        .split-item .collection-content { margin-top: 340px; }
+        
+        /* Fixed height guarantees the buttons line up perfectly even if text length differs */
+        .split-item .collection-content p { min-height: 80px; display: flex; align-items: center; }
+
+        /* Pushing Earrings text deeper into the negative space gap */
+        .full-banner .collection-content { margin-top: 480px; }
+        
+        .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; letter-spacing: 0.5px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.3); text-align: center; }
+        
+        .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);}
+        .split-item:hover .collection-btn, .full-banner:hover .collection-btn { background: #ffffff; color: var(--text-main); }
+
+        /* THE MOBILE FIX */
+        @media (max-width: 768px) { 
+            .split-collections { flex-direction: column; height: auto; } 
+            .split-item { height: 60vh; min-height: 400px; width: 100%; }
+            .full-banner { height: 60vh; min-height: 400px; }
+            .split-item .collection-content { margin-top: 200px; }
+            .split-item .collection-content p { min-height: auto; margin-bottom: 20px; }
+            .full-banner .collection-content { margin-top: 260px; }
+            .collection-content p { font-size: 0.95rem; }
+        }
+
+        footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(0,0,0,0.05); }
+
+        /* LUXURY ACCOUNT SLIDE-OUT DRAWER */
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1999; display: none; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.4s ease; }
+        .drawer-overlay.active { display: block; opacity: 1; }
+        
+        .account-drawer { position: fixed; top: 0; right: -450px; width: 450px; max-width: 100vw; height: 100vh; background: #ffffff; box-shadow: -10px 0 40px rgba(0,0,0,0.15); z-index: 2000; transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 50px 40px; display: flex; flex-direction: column; overflow-y: auto; }
+        .account-drawer.open { right: 0; }
+        
+        .close-drawer { position: absolute; top: 30px; right: 35px; font-size: 2.5rem; cursor: pointer; color: var(--text-light); line-height: 1; transition: color 0.3s; }
+        .close-drawer:hover { color: var(--pink); }
+        
+        .profile-header { display: flex; align-items: center; gap: 25px; margin-bottom: 40px; margin-top: 20px; }
+        .profile-pic { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--text-main); padding: 3px; }
+        .profile-info h3 { font-family: 'Playfair Display', serif; margin-bottom: 5px; font-size: 1.8rem; color: var(--text-main); }
+        .profile-info p { color: var(--text-light); font-size: 0.95rem; }
+        
+        .drawer-section { margin-bottom: 40px; }
+        .drawer-section h4 { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); }
+        
+        .empty-state { color: var(--text-light); font-size: 0.95rem; background: #fafafa; padding: 25px; border-radius: 15px; text-align: center; border: 1px dashed rgba(0,0,0,0.1); line-height: 1.6; }
+        
+        .logout-btn { margin-top: auto; background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 15px; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; width: 100%; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 500;}
+        .logout-btn:hover { background: var(--text-main); color: #fff; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="nav-item">Home</a>
+        </div>
+        
+        <a href="/" class="logo-link">
+            <img src="/images/logo.png" alt="RangMeera Logo" class="logo-img">
+        </a>
+
+        <div class="nav-right">
+            <div class="dropdown">
+                <a href="#collection" class="nav-item">Catalog ▾</a>
+                <div class="dropdown-content">
+                    <a href="/necklaces.html">Necklaces</a>
+                    <a href="/earrings.html">Earrings</a>
+                    <a href="/bundles.html">Sets & Bundles</a>
+                </div>
+            </div>
+            <a href="#" id="auth-btn" class="nav-item" style="margin-left: 30px; font-weight: 500;">Login</a>
+        </div>
+    </nav>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="account-drawer" id="account-drawer">
+        <span class="close-drawer" id="close-drawer">&times;</span>
+        
+        <div class="profile-header">
+            <img src="/images/logo.png" alt="Profile Picture" class="profile-pic" id="profile-pic">
+            <div class="profile-info">
+                <h3 id="profile-name">Loading...</h3>
+                <p id="profile-email">Loading...</p>
+            </div>
+        </div>
+        
+        <div class="drawer-section">
+            <h4>My Orders</h4>
+            <div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>
+        </div>
+        
+        <div class="drawer-section">
+            <h4>Saved Addresses</h4>
+            <div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>
+        </div>
+        
+        <button class="logout-btn" id="logout-btn">Log Out</button>
+    </div>
+
+    <header class="hero">
+        <h1>Exquisite Craftsmanship.</h1>
+        <p>Where Elegance Meets Tradition. Discover a curated collection of premium ornaments designed for your most unforgettable moments.</p>
+        <a href="#collections-container" class="cta-button">Preview the Collection</a>
+    </header>
+
+    <div id="collections-container">
+
+        <div class="split-collections">
+            
+            <a href="/necklaces.html?collection=Heritage" class="split-item scroll-section">
+                <img src="/images/heritage-collage.jpg" alt="The Heritage Collection" class="split-bg">
+                <div class="split-overlay"></div>
+                <div class="collection-content">
+                    <p>Rooted in centuries of artistry. Bring the opulence of royal Indian courts into the modern era.</p>
+                    <span class="collection-btn">Explore Heritage Collection</span>
+                </div>
+            </a>
+            
+            <a href="/necklaces.html?collection=Lumiere" class="split-item scroll-section">
+                <img src="/images/lumiere-collage.jpg" alt="The Lumière Collection" class="split-bg">
+                <div class="split-overlay"></div>
+                <div class="collection-content">
+                    <p>Step into the spotlight with razor-sharp geometric cuts and cool silver tones.</p>
+                    <span class="collection-btn">Explore Lumière Collection</span>
+                </div>
+            </a>
+            
+        </div>
+
+        <a href="/earrings.html" class="full-banner scroll-section">
+            <img src="/images/earrings-collage.png" alt="The Earrings Collection" class="split-bg">
+            <div class="split-overlay"></div>
+            <div class="collection-content">
+                <p>Frame your face in luxury. Explore our curated selection of intricate studs, dramatic drops, and traditional chandbalis designed to catch every light.</p>
+                <span class="collection-btn">Explore Earrings Collection</span>
+            </div>
+        </a>
+
+    </div>
+
+    <footer>
+        <div style="margin-bottom: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;">
+            <a href="/terms.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Terms & Conditions</a>
+            <a href="/privacy.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a>
+            <a href="/refunds.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Cancellations & Refunds</a>
+            <a href="/shipping.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Shipping & Delivery</a>
+        </div>
+        <p style="color: var(--text-light); font-size: 0.9rem;">&copy; 2026 RangMeera. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.2 }); 
+            
+            document.querySelectorAll('.scroll-section').forEach((section) => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // Your exact config keys
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7X33xKrmG8RA-4C6eSSOvN-gjNxFQ3s0",
+            authDomain: "rangmeera-c5bc3.firebaseapp.com",
+            projectId: "rangmeera-c5bc3",
+            storageBucket: "rangmeera-c5bc3.firebasestorage.app",
+            messagingSenderId: "765951044396",
+            appId: "1:765951044396:web:c9d2ffbf624f90aad75a89"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        const authBtn = document.getElementById('auth-btn');
+        const drawer = document.getElementById('account-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        const closeBtn = document.getElementById('close-drawer');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        function openDrawer() {
+            drawer.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+        
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                authBtn.textContent = "My Account";
+                document.getElementById('profile-name').textContent = user.displayName;
+                document.getElementById('profile-email').textContent = user.email;
+                document.getElementById('profile-pic').src = user.photoURL || '/images/logo.png';
+            } else {
+                authBtn.textContent = "Login";
+                closeDrawer(); 
+            }
+        });
+
+        authBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (auth.currentUser) {
+                openDrawer(); 
+            } else {
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
+                    await setDoc(doc(db, "users", user.uid), {
+                        name: user.displayName,
+                        email: user.email,
+                        profilePic: user.photoURL,
+                        lastLogin: new Date()
+                    }, { merge: true }); 
+                } catch (error) {
+                    console.error("Login Failed:", error.message);
+                }
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            await signOut(auth);
+        });
+    </script>
+</body>
+</html>
