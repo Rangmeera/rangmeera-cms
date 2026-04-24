@@ -87,7 +87,7 @@
             top: 100%;
             right: 0; 
             background-color: #ffffff;
-            min-width: 220px; /* Slightly wider to accommodate new text */
+            min-width: 220px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             border-radius: 12px;
             padding: 15px 0;
@@ -166,15 +166,15 @@
         .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: flex; flex-direction: column; align-items: center;}
         .scroll-section.is-visible .collection-content { opacity: 1; transform: translateY(0); }
         
-        /* Pushing Necklaces text deeply below embedded headings */
         .split-item .collection-content { margin-top: 340px; }
-        
-        /* Fixed height guarantees the buttons line up perfectly even if text length differs */
         .split-item .collection-content p { min-height: 80px; display: flex; align-items: center; }
 
-        /* Pushing Earrings text deeper into the negative space gap */
-        .full-banner .collection-content { margin-top: 480px; }
+        /* Banner Specific Spacing */
+        #earrings-banner .collection-content { margin-top: 480px; }
+        #rings-banner { margin-top: 5px; } /* Small gap below earrings */
+        #rings-banner .collection-content { margin-top: 0; } /* Perfectly centered */
         
+        .collection-content h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 15px; }
         .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; letter-spacing: 0.5px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.3); text-align: center; }
         
         .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);}
@@ -187,7 +187,8 @@
             .full-banner { height: 60vh; min-height: 400px; }
             .split-item .collection-content { margin-top: 200px; }
             .split-item .collection-content p { min-height: auto; margin-bottom: 20px; }
-            .full-banner .collection-content { margin-top: 260px; }
+            #earrings-banner .collection-content { margin-top: 260px; }
+            .collection-content h2 { font-size: 2.5rem; }
             .collection-content p { font-size: 0.95rem; }
         }
 
@@ -234,6 +235,7 @@
                 <div class="dropdown-content">
                     <a href="/necklaces.html">Necklaces</a>
                     <a href="/earrings.html">Earrings</a>
+                    <a href="/rings.html">Rings</a>
                     <a href="/bundles.html">Sets & Bundles</a>
                 </div>
             </div>
@@ -296,12 +298,22 @@
             
         </div>
 
-        <a href="/earrings.html" class="full-banner scroll-section">
+        <a href="/earrings.html" id="earrings-banner" class="full-banner scroll-section">
             <img src="/images/earrings-collage.png" alt="The Earrings Collection" class="split-bg">
             <div class="split-overlay"></div>
             <div class="collection-content">
                 <p>Frame your face in luxury. Explore our curated selection of intricate studs, dramatic drops, and traditional chandbalis designed to catch every light.</p>
                 <span class="collection-btn">Explore Earrings Collection</span>
+            </div>
+        </a>
+
+        <a href="/rings.html" id="rings-banner" class="full-banner scroll-section">
+            <img src="/images/rings_collage.jpg" alt="The Rings Collection" class="split-bg">
+            <div class="split-overlay" style="background: rgba(0,0,0,0.5);"></div>
+            <div class="collection-content">
+                <h2>The Rings</h2>
+                <p>Make a statement with every gesture. Discover our exquisite selection of handcrafted rings, blending royal heritage with modern brilliance.</p>
+                <span class="collection-btn">Explore Rings Collection</span>
             </div>
         </a>
 

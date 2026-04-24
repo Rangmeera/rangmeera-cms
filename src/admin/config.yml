@@ -85,7 +85,7 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - {label: "Product Code (e.g., RG-001)", name: "title", widget: "string"}
+      - {label: "Product Code (e.g., RI-001)", name: "title", widget: "string"}
       - {label: "Ring Name", name: "name", widget: "string"}
       - {label: "Regular Price (MRP)", name: "price", widget: "string"}
       - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
