@@ -58,6 +58,7 @@
         .delivery-fee { font-size: 0.8rem; color: var(--text-light); display: block; margin-top: 5px; }
         footer { text-align: center; padding: 40px; border-top: 1px solid rgba(0,0,0,0.05); }
         
+        /* STANDARD MODAL */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; display: flex; gap: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); cursor: default; }
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; line-height: 1; }
@@ -77,6 +78,14 @@
         .modal-right { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: left; }
         .buy-btn { background-color: var(--text-main); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 30px; cursor: pointer; margin-top: 20px; font-weight: 500; transition: all 0.3s; width: 100%; font-family: 'Inter', sans-serif;}
         .buy-btn:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
+        
+        /* NEW ADDRESS MODAL STYLING */
+        .address-modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; text-align: center; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+        .address-modal-content h2 { font-size: 1.8rem; margin-bottom: 10px; color: var(--text-main); }
+        .address-modal-content p { color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem;}
+        .address-input { width: 100%; border: 1px solid #e0e0e0; border-radius: 12px; padding: 15px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 20px; resize: none; outline: none; transition: border-color 0.3s; }
+        .address-input:focus { border-color: var(--pink); }
+
         @media (max-width: 768px) { .modal-content { flex-direction: column; padding: 20px; } .modal-main-image { max-height: 300px; } }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -163,6 +172,16 @@
         <button class="logout-btn" id="logout-btn">Log Out</button>
     </div>
 
+    <div id="custom-address-modal" class="modal">
+        <div class="address-modal-content">
+            <span class="close-btn" onclick="document.getElementById('custom-address-modal').style.display='none'">&times;</span>
+            <h2>Shipping Details</h2>
+            <p>Where should we deliver your royal collection?</p>
+            <textarea id="shipping-address-input" class="address-input" rows="4" placeholder="Enter your full street address, city, state, and Pincode..."></textarea>
+            <button class="buy-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+        </div>
+    </div>
+
     <div class="catalog-header">
         <h1>Earrings</h1>
         <p>Explore our exquisite collection of handcrafted earrings.</p>
@@ -237,7 +256,7 @@
                         <span class="delivery-fee" style="margin-bottom: 20px; font-size: 0.95rem; font-weight: 500;">+ ₹{{ item.data.delivery_fee }} Delivery</span>
                     {% endif %}
                     
-                    <button class="buy-btn" onclick="processCheckout('{{ item.data.title }}', '{{ item.data.name }}', '{% if item.data.sale_price %}{{ item.data.sale_price }}{% else %}{{ item.data.price }}{% endif %}')">Buy Now</button>
+                    <button class="buy-btn" onclick="startCheckout('{{ item.data.title }}', '{{ item.data.name }}', '{% if item.data.sale_price %}{{ item.data.sale_price }}{% else %}{{ item.data.price }}{% endif %}', '{{ item.fileSlug }}')">Buy Now</button>
                 </div>
             </div>
         </div>
@@ -317,7 +336,6 @@
     </script>
 
     <script type="module">
-        // NEW: IMPORTED COLLECTION AND ADDDOC FOR ORDERS
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -393,23 +411,45 @@
             await signOut(auth);
         });
 
-        // NEW: THE MASTER CHECKOUT FUNCTION
-        window.processCheckout = async function(productCode, productName, price) {
-            const user = auth.currentUser;
-            
-            if (!user) {
+        // NEW CHECKOUT FLOW: 1. Store Selection, 2. Open Address Modal, 3. Process Razorpay
+        let currentCheckoutItem = {};
+
+        window.startCheckout = function(productCode, productName, price, slug) {
+            if (!auth.currentUser) {
                 alert("Please login from the top right menu to place an order.");
                 openDrawer(); 
                 return;
             }
+            
+            // Save the item details
+            currentCheckoutItem = { productCode, productName, price };
+            
+            // Hide product modal and show address modal
+            document.getElementById('modal-' + slug).style.display = 'none';
+            document.getElementById('custom-address-modal').style.display = 'flex';
+        };
 
-            const shippingAddress = prompt("Please enter your full delivery address and Pincode:");
-            if (!shippingAddress) return; 
+        window.proceedToPayment = function() {
+            const addressInput = document.getElementById('shipping-address-input').value;
+            
+            if (addressInput.trim() === "") {
+                alert("Please enter a valid shipping address.");
+                return;
+            }
 
+            // Hide the address modal
+            document.getElementById('custom-address-modal').style.display = 'none';
+            
+            // Launch Razorpay
+            processRazorpay(currentCheckoutItem.productCode, currentCheckoutItem.productName, currentCheckoutItem.price, addressInput);
+        };
+
+        async function processRazorpay(productCode, productName, price, shippingAddress) {
+            const user = auth.currentUser;
             const amountInPaise = parseInt(price) * 100;
 
             const options = {
-                key: "rzp_test_SiE0EnXNjaYjvC", // <-- IMPORTANT: Replace this with your Razorpay Key ID once activated
+                key: "rzp_test_SiE0EnXNjaYjvC", // YOUR TEST KEY IS SECURED HERE
                 amount: amountInPaise,
                 currency: "INR",
                 name: "RangMeera",
@@ -419,7 +459,7 @@
                     const paymentId = response.razorpay_payment_id;
 
                     try {
-                        // Save to Firestore Database
+                        // 1. Save to Firebase (NOW UNLOCKED)
                         await addDoc(collection(db, "orders"), {
                             uid: user.uid,
                             product_code: productCode,
@@ -431,7 +471,7 @@
                             date: new Date()
                         });
 
-                        // Send EmailJS Notification to You!
+                        // 2. Send EmailJS Notification
                         await emailjs.send("service_w8lur8r", "template_jrx6bfd", {
                             customer_name: user.displayName || "Guest",
                             customer_email: user.email,
@@ -442,25 +482,23 @@
                             payment_id: paymentId
                         });
 
-                        alert("Payment Successful! 🎉 Your order for the " + productName + " has been placed. Your Order ID is: " + paymentId);
+                        alert("Payment Successful! 🎉 Your order has been placed successfully. Order ID: " + paymentId);
                         
                     } catch (error) {
                         console.error("Order processing error:", error);
-                        alert("Payment was successful, but there was a slight delay logging it. Please contact us with Payment ID: " + paymentId);
+                        alert("There was an error saving the order. Please contact support with Payment ID: " + paymentId);
                     }
                 },
                 prefill: {
                     name: user.displayName,
                     email: user.email,
                 },
-                theme: {
-                    color: "#e23b70" 
-                }
+                theme: { color: "#e23b70" }
             };
 
             const rzp = new window.Razorpay(options);
             rzp.open();
-        };
+        }
     </script>
 </body>
 </html>
