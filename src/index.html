@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RangMeera | Where Elegance Meets Tradition</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -28,7 +30,6 @@
 
         h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
 
-        /* CENTERED LUXURY NAVIGATION */
         nav {
             display: flex;
             justify-content: space-between;
@@ -44,137 +45,84 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .nav-left, .nav-right {
-            flex: 1; 
-            display: flex;
-            align-items: center;
-        }
-
+        .nav-left, .nav-right { flex: 1; display: flex; align-items: center; }
         .nav-left { justify-content: flex-start; }
-        
-        /* ALIGNMENT FIX APPLIED HERE */
         .nav-right { justify-content: flex-end; gap: 30px; }
 
-        .logo-link {
-            flex: 0 1 auto;
-            width: 280px; 
-            display: flex;
-            justify-content: center;
-        }
-
-        .logo-img {
-            width: 100%;
-            height: auto;
-            max-height: 100px;
-            object-fit: contain;
-        }
+        .logo-link { flex: 0 1 auto; width: 280px; display: flex; justify-content: center; }
+        .logo-img { width: 100%; height: auto; max-height: 100px; object-fit: contain; }
 
         .nav-item {
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: color 0.3s;
-            text-transform: uppercase;
+            text-decoration: none; color: var(--text-main); font-size: 0.9rem;
+            letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase;
         }
-
         .nav-item:hover { color: var(--pink); }
 
-        /* DROPDOWN ALIGNMENT FIX APPLIED HERE */
         .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
         
         .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0; 
-            background-color: #ffffff;
-            min-width: 220px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            border-radius: 12px;
-            padding: 15px 0;
-            z-index: 1001;
-            text-align: left;
+            display: none; position: absolute; top: 100%; right: 0; 
+            background-color: #ffffff; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-radius: 12px; padding: 15px 0; z-index: 1001; text-align: left;
         }
 
         .dropdown:hover .dropdown-content { display: block; }
-
         .dropdown-content a {
-            color: var(--text-main);
-            padding: 10px 25px;
-            text-decoration: none;
-            display: block;
-            font-size: 0.85rem;
-            transition: background 0.3s;
+            color: var(--text-main); padding: 10px 25px; text-decoration: none;
+            display: block; font-size: 0.85rem; transition: background 0.3s;
         }
+        .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
 
-        .dropdown-content a:hover {
-            background-color: #fdf8f4;
-            color: var(--pink);
-        }
-
-        /* HERO & ELEGANT WATERMARK */
         .hero {
-            position: relative; 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 150px 20px 50px; 
-            z-index: 1; 
+            position: relative; min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 150px 20px 50px; z-index: 1; 
         }
 
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('/images/logo.png');
-            background-size: 55%; 
-            background-position: center 30%;
-            background-repeat: no-repeat;
-            opacity: 0.04; 
-            z-index: -1; 
-            pointer-events: none; 
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('/images/logo.png'); background-size: 55%; 
+            background-position: center 30%; background-repeat: no-repeat;
+            opacity: 0.04; z-index: -1; pointer-events: none; 
         }
 
         .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 10px; letter-spacing: -0.5px; }
-        .hero p { font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--text-light); margin-bottom: 40px; max-width: 600px; }
+        .hero p { font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--text-light); margin-bottom: 40px; max-width: 650px; }
 
-        .cta-button {
-            display: inline-block; padding: 15px 35px; background-color: var(--text-main);
-            color: white; text-decoration: none; border-radius: 30px; font-size: 1rem; transition: all 0.3s;
+        /* NEW FEATURED BUNDLE BUTTON WITH IMAGE BACKGROUND */
+        .featured-btn {
+            position: relative; display: inline-flex; align-items: center; justify-content: center;
+            width: 320px; height: 80px; border-radius: 40px; overflow: hidden;
+            text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
         }
-        .cta-button:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
+        .featured-btn:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .featured-btn-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transition: transform 0.6s ease; }
+        .featured-btn:hover .featured-btn-bg { transform: scale(1.08); }
+        .featured-btn-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); z-index: 1; transition: background 0.3s ease; }
+        .featured-btn:hover .featured-btn-overlay { background: rgba(0,0,0,0.35); }
+        .featured-btn-text { position: relative; z-index: 2; color: #ffffff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1rem; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 
-        /* EDGE-TO-EDGE COLLECTION BANNERS */
         #collections-container { display: flex; flex-direction: column; width: 100%; }
-
         .split-collections { display: flex; width: 100%; height: 100vh; overflow: hidden; }
-        
         .split-item { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-decoration: none; text-align: center; padding: 20px; background-color: #1a1a1a; cursor: pointer; }
-        
         .full-banner { width: 100%; height: 85vh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background-color: #1a1a1a; text-decoration: none; cursor: pointer; }
 
-        /* Image & Overlay Effects */
         .split-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); z-index: 0; }
         .split-item:hover .split-bg, .full-banner:hover .split-bg { transform: scale(1.04); }
         
         .split-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); transition: background 0.5s ease; z-index: 1;}
         .split-item:hover .split-overlay, .full-banner:hover .split-overlay { background: rgba(0,0,0,0.55); }
 
-        /* TEXT ANIMATIONS & TARGETED POSITIONING */
         .collection-content { position: relative; z-index: 2; color: #ffffff; max-width: 80%; opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: flex; flex-direction: column; align-items: center;}
         .scroll-section.is-visible .collection-content { opacity: 1; transform: translateY(0); }
         
         .split-item .collection-content { margin-top: 340px; }
         .split-item .collection-content p { min-height: 80px; display: flex; align-items: center; }
 
-        /* Banner Specific Spacing */
         #earrings-banner .collection-content { margin-top: 480px; }
-        #rings-banner { margin-top: 5px; } /* Small gap below earrings */
-        #rings-banner .collection-content { margin-top: 0; } /* Perfectly centered */
+        #rings-banner, #bangles-banner { margin-top: 5px; } 
+        #rings-banner .collection-content, #bangles-banner .collection-content { margin-top: 0; } 
         
         .collection-content h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 15px; }
         .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; letter-spacing: 0.5px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.3); text-align: center; }
@@ -182,7 +130,6 @@
         .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);}
         .split-item:hover .collection-btn, .full-banner:hover .collection-btn { background: #ffffff; color: var(--text-main); }
 
-        /* THE MOBILE FIX */
         @media (max-width: 768px) { 
             .split-collections { flex-direction: column; height: auto; } 
             .split-item { height: 60vh; min-height: 400px; width: 100%; }
@@ -196,7 +143,6 @@
 
         footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(0,0,0,0.05); }
 
-        /* LUXURY ACCOUNT SLIDE-OUT DRAWER */
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1999; display: none; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.4s ease; }
         .drawer-overlay.active { display: block; opacity: 1; }
         
@@ -238,6 +184,7 @@
                     <a href="/necklaces.html">Necklaces</a>
                     <a href="/earrings.html">Earrings</a>
                     <a href="/rings.html">Rings</a>
+                    <a href="/bangles.html">Bangles</a>
                     <a href="/bundles.html">Sets & Bundles</a>
                 </div>
             </div>
@@ -271,9 +218,13 @@
     </div>
 
     <header class="hero">
-        <h1>Exquisite Craftsmanship.</h1>
-        <p>Where Elegance Meets Tradition. Discover a curated collection of premium ornaments designed for your most unforgettable moments.</p>
-        <a href="#collections-container" class="cta-button">Preview the Collection</a>
+        <h1>Curated Bundles.</h1>
+        <p>Where Elegance Meets Tradition. Discover our exclusive sets of premium ornaments flawlessly curated to be worn beautifully together.</p>
+        
+        <a href="/bundles.html" class="featured-btn">
+            <img src="/images/bundle-btn-bg.jpg" alt="Featured Bundles Background" class="featured-btn-bg" onerror="this.src='/images/logo.png'"> <div class="featured-btn-overlay"></div>
+            <span class="featured-btn-text">Explore Featured Sets</span>
+        </a>
     </header>
 
     <div id="collections-container">
@@ -318,6 +269,15 @@
                 <span class="collection-btn">Explore Rings Collection</span>
             </div>
         </a>
+        
+        <a href="/bangles.html" id="bangles-banner" class="full-banner scroll-section">
+            <img src="/images/bangles-collage.jpg" alt="The Bangles Collection" class="split-bg" onerror="this.src='/images/logo.png'"> <div class="split-overlay" style="background: rgba(0,0,0,0.5);"></div>
+            <div class="collection-content">
+                <h2>The Bangles</h2>
+                <p>Adorn your wrists with undeniable elegance. Discover our exquisite selection of handcrafted bangles and statement cuffs.</p>
+                <span class="collection-btn">Explore Bangles Collection</span>
+            </div>
+        </a>
 
     </div>
 
@@ -352,7 +312,6 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // Your exact config keys
         const firebaseConfig = {
             apiKey: "AIzaSyA7X33xKrmG8RA-4C6eSSOvN-gjNxFQ3s0",
             authDomain: "rangmeera-c5bc3.firebaseapp.com",
