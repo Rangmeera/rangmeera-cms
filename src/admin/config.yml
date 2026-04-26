@@ -22,6 +22,7 @@ collections:
       - {label: "Primary Color", name: "color", widget: "string", required: false}
       - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
       - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
 
@@ -40,6 +41,7 @@ collections:
       - {label: "Primary Color", name: "color", widget: "string", required: false}
       - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
       - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
 
@@ -58,6 +60,7 @@ collections:
       - {label: "Primary Color", name: "color", widget: "string", required: false}
       - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
       - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
 
@@ -76,6 +79,7 @@ collections:
       - {label: "Primary Color", name: "color", widget: "string", required: false}
       - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
       - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
 
@@ -94,5 +98,6 @@ collections:
       - {label: "Primary Color", name: "color", widget: "string", required: false}
       - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
       - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rings | RangMeera</title>
+    <title>Bangles | RangMeera</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root { --bg-color: #fcf6f2; --text-main: #1d1d1f; --text-light: #86868b; --pink: #e23b70; }
@@ -122,6 +122,7 @@
                     <a href="/necklaces.html">Necklaces</a>
                     <a href="/earrings.html">Earrings</a>
                     <a href="/rings.html">Rings</a>
+                    <a href="/bangles.html">Bangles</a>
                     <a href="/bundles.html">Sets & Bundles</a>
                 </div>
             </div>
@@ -155,8 +156,8 @@
     </div>
 
     <div class="catalog-header">
-        <h1>Rings</h1>
-        <p>Explore our timeless collection of handcrafted statement rings.</p>
+        <h1>Bangles</h1>
+        <p>Explore our timeless collection of handcrafted statement bangles and cuffs.</p>
     </div>
 
     <div class="collection-filters">
@@ -166,7 +167,7 @@
     </div>
 
     <div class="grid">
-        {% for item in collections.rings %}
+        {% for item in collections.bangles %}
         
         <div class="product-card" data-collection="{{ item.data.collection_type }}" onclick="document.getElementById('modal-{{ item.fileSlug }}').style.display='flex'">
             <img src="{{ item.data.image }}" alt="{{ item.data.name }}" class="product-image">
@@ -272,6 +273,7 @@
                 function filterProducts(filterValue) {
                     cards.forEach(card => {
                         const cardCollection = card.getAttribute('data-collection') || "";
+                        
                         if (filterValue === 'all' || cardCollection.includes(filterValue) || (filterValue === 'Lumiere' && cardCollection.includes('Lumière'))) {
                             card.style.display = 'flex'; 
                             card.style.animation = 'none'; 
@@ -299,6 +301,7 @@
                     btn.addEventListener('click', (e) => {
                         const filterValue = e.target.getAttribute('data-filter');
                         filterProducts(filterValue);
+                        
                         const newUrl = filterValue === 'all' ? window.location.pathname : `${window.location.pathname}?collection=${filterValue}`;
                         window.history.pushState({}, '', newUrl);
                     });
@@ -312,6 +315,7 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+        // Your exact config keys
         const firebaseConfig = {
             apiKey: "AIzaSyA7X33xKrmG8RA-4C6eSSOvN-gjNxFQ3s0",
             authDomain: "rangmeera-c5bc3.firebaseapp.com",

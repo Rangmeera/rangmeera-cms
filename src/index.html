@@ -51,7 +51,9 @@
         }
 
         .nav-left { justify-content: flex-start; }
-        .nav-right { justify-content: flex-end; }
+        
+        /* ALIGNMENT FIX APPLIED HERE */
+        .nav-right { justify-content: flex-end; gap: 30px; }
 
         .logo-link {
             flex: 0 1 auto;
@@ -78,8 +80,8 @@
 
         .nav-item:hover { color: var(--pink); }
 
-        /* Dropdown */
-        .dropdown { position: relative; }
+        /* DROPDOWN ALIGNMENT FIX APPLIED HERE */
+        .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
         
         .dropdown-content {
             display: none;
@@ -239,7 +241,7 @@
                     <a href="/bundles.html">Sets & Bundles</a>
                 </div>
             </div>
-            <a href="#" id="auth-btn" class="nav-item" style="margin-left: 30px; font-weight: 500;">Login</a>
+            <a href="#" id="auth-btn" class="nav-item" style="font-weight: 500;">Login</a>
         </div>
     </nav>
 

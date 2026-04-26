@@ -14,7 +14,7 @@
         nav { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; height: 130px; background-color: rgba(252, 246, 242, 0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .nav-left, .nav-right { flex: 1; display: flex; align-items: center; }
         .nav-left { justify-content: flex-start; }
-        .nav-right { justify-content: flex-end; }
+        .nav-right { justify-content: flex-end; gap: 30px; }
         
         .logo-link { flex: 0 1 auto; width: 280px; display: flex; justify-content: center; }
         .logo-img { width: 100%; height: auto; max-height: 100px; object-fit: contain; }
@@ -22,8 +22,8 @@
         .nav-item { text-decoration: none; color: var(--text-main); font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
         .nav-item:hover { color: var(--pink); }
         
-        .dropdown { position: relative; }
-        .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #ffffff; min-width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 12px; padding: 15px 0; z-index: 1001; text-align: left; }
+        .dropdown { position: relative; display: flex; align-items: center; }
+        .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #ffffff; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 12px; padding: 15px 0; z-index: 1001; text-align: left; }
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
         .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
@@ -33,7 +33,6 @@
         .catalog-header h1 { font-size: 3rem; margin-bottom: 10px; }
         .catalog-header p { color: var(--text-light); }
 
-        /* SMART FILTER STYLES */
         .collection-filters { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px auto 50px; max-width: 800px; }
         .filter-btn { background: transparent; border: 1px solid #dcdcdc; padding: 12px 28px; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; font-family: 'Inter', sans-serif; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; color: #4a4a4a; }
         .filter-btn.active, .filter-btn:hover { background: #1c1c1c; color: #ffffff; border-color: #1c1c1c; }
@@ -41,10 +40,7 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; padding: 0 5% 100px; }
         .product-card { background: #ffffff; border-radius: 20px; overflow: hidden; transition: transform 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: left; display: flex; flex-direction: column;}
         .product-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.08); cursor: pointer; }
-        
-        /* SEAMLESS IMAGE INTEGRATION UPDATE */
         .product-image { width: 100%; height: 350px; object-fit: contain; background-color: #f8f8f8; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.03); mix-blend-mode: multiply; }
-        
         .product-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1;}
         .product-code { color: var(--text-light); font-size: 0.8rem; margin-bottom: 5px; display: block; letter-spacing: 0.5px; text-transform: uppercase;}
         .product-info h3 { font-size: 1.1rem; font-family: 'Inter', sans-serif; font-weight: 600; margin-bottom: 8px; color: var(--text-main);}
@@ -60,25 +56,29 @@
         .delivery-fee { font-size: 0.8rem; color: var(--text-light); display: block; margin-top: 5px; }
         footer { text-align: center; padding: 40px; border-top: 1px solid rgba(0,0,0,0.05); }
         
-        /* POPUP MODAL STYLES */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; display: flex; gap: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); cursor: default; }
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; line-height: 1; }
         .close-btn:hover { color: var(--pink); }
+        .modal-left { flex: 1; background-color: #f8f8f8; border-radius: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; }
         
-        /* SEAMLESS MODAL IMAGE UPDATE */
-        .modal-left { flex: 1; background-color: #f8f8f8; border-radius: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .modal-image { width: 100%; max-height: 450px; object-fit: contain; mix-blend-mode: multiply; }
-        
+        /* SMART MODAL GALLERY CSS */
+        .modal-gallery { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 20px; }
+        .modal-main-image { width: 100%; max-height: 400px; object-fit: contain; mix-blend-mode: multiply; transition: opacity 0.2s ease-in-out; }
+        .modal-thumbnails { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 5px; justify-content: center; width: 100%; max-width: 100%; }
+        .thumb-img { width: 65px; height: 65px; object-fit: contain; border-radius: 8px; cursor: pointer; border: 2px solid transparent; opacity: 0.5; transition: all 0.3s ease; background: #ffffff; padding: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .thumb-img:hover { opacity: 0.8; transform: translateY(-2px); }
+        .thumb-img.active { border-color: var(--pink); opacity: 1; box-shadow: 0 4px 10px rgba(226, 59, 112, 0.15); }
+        .modal-thumbnails::-webkit-scrollbar { height: 4px; }
+        .modal-thumbnails::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.1); border-radius: 4px; }
+
         .modal-right { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: left; }
         .buy-btn { background-color: var(--text-main); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 30px; cursor: pointer; margin-top: 20px; font-weight: 500; transition: all 0.3s; width: 100%; font-family: 'Inter', sans-serif;}
         .buy-btn:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
-        @media (max-width: 768px) { .modal-content { flex-direction: column; padding: 20px; } .modal-image { max-height: 300px; } }
+        @media (max-width: 768px) { .modal-content { flex-direction: column; padding: 20px; } .modal-main-image { max-height: 300px; } }
         
-        /* Simple fade animation for filtering */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* LUXURY ACCOUNT SLIDE-OUT DRAWER */
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1999; display: none; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.4s ease; }
         .drawer-overlay.active { display: block; opacity: 1; }
         
@@ -119,9 +119,11 @@
                 <div class="dropdown-content">
                     <a href="/necklaces.html">Necklaces</a>
                     <a href="/earrings.html">Earrings</a>
+                    <a href="/rings.html">Rings</a>
+                    <a href="/bundles.html">Sets & Bundles</a>
                 </div>
             </div>
-            <a href="#" id="auth-btn" class="nav-item" style="margin-left: 30px; font-weight: 500;">Login</a>
+            <a href="#" id="auth-btn" class="nav-item" style="font-weight: 500;">Login</a>
         </div>
     </nav>
 
@@ -187,7 +189,19 @@
                 <span class="close-btn" onclick="document.getElementById('modal-{{ item.fileSlug }}').style.display='none'">&times;</span>
                 
                 <div class="modal-left">
-                    <img src="{{ item.data.image }}" alt="{{ item.data.name }}" class="modal-image">
+                    <div class="modal-gallery">
+                        <img src="{{ item.data.image }}" alt="{{ item.data.name }}" class="modal-main-image" id="main-img-{{ item.fileSlug }}">
+                        
+                        {% if item.data.gallery %}
+                        <div class="modal-thumbnails">
+                            <img src="{{ item.data.image }}" class="thumb-img active" onclick="changeImage('{{ item.fileSlug }}', this.src, this)">
+                            
+                            {% for img in item.data.gallery %}
+                            <img src="{{ img }}" class="thumb-img" onclick="changeImage('{{ item.fileSlug }}', this.src, this)">
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
                 
                 <div class="modal-right">
@@ -220,22 +234,42 @@
         {% endfor %}
     </div>
 
-    <footer><p>&copy; 2026 RangMeera. All rights reserved.</p></footer>
+    <footer>
+        <div style="margin-bottom: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;">
+            <a href="/terms.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Terms & Conditions</a>
+            <a href="/privacy.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a>
+            <a href="/refunds.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Cancellations & Refunds</a>
+            <a href="/shipping.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Shipping & Delivery</a>
+        </div>
+        <p style="color: var(--text-light); font-size: 0.9rem;">&copy; 2026 RangMeera. All rights reserved.</p>
+    </footer>
 
     <script>
+        // GALLERY IMAGE SWAP FUNCTION
+        function changeImage(slug, newSrc, thumbElement) {
+            const mainImg = document.getElementById('main-img-' + slug);
+            mainImg.style.opacity = 0;
+            
+            setTimeout(() => {
+                mainImg.src = newSrc;
+                mainImg.style.opacity = 1;
+            }, 200);
+
+            const thumbnails = thumbElement.parentElement.querySelectorAll('.thumb-img');
+            thumbnails.forEach(t => t.classList.remove('active'));
+            thumbElement.classList.add('active');
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
-            // Small delay to ensure CMS content is fully injected
             setTimeout(() => {
                 const urlParams = new URLSearchParams(window.location.search);
                 const collectionParam = urlParams.get('collection');
                 const buttons = document.querySelectorAll('.filter-btn');
                 const cards = document.querySelectorAll('.product-card');
 
-                // The Filter Engine
                 function filterProducts(filterValue) {
                     cards.forEach(card => {
                         const cardCollection = card.getAttribute('data-collection') || "";
-                        
                         if (filterValue === 'all' || cardCollection.includes(filterValue) || (filterValue === 'Lumiere' && cardCollection.includes('Lumière'))) {
                             card.style.display = 'flex'; 
                             card.style.animation = 'none'; 
@@ -263,7 +297,6 @@
                     btn.addEventListener('click', (e) => {
                         const filterValue = e.target.getAttribute('data-filter');
                         filterProducts(filterValue);
-                        
                         const newUrl = filterValue === 'all' ? window.location.pathname : `${window.location.pathname}?collection=${filterValue}`;
                         window.history.pushState({}, '', newUrl);
                     });
