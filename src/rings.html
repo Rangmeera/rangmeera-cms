@@ -103,6 +103,14 @@
         .logout-btn { margin-top: auto; background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 15px; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; width: 100%; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 500;}
         .logout-btn:hover { background: var(--text-main); color: #fff; }
     </style>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("lTpsgwT2__DySCIrW");
+       })();
+    </script>
 </head>
 <body>
 
@@ -229,7 +237,7 @@
                         <span class="delivery-fee" style="margin-bottom: 20px; font-size: 0.95rem; font-weight: 500;">+ ₹{{ item.data.delivery_fee }} Delivery</span>
                     {% endif %}
                     
-                    <button class="buy-btn" onclick="alert('Payment Gateway Integration will connect here!')">Buy Now</button>
+                    <button class="buy-btn" onclick="processCheckout('{{ item.data.title }}', '{{ item.data.name }}', '{% if item.data.sale_price %}{{ item.data.sale_price }}{% else %}{{ item.data.price }}{% endif %}')">Buy Now</button>
                 </div>
             </div>
         </div>
@@ -309,9 +317,10 @@
     </script>
     
     <script type="module">
+        // NEW: IMPORTED COLLECTION AND ADDDOC FOR ORDERS
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA7X33xKrmG8RA-4C6eSSOvN-gjNxFQ3s0",
@@ -383,6 +392,75 @@
         logoutBtn.addEventListener('click', async () => {
             await signOut(auth);
         });
+
+        // NEW: THE MASTER CHECKOUT FUNCTION
+        window.processCheckout = async function(productCode, productName, price) {
+            const user = auth.currentUser;
+            
+            if (!user) {
+                alert("Please login from the top right menu to place an order.");
+                openDrawer(); 
+                return;
+            }
+
+            const shippingAddress = prompt("Please enter your full delivery address and Pincode:");
+            if (!shippingAddress) return; 
+
+            const amountInPaise = parseInt(price) * 100;
+
+            const options = {
+                key: "rzp_test_SiE0EnXNjaYjvC", // <-- IMPORTANT: Replace this with your Razorpay Key ID once activated
+                amount: amountInPaise,
+                currency: "INR",
+                name: "RangMeera",
+                description: "Purchase: " + productCode,
+                image: "/images/logo.png",
+                handler: async function (response) {
+                    const paymentId = response.razorpay_payment_id;
+
+                    try {
+                        // Save to Firestore Database
+                        await addDoc(collection(db, "orders"), {
+                            uid: user.uid,
+                            product_code: productCode,
+                            product_name: productName,
+                            amount: price,
+                            shipping_address: shippingAddress,
+                            payment_id: paymentId,
+                            status: "Processing",
+                            date: new Date()
+                        });
+
+                        // Send EmailJS Notification to You!
+                        await emailjs.send("service_w8lur8r", "template_jrx6bfd", {
+                            customer_name: user.displayName || "Guest",
+                            customer_email: user.email,
+                            phone_number: "Captured via Razorpay", 
+                            product_code: productCode + " - " + productName,
+                            amount: price,
+                            shipping_address: shippingAddress,
+                            payment_id: paymentId
+                        });
+
+                        alert("Payment Successful! 🎉 Your order for the " + productName + " has been placed. Your Order ID is: " + paymentId);
+                        
+                    } catch (error) {
+                        console.error("Order processing error:", error);
+                        alert("Payment was successful, but there was a slight delay logging it. Please contact us with Payment ID: " + paymentId);
+                    }
+                },
+                prefill: {
+                    name: user.displayName,
+                    email: user.email,
+                },
+                theme: {
+                    color: "#e23b70" 
+                }
+            };
+
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        };
     </script>
 </body>
 </html>
