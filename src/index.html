@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #fcf6f2; 
+            /* NEW: Darker, warmer beige background to match the header banner perfectly */
+            --bg-color: #f3ebe4; 
             --text-main: #1d1d1f; 
             --text-light: #86868b;
             --gold: #d4af37;
@@ -26,12 +27,12 @@
             color: var(--text-main);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            padding-bottom: 0; /* Adjusted dynamically for mobile bottom bar */
+            padding-bottom: 0; 
         }
 
         h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
 
-        /* FULL-WIDTH NAV - NO OVERFLOW HIDDEN SO DROPDOWN WORKS */
+        /* FULL-WIDTH NAV */
         nav {
             display: flex;
             justify-content: space-between;
@@ -84,7 +85,7 @@
         .logo-img { 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; /* Stretches edge to edge */
+            object-fit: cover; 
             object-position: center; 
             mix-blend-mode: multiply; 
             opacity: 0.95; 
@@ -111,7 +112,7 @@
         }
         .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
 
-        /* --- MOBILE BOTTOM NAVIGATION (Hidden on Desktop) --- */
+        /* MOBILE BOTTOM NAVIGATION */
         .mobile-bottom-nav {
             display: none;
             position: fixed;
@@ -263,12 +264,12 @@
         .order-date { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
         .order-total { font-size: 1rem; color: var(--text-main); font-weight: 600; }
 
-        /* UPGRADED MOBILE RESPONSIVENESS (Bottom Nav integration) */
+        /* MOBILE RESPONSIVENESS */
         @media (max-width: 768px) { 
-            .nav-left .nav-pill, .nav-right .nav-pill { display: none; } /* Hide pills on phone */
-            .mobile-bottom-nav { display: flex; } /* Show sticky bottom bar */
-            
-            body { padding-bottom: 70px; } /* Prevents content from hiding behind bar */
+            .nav-left .nav-pill, .nav-right .nav-pill { display: none; } 
+            .mobile-bottom-nav { display: flex; } 
+            body { padding-bottom: 70px; } 
+
             nav { height: 100px; padding: 0 10px; }
             .hero { padding-top: 140px; }
 
@@ -334,7 +335,7 @@
             <span class="mobile-nav-icon">⌂</span>
             Home
         </a>
-        <a href="/bundles.html" class="mobile-nav-item">
+        <a href="#" id="mobile-catalog-btn" class="mobile-nav-item">
             <span class="mobile-nav-icon">✦</span>
             Catalog
         </a>
@@ -351,6 +352,19 @@
 
     <div class="drawer-overlay" id="drawer-overlay"></div>
     
+    <div class="account-drawer" id="catalog-drawer">
+        <span class="close-drawer" id="close-catalog-drawer">&times;</span>
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 30px; color: var(--text-main); margin-top: 20px;">Explore</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="/necklaces.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">Necklaces</a>
+            <a href="/earrings.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">Earrings</a>
+            <a href="/rings.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">Rings</a>
+            <a href="/bangles.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">Bangles</a>
+            <a href="/bundles.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif; font-weight: 500; color: var(--pink);">Sets & Bundles</a>
+        </div>
+    </div>
+
     <div class="account-drawer" id="account-drawer">
         <span class="close-drawer" id="close-acc-drawer">&times;</span>
         
@@ -474,7 +488,6 @@
                     <span class="collection-btn">Explore Heritage Collection</span>
                 </div>
             </a>
-            
             <a href="/necklaces.html?collection=Lumiere" class="split-item scroll-section">
                 <img src="/images/lumiere-collage.jpg" alt="The Lumière Collection" class="split-bg">
                 <div class="split-overlay"></div>
@@ -566,25 +579,31 @@
         const overlay = document.getElementById('drawer-overlay');
         const accDrawer = document.getElementById('account-drawer');
         const cartDrawer = document.getElementById('cart-drawer');
+        const catalogDrawer = document.getElementById('catalog-drawer');
         
         const closeAccBtn = document.getElementById('close-acc-drawer');
         const closeCartBtn = document.getElementById('close-cart-drawer');
+        const closeCatalogBtn = document.getElementById('close-catalog-drawer');
         const logoutBtn = document.getElementById('logout-btn');
 
         function openAccDrawer() { accDrawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
         function openCartDrawer() { cartDrawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function openCatalogDrawer() { catalogDrawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        
         function closeAllDrawers() { 
             accDrawer.classList.remove('open'); 
             cartDrawer.classList.remove('open'); 
+            catalogDrawer.classList.remove('open');
             overlay.classList.remove('active'); 
             document.body.style.overflow = 'auto'; 
         }
 
         closeAccBtn.addEventListener('click', closeAllDrawers);
         closeCartBtn.addEventListener('click', closeAllDrawers);
+        closeCatalogBtn.addEventListener('click', closeAllDrawers);
         overlay.addEventListener('click', closeAllDrawers);
 
-        // ADD MOBILE BUTTON LISTENERS
+        // MOBILE BUTTON LISTENERS
         document.getElementById('mobile-cart-btn').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('cart-nav-btn').click(); 
@@ -593,6 +612,11 @@
         document.getElementById('mobile-auth-btn').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('auth-btn').click(); 
+        });
+
+        document.getElementById('mobile-catalog-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openCatalogDrawer();
         });
 
         let activeCartItems = [];
@@ -881,8 +905,6 @@
                         await Promise.all(processPromises);
                         
                         fetchCart(); 
-                        fetchOrders();
-                        fetchAddress();
 
                         await emailjs.send("service_w8lur8r", "template_jrx6bfd", {
                             customer_name: `${formObj.firstName} ${formObj.lastName}`,
