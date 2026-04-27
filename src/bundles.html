@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sets & Bundles | RangMeera</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-color: #fcf6f2; --text-main: #1d1d1f; --text-light: #86868b; --pink: #e23b70; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); }
+        h1, h2 { font-family: 'Playfair Display', serif; }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; height: 130px; background-color: rgba(252, 246, 242, 0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .nav-left, .nav-right { flex: 1; display: flex; align-items: center; }
+        .nav-left { justify-content: flex-start; }
+        .nav-right { justify-content: flex-end; gap: 30px; }
+        
+        .logo-link { flex: 0 1 auto; width: 280px; display: flex; justify-content: center; }
+        .logo-img { width: 100%; height: auto; max-height: 100px; object-fit: contain; }
+        
+        .nav-item { text-decoration: none; color: var(--text-main); font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
+        .nav-item:hover { color: var(--pink); }
+        
+        .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
+        .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #ffffff; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 12px; padding: 15px 0; z-index: 1001; text-align: left; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
+        .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
+
+        .catalog-header { position: relative; padding: 200px 5% 40px; text-align: center; z-index: 1; }
+        .catalog-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/images/logo.png'); background-size: 45%; background-position: center; background-repeat: no-repeat; opacity: 0.04; z-index: -1; pointer-events: none; }
+        .catalog-header h1 { font-size: 3rem; margin-bottom: 10px; }
+        .catalog-header p { color: var(--text-light); }
+
+        .collection-filters { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px auto 50px; max-width: 800px; }
+        .filter-btn { background: transparent; border: 1px solid #dcdcdc; padding: 12px 28px; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; font-family: 'Inter', sans-serif; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; color: #4a4a4a; }
+        .filter-btn.active, .filter-btn:hover { background: #1c1c1c; color: #ffffff; border-color: #1c1c1c; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; padding: 0 5% 100px; }
+        .product-card { background: #ffffff; border-radius: 20px; overflow: hidden; transition: transform 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: left; display: flex; flex-direction: column; cursor: pointer;}
+        .product-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        
+        .bundle-image-container { display: flex; height: 300px; background-color: #f8f8f8; border-bottom: 1px solid rgba(0,0,0,0.03); }
+        .bundle-main-img { width: 60%; height: 100%; object-fit: cover; mix-blend-mode: multiply; border-right: 2px solid #fff;}
+        .bundle-side-imgs { width: 40%; display: flex; flex-direction: column; }
+        .bundle-side-img { width: 100%; height: 50%; object-fit: cover; mix-blend-mode: multiply; border-bottom: 2px solid #fff;}
+        
+        .product-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1;}
+        .product-code { color: var(--pink); font-size: 0.8rem; margin-bottom: 5px; display: block; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600;}
+        .product-info h3 { font-size: 1.3rem; font-family: 'Playfair Display', serif; font-weight: 600; margin-bottom: 8px; color: var(--text-main);}
+        .product-info .desc { color: var(--text-light); font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;}
+        
+        .price-wrapper { margin-top: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .old-price { text-decoration: line-through; color: var(--text-light); font-size: 0.95rem; }
+        .new-price { font-weight: 600; color: var(--text-main); font-size: 1.2rem; }
+        .discount-tag { background: var(--pink); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;}
+        
+        /* MODALS & DRAWERS */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; display: flex; gap: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); cursor: default; }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; line-height: 1; }
+        .close-btn:hover { color: var(--pink); }
+        
+        .modal-left { flex: 1; background-color: #f8f8f8; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; padding: 20px; gap: 15px;}
+        .modal-left img { width: 100%; height: 150px; object-fit: contain; mix-blend-mode: multiply; background: #fff; border-radius: 10px; padding: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.03);}
+        
+        .modal-right { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+        .bundle-includes { background: #fdf8f4; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-main); }
+        .bundle-includes ul { padding-left: 20px; margin-top: 5px; color: var(--text-light);}
+        .bundle-includes li { margin-bottom: 5px; }
+
+        .buy-btn { background-color: var(--text-main); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 30px; cursor: pointer; font-weight: 500; transition: all 0.3s; width: 100%; font-family: 'Inter', sans-serif;}
+        .buy-btn:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
+        .buy-btn:disabled { background-color: #cccccc !important; transform: none !important; box-shadow: none !important; cursor: not-allowed !important; }
+
+        .address-modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 600px; width: 90%; text-align: left; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
+        .address-modal-content h2 { font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main); font-family: 'Playfair Display', serif; }
+        .address-modal-content p { color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem; }
+        .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 150px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+        .form-group input:focus { border-color: var(--pink); }
+
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1999; display: none; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.4s ease; }
+        .drawer-overlay.active { display: block; opacity: 1; }
+        .account-drawer { position: fixed; top: 0; right: -450px; width: 450px; max-width: 100vw; height: 100vh; background: #ffffff; box-shadow: -10px 0 40px rgba(0,0,0,0.15); z-index: 2000; transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 50px 40px; display: flex; flex-direction: column; overflow-y: auto; }
+        .account-drawer.open { right: 0; }
+        .close-drawer { position: absolute; top: 30px; right: 35px; font-size: 2.5rem; cursor: pointer; color: var(--text-light); line-height: 1; transition: color 0.3s; }
+        .close-drawer:hover { color: var(--pink); }
+        
+        .profile-header { display: flex; align-items: center; gap: 25px; margin-bottom: 40px; margin-top: 20px; }
+        .profile-pic { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--text-main); padding: 3px; }
+        .profile-info h3 { font-family: 'Playfair Display', serif; margin-bottom: 5px; font-size: 1.8rem; color: var(--text-main); }
+        .profile-info p { color: var(--text-light); font-size: 0.95rem; }
+        .drawer-section { margin-bottom: 40px; }
+        .drawer-section h4 { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); }
+        .empty-state { color: var(--text-light); font-size: 0.95rem; background: #fafafa; padding: 25px; border-radius: 15px; text-align: center; border: 1px dashed rgba(0,0,0,0.1); line-height: 1.6; }
+        .logout-btn { margin-top: auto; background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 15px; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; width: 100%; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 500;}
+        .logout-btn:hover { background: var(--text-main); color: #fff; }
+
+        /* CART & ORDERS UI */
+        .cart-badge { background: var(--pink); color: white; border-radius: 50%; padding: 2px 7px; font-size: 0.7rem; position: absolute; top: -8px; right: -15px; font-weight: 600;}
+        .cart-item { display: flex; gap: 15px; border-bottom: 1px solid #f0f0f0; padding: 15px 0; align-items: center;}
+        .cart-item img { width: 70px; height: 70px; object-fit: contain; background: #f8f8f8; border-radius: 8px; padding: 5px; mix-blend-mode: multiply;}
+        .cart-item-details { flex: 1; }
+        .cart-item-title { font-weight: 600; font-size: 0.95rem; color: var(--text-main); margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;}
+        .cart-item-price { color: var(--pink); font-weight: 500; font-size: 0.95rem; margin-bottom: 8px;}
+        .cart-qty { color: var(--text-light); font-size: 0.85rem; margin-left: 6px; font-weight: 600; }
+        .cart-remove { color: var(--text-light); font-size: 0.8rem; cursor: pointer; text-decoration: underline; background: none; border: none; padding: 0; font-family: 'Inter', sans-serif;}
+        .cart-remove:hover { color: var(--pink); }
+        .cart-footer { margin-top: auto; padding-top: 20px; border-top: 2px solid #f0f0f0; background: #fff; position: sticky; bottom: 0; padding-bottom: 20px;}
+        .cart-total-row { display: flex; justify-content: space-between; font-size: 1.3rem; font-family: 'Playfair Display', serif; font-weight: 600; margin-bottom: 20px; color: var(--text-main);}
+
+        .order-card { border: 1px solid #f0f0f0; border-radius: 12px; padding: 18px; margin-bottom: 15px; background: #fff; transition: border-color 0.3s; }
+        .order-card:hover { border-color: #dcdcdc; }
+        .order-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; }
+        .order-id { font-weight: 600; font-size: 0.9rem; color: var(--text-main); }
+        .order-status { color: var(--pink); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; background: rgba(226, 59, 112, 0.1); padding: 4px 10px; border-radius: 12px;}
+        .order-date { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .order-total { font-size: 1rem; color: var(--text-main); font-weight: 600; }
+
+        @media (max-width: 768px) { .modal-content { flex-direction: column; padding: 20px; } .modal-left { flex-direction: row; overflow-x: auto; } .modal-left img { width: 100px; height: 100px; } }
+    </style>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){ emailjs.init("lTpsgwT2__DySCIrW"); })();
+    </script>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="nav-item">Home</a>
+        </div>
+        
+        <a href="/" class="logo-link">
+            <img src="/images/logo.png" alt="RangMeera Logo" class="logo-img">
+        </a>
+
+        <div class="nav-right">
+            <div class="dropdown">
+                <a href="#collection" class="nav-item">Catalog ▾</a>
+                <div class="dropdown-content">
+                    <a href="/necklaces.html">Necklaces</a>
+                    <a href="/earrings.html">Earrings</a>
+                    <a href="/rings.html">Rings</a>
+                    <a href="/bangles.html">Bangles</a>
+                    <a href="/bundles.html">Sets & Bundles</a>
+                </div>
+            </div>
+            
+            <div style="position: relative; display: inline-block;">
+                <a href="#" id="cart-nav-btn" class="nav-item" style="font-weight: 500;">Cart</a>
+                <span id="cart-badge" class="cart-badge" style="display:none;">0</span>
+            </div>
+            
+            <a href="#" id="auth-btn" class="nav-item" style="font-weight: 500;">Login</a>
+        </div>
+    </nav>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    
+    <div class="account-drawer" id="account-drawer">
+        <span class="close-drawer" id="close-acc-drawer">&times;</span>
+        
+        <div class="profile-header">
+            <img src="/images/logo.png" alt="Profile Picture" class="profile-pic" id="profile-pic">
+            <div class="profile-info">
+                <h3 id="profile-name">Loading...</h3>
+                <p id="profile-email">Loading...</p>
+            </div>
+        </div>
+        
+        <div class="drawer-section">
+            <h4>My Orders</h4>
+            <div id="my-orders-container">
+                <div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>
+            </div>
+        </div>
+        
+        <div class="drawer-section">
+            <h4>Saved Addresses</h4>
+            <div id="saved-addresses-container">
+                <div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>
+            </div>
+        </div>
+        
+        <button class="logout-btn" id="logout-btn">Log Out</button>
+    </div>
+
+    <div class="account-drawer" id="cart-drawer" style="padding: 40px 30px;">
+        <span class="close-drawer" id="close-cart-drawer">&times;</span>
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 5px; color: var(--text-main);">Your Cart</h3>
+        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 25px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;">Review your royal selections.</p>
+        
+        <div id="cart-items-container" style="flex: 1; overflow-y: auto;">
+            <div class="empty-state">Your cart is empty.<br>Discover our collections.</div>
+        </div>
+
+        <div class="cart-footer" id="cart-footer" style="display:none;">
+            <div class="cart-total-row">
+                <span>Subtotal:</span>
+                <span id="cart-total-amount">₹0</span>
+            </div>
+            <button class="buy-btn" onclick="openCheckoutFromCart()" style="margin-top:0; width: 100%;">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div id="custom-address-modal" class="modal">
+        <div class="address-modal-content">
+            <span class="close-btn" onclick="document.getElementById('custom-address-modal').style.display='none'">&times;</span>
+            <h2>Checkout Details</h2>
+            <p>Where should we deliver your royal collection?</p>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name*</label>
+                    <input type="text" id="chk-fname" placeholder="Enter first name" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name*</label>
+                    <input type="text" id="chk-lname" placeholder="Enter last name" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Address Line 1*</label>
+                    <input type="text" id="chk-add1" placeholder="Flat/House No, Floor, Building" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Address Line 2</label>
+                    <input type="text" id="chk-add2" placeholder="Colony, Street, Locality (Optional)">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>City*</label>
+                    <input type="text" id="chk-city" placeholder="e.g. Mumbai" required>
+                </div>
+                <div class="form-group">
+                    <label>State*</label>
+                    <input type="text" id="chk-state" placeholder="e.g. Maharashtra" required>
+                </div>
+                <div class="form-group">
+                    <label>Pincode*</label>
+                    <input type="number" id="chk-pin" placeholder="000000" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Contact Number*</label>
+                    <input type="tel" id="chk-phone1" placeholder="+91" required>
+                </div>
+                <div class="form-group">
+                    <label>Alternate Number</label>
+                    <input type="tel" id="chk-phone2" placeholder="(Optional)">
+                </div>
+            </div>
+            <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.05); margin: 20px 0;">
+            <button class="buy-btn" style="margin-top:0; width: 100%;" onclick="proceedToPayment()">Pay <span id="checkout-pay-amount"></span></button>
+        </div>
+    </div>
+
+    <div class="catalog-header">
+        <h1>Sets & Bundles</h1>
+        <p>Expertly curated combinations for every memorable occasion.</p>
+    </div>
+
+    <div class="collection-filters">
+        <button class="filter-btn active" data-filter="all">All Sets</button>
+        <button class="filter-btn" data-filter="Wedding">Wedding</button>
+        <button class="filter-btn" data-filter="Festive">Festive</button>
+        <button class="filter-btn" data-filter="Cocktail">Cocktail</button>
+    </div>
+
+    <div class="grid">
+        
+        <div class="product-card" data-occasion="Wedding" onclick="document.getElementById('modal-wedding').style.display='flex'">
+            <div class="bundle-image-container">
+                <img src="/images/bundle-celeste.jpg" alt="The Grand Celeste Wedding Set" class="bundle-main-img" onerror="this.src='/images/logo.png'">
+                <div class="bundle-side-imgs">
+                    <img src="/images/logo.png" style="background:#e8e8e8;" class="bundle-side-img">
+                    <img src="/images/logo.png" style="background:#e8e8e8;" class="bundle-side-img">
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-code">IDEAL FOR: WEDDING</span>
+                <h3>The Grand Celeste Wedding Set</h3>
+                <div class="desc">A breathtaking ensemble designed for your special day. Includes our statement Celeste Floral Necklace (NK-022), matching Chandbali Earrings (EA-022), Celeste Kundan Bangles (BG-022), and Statement Ring (RI-022).</div>
+                
+                <div class="price-wrapper">
+                    <span class="old-price">Value ₹12,399</span>
+                    <span class="new-price">₹9,999</span>
+                    <span class="discount-tag">BUNDLE SAVINGS</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-wedding" class="modal" onclick="if(event.target === this) this.style.display='none'">
+            <div class="modal-content">
+                <span class="close-btn" onclick="document.getElementById('modal-wedding').style.display='none'">&times;</span>
+                <div class="modal-left">
+                    <img src="/images/bundle-celeste.jpg" alt="Necklace" onerror="this.src='/images/logo.png'">
+                    <img src="/images/logo.png" alt="Earrings">
+                    <img src="/images/logo.png" alt="Bangles">
+                </div>
+                <div class="modal-right">
+                    <span class="product-code" style="margin-bottom: 5px;">BUNDLE CODE: BNDL-CELESTE</span>
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 15px;">The Grand Celeste Wedding Set</h2>
+                    
+                    <div class="bundle-includes">
+                        <strong>Includes 4 Premium Pieces:</strong>
+                        <ul>
+                            <li>1x Celeste Floral Necklace (SKU: NK-022)</li>
+                            <li>1x Celeste Chandbali Earrings (SKU: EA-022)</li>
+                            <li>1x Celeste Kundan Bangles (SKU: BG-022)</li>
+                            <li>1x Celeste Statement Ring (SKU: RI-022)</li>
+                        </ul>
+                    </div>
+
+                    <div class="price-wrapper" style="margin-bottom: 20px;">
+                        <span class="old-price" style="font-size: 1.1rem;">Value ₹12,399</span>
+                        <span class="new-price" style="font-size: 1.6rem; color: var(--text-main);">₹9,999</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 15px;">
+                        <label style="font-size: 0.85rem; color: var(--text-light); font-weight: 500; text-transform: uppercase;">Quantity:</label>
+                        <input type="number" id="qty-wedding" min="1" value="1" style="width: 70px; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px; text-align: center; outline: none; font-family: 'Inter', sans-serif;">
+                    </div>
+                    
+                    <button class="buy-btn add-bundle-btn" data-subitems='["NK-022", "EA-022", "BG-022", "RI-022"]' onclick="addBundleToCart('BNDL-CELESTE', 'The Grand Celeste Wedding Set', 9999, '/images/logo.png', ['NK-022', 'EA-022', 'BG-022', 'RI-022'], 'wedding')">Add Full Set to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-occasion="Cocktail" onclick="document.getElementById('modal-cocktail').style.display='flex'">
+            <div class="bundle-image-container">
+                <img src="/images/bundle-elaria.jpg" alt="The Elaria Lumière Cocktail Ensemble" class="bundle-main-img" onerror="this.src='/images/logo.png'">
+                <div class="bundle-side-imgs">
+                    <img src="/images/logo.png" style="background:#e8e8e8;" class="bundle-side-img">
+                    <img src="/images/logo.png" style="background:#e8e8e8;" class="bundle-side-img">
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-code">IDEAL FOR: COCKTAIL</span>
+                <h3>The Elaria Lumière Ensemble</h3>
+                <div class="desc">Sleek, razor-sharp silver tones for your evening out. Includes the Elaria Statement Necklace (NK-027), Silver-tone Cuff (BG-027), and Cocktail Ring (RI-027).</div>
+                
+                <div class="price-wrapper">
+                    <span class="old-price">Value ₹10,500</span>
+                    <span class="new-price">₹8,499</span>
+                    <span class="discount-tag">BUNDLE SAVINGS</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-cocktail" class="modal" onclick="if(event.target === this) this.style.display='none'">
+            <div class="modal-content">
+                <span class="close-btn" onclick="document.getElementById('modal-cocktail').style.display='none'">&times;</span>
+                <div class="modal-left">
+                    <img src="/images/bundle-elaria.jpg" alt="Necklace" onerror="this.src='/images/logo.png'">
+                    <img src="/images/logo.png" alt="Cuff">
+                    <img src="/images/logo.png" alt="Ring">
+                </div>
+                <div class="modal-right">
+                    <span class="product-code" style="margin-bottom: 5px;">BUNDLE CODE: BNDL-ELARIA</span>
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 15px;">The Elaria Lumière Ensemble</h2>
+                    
+                    <div class="bundle-includes">
+                        <strong>Includes 3 Premium Pieces:</strong>
+                        <ul>
+                            <li>1x Elaria Statement Necklace (SKU: NK-027)</li>
+                            <li>1x Elaria Silver-tone Cuff (SKU: BG-027)</li>
+                            <li>1x Elaria Cocktail Ring (SKU: RI-027)</li>
+                        </ul>
+                    </div>
+
+                    <div class="price-wrapper" style="margin-bottom: 20px;">
+                        <span class="old-price" style="font-size: 1.1rem;">Value ₹10,500</span>
+                        <span class="new-price" style="font-size: 1.6rem; color: var(--text-main);">₹8,499</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 15px;">
+                        <label style="font-size: 0.85rem; color: var(--text-light); font-weight: 500; text-transform: uppercase;">Quantity:</label>
+                        <input type="number" id="qty-cocktail" min="1" value="1" style="width: 70px; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px; text-align: center; outline: none; font-family: 'Inter', sans-serif;">
+                    </div>
+                    
+                    <button class="buy-btn add-bundle-btn" data-subitems='["NK-027", "BG-027", "RI-027"]' onclick="addBundleToCart('BNDL-ELARIA', 'The Elaria Lumière Ensemble', 8499, '/images/logo.png', ['NK-027', 'BG-027', 'RI-027'], 'cocktail')">Add Full Set to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-occasion="Festive" onclick="document.getElementById('modal-festive').style.display='flex'">
+            <div class="bundle-image-container">
+                <img src="/images/bundle-amaya.jpg" alt="The Amaya Festive Combo" class="bundle-main-img" onerror="this.src='/images/logo.png'">
+                <div class="bundle-side-imgs">
+                    <img src="/images/logo.png" style="background:#e8e8e8;" class="bundle-side-img">
+                    <img src="/images/logo.png" style="background:#e8e8e8;" class="bundle-side-img">
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-code">IDEAL FOR: FESTIVE</span>
+                <h3>The Amaya Festive Combo</h3>
+                <div class="desc">A radiant pairing for your seasonal celebrations. Features the Amaya Complete Set (NK-024) paired elegantly with the Mayuri Chandelier Earrings (EA-019).</div>
+                
+                <div class="price-wrapper">
+                    <span class="old-price">Value ₹8,898</span>
+                    <span class="new-price">₹7,299</span>
+                    <span class="discount-tag">BUNDLE SAVINGS</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-festive" class="modal" onclick="if(event.target === this) this.style.display='none'">
+            <div class="modal-content">
+                <span class="close-btn" onclick="document.getElementById('modal-festive').style.display='none'">&times;</span>
+                <div class="modal-left">
+                    <img src="/images/bundle-amaya.jpg" alt="Necklace" onerror="this.src='/images/logo.png'">
+                    <img src="/images/logo.png" alt="Earrings">
+                </div>
+                <div class="modal-right">
+                    <span class="product-code" style="margin-bottom: 5px;">BUNDLE CODE: BNDL-AMAYA</span>
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 15px;">The Amaya Festive Combo</h2>
+                    
+                    <div class="bundle-includes">
+                        <strong>Includes 2 Premium Pieces:</strong>
+                        <ul>
+                            <li>1x Amaya Complete Necklace Set (SKU: NK-024)</li>
+                            <li>1x Mayuri Chandelier Earrings (SKU: EA-019)</li>
+                        </ul>
+                    </div>
+
+                    <div class="price-wrapper" style="margin-bottom: 20px;">
+                        <span class="old-price" style="font-size: 1.1rem;">Value ₹8,898</span>
+                        <span class="new-price" style="font-size: 1.6rem; color: var(--text-main);">₹7,299</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 15px;">
+                        <label style="font-size: 0.85rem; color: var(--text-light); font-weight: 500; text-transform: uppercase;">Quantity:</label>
+                        <input type="number" id="qty-festive" min="1" value="1" style="width: 70px; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px; text-align: center; outline: none; font-family: 'Inter', sans-serif;">
+                    </div>
+                    
+                    <button class="buy-btn add-bundle-btn" data-subitems='["NK-024", "EA-019"]' onclick="addBundleToCart('BNDL-AMAYA', 'The Amaya Festive Combo', 7299, '/images/logo.png', ['NK-024', 'EA-019'], 'festive')">Add Full Set to Cart</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div style="margin-bottom: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;">
+            <a href="/terms.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Terms & Conditions</a>
+            <a href="/privacy.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a>
+            <a href="/refunds.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Cancellations & Refunds</a>
+            <a href="/shipping.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">Shipping & Delivery</a>
+        </div>
+        <p style="color: var(--text-light); font-size: 0.9rem;">&copy; 2026 RangMeera. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function changeImage(slug, newSrc, thumbElement) {
+            const mainImg = document.getElementById('main-img-' + slug);
+            mainImg.style.opacity = 0;
+            setTimeout(() => { mainImg.src = newSrc; mainImg.style.opacity = 1; }, 200);
+            const thumbnails = thumbElement.parentElement.querySelectorAll('.thumb-img');
+            thumbnails.forEach(t => t.classList.remove('active'));
+            thumbElement.classList.add('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const occasionParam = urlParams.get('occasion');
+                const buttons = document.querySelectorAll('.filter-btn');
+                const cards = document.querySelectorAll('.product-card');
+
+                function filterProducts(filterValue) {
+                    cards.forEach(card => {
+                        const cardOccasion = card.getAttribute('data-occasion') || "";
+                        if (filterValue === 'all' || cardOccasion.includes(filterValue)) {
+                            card.style.display = 'flex'; card.style.animation = 'none'; card.offsetHeight; card.style.animation = 'fadeIn 0.5s ease forwards';
+                        } else { card.style.display = 'none'; }
+                    });
+                    buttons.forEach(btn => {
+                        if (btn.getAttribute('data-filter') === filterValue) { btn.classList.add('active'); } else { btn.classList.remove('active'); }
+                    });
+                }
+                if (occasionParam) filterProducts(occasionParam);
+
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const filterValue = e.target.getAttribute('data-filter');
+                        filterProducts(filterValue);
+                        const newUrl = filterValue === 'all' ? window.location.pathname : `${window.location.pathname}?occasion=${filterValue}`;
+                        window.history.pushState({}, '', newUrl);
+                    });
+                });
+            }, 100); 
+        });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, getDocs, deleteDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7X33xKrmG8RA-4C6eSSOvN-gjNxFQ3s0",
+            authDomain: "rangmeera-c5bc3.firebaseapp.com",
+            projectId: "rangmeera-c5bc3",
+            storageBucket: "rangmeera-c5bc3.firebasestorage.app",
+            messagingSenderId: "765951044396",
+            appId: "1:765951044396:web:c9d2ffbf624f90aad75a89"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        const authBtn = document.getElementById('auth-btn');
+        const cartNavBtn = document.getElementById('cart-nav-btn');
+        
+        const overlay = document.getElementById('drawer-overlay');
+        const accDrawer = document.getElementById('account-drawer');
+        const cartDrawer = document.getElementById('cart-drawer');
+        
+        const closeAccBtn = document.getElementById('close-acc-drawer');
+        const closeCartBtn = document.getElementById('close-cart-drawer');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        function openAccDrawer() { accDrawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function openCartDrawer() { cartDrawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeAllDrawers() { 
+            accDrawer.classList.remove('open'); 
+            cartDrawer.classList.remove('open'); 
+            overlay.classList.remove('active'); 
+            document.body.style.overflow = 'auto'; 
+        }
+
+        closeAccBtn.addEventListener('click', closeAllDrawers);
+        closeCartBtn.addEventListener('click', closeAllDrawers);
+        overlay.addEventListener('click', closeAllDrawers);
+
+        let activeCartItems = [];
+        let activeCartTotal = 0;
+
+        async function fetchOrders() {
+            if (!auth.currentUser) return;
+            const ordersContainer = document.getElementById('my-orders-container');
+            try {
+                const q = query(collection(db, "orders"), where("uid", "==", auth.currentUser.uid));
+                const querySnapshot = await getDocs(q);
+                if (querySnapshot.empty) {
+                    ordersContainer.innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
+                    return;
+                }
+                let orders = [];
+                querySnapshot.forEach((doc) => { orders.push({id: doc.id, ...doc.data()}); });
+                orders.sort((a, b) => b.date.toDate() - a.date.toDate());
+                let ordersHTML = '';
+                orders.forEach(order => {
+                    const dateObj = order.date.toDate();
+                    const dateStr = dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const displayId = order.payment_id ? order.payment_id.slice(-8).toUpperCase() : 'N/A';
+                    ordersHTML += `
+                        <div class="order-card">
+                            <div class="order-header">
+                                <span class="order-id">#${displayId}</span>
+                                <span class="order-status">${order.status || 'Processing'}</span>
+                            </div>
+                            <div class="order-date">Placed on ${dateStr}</div>
+                            <div class="order-total">Total: ₹${order.amount_paid}</div>
+                        </div>
+                    `;
+                });
+                ordersContainer.innerHTML = ordersHTML;
+            } catch (error) { console.error("Error fetching orders:", error); ordersContainer.innerHTML = '<div class="empty-state">Unable to load orders.</div>'; }
+        }
+
+        async function fetchAddress() {
+            if (!auth.currentUser) return;
+            const addressContainer = document.getElementById('saved-addresses-container');
+            try {
+                const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
+                if (userDoc.exists() && userDoc.data().shippingAddress) {
+                    const addr = userDoc.data().shippingAddress;
+                    addressContainer.innerHTML = `
+                        <div style="background: #fafafa; padding: 18px; border-radius: 12px; border: 1px solid #f0f0f0; font-size: 0.9rem; line-height: 1.6;">
+                            <strong style="color: var(--text-main); font-size: 1rem;">${addr.firstName} ${addr.lastName}</strong><br>
+                            <span style="color: var(--text-light); margin-top: 8px; display: block;">
+                                ${addr.line1}<br>${addr.line2 ? addr.line2 + '<br>' : ''}${addr.city}, ${addr.state} - ${addr.pincode}<br>Ph: ${addr.phone1}
+                            </span>
+                        </div>
+                    `;
+                } else { addressContainer.innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>'; }
+            } catch (error) { console.log("Error fetching address", error); }
+        }
+
+        // BUNDLE INVENTORY CHECKER
+        async function checkBundleInventory() {
+            try {
+                const invSnap = await getDocs(collection(db, "inventory"));
+                const soldTracker = {};
+                invSnap.forEach(document => { soldTracker[document.id] = document.data().units_sold || 0; });
+                
+                const bundleBtns = window.document.querySelectorAll('.add-bundle-btn');
+                bundleBtns.forEach(btn => {
+                    const subItemsStr = btn.getAttribute('data-subitems');
+                    if (subItemsStr) {
+                        const subItems = JSON.parse(subItemsStr);
+                        let isOutOfStock = false;
+                        
+                        subItems.forEach(code => {
+                            const totalStock = 5; 
+                            const sold = soldTracker[code] || 0;
+                            if ((totalStock - sold) <= 0) isOutOfStock = true;
+                        });
+                        
+                        if (isOutOfStock) {
+                            btn.textContent = "Component Out of Stock";
+                            btn.disabled = true;
+                        }
+                    }
+                });
+            } catch (e) { console.log("Inventory fetch error:", e); }
+        }
+        checkBundleInventory();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                authBtn.textContent = "My Account";
+                document.getElementById('profile-name').textContent = user.displayName;
+                document.getElementById('profile-email').textContent = user.email;
+                document.getElementById('profile-pic').src = user.photoURL || '/images/logo.png';
+                fetchCart(); fetchOrders(); fetchAddress();
+            } else {
+                authBtn.textContent = "Login";
+                document.getElementById('cart-badge').style.display = 'none';
+                document.getElementById('my-orders-container').innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
+                document.getElementById('saved-addresses-container').innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
+                closeAllDrawers(); 
+            }
+        });
+
+        authBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (auth.currentUser) { openAccDrawer(); } else {
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    await setDoc(doc(db, "users", result.user.uid), { name: result.user.displayName, email: result.user.email, profilePic: result.user.photoURL, lastLogin: new Date() }, { merge: true }); 
+                } catch (error) { console.error("Login Failed:", error.message); }
+            }
+        });
+
+        cartNavBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (auth.currentUser) { openCartDrawer(); } else { alert("Please login to view your cart."); }
+        });
+
+        logoutBtn.addEventListener('click', async () => { await signOut(auth); });
+
+        async function fetchCart() {
+            if (!auth.currentUser) return;
+            const q = query(collection(db, "carts"), where("uid", "==", auth.currentUser.uid));
+            const querySnapshot = await getDocs(q);
+            
+            activeCartItems = []; activeCartTotal = 0;
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+            let totalItemsCount = 0;
+
+            querySnapshot.forEach((doc) => {
+                let data = doc.data(); data.id = doc.id; data.quantity = data.quantity || 1; 
+                activeCartItems.push(data);
+                activeCartTotal += (parseInt(data.price) * data.quantity);
+                totalItemsCount += data.quantity;
+            });
+
+            const badge = document.getElementById('cart-badge');
+            if (activeCartItems.length > 0) {
+                badge.textContent = totalItemsCount; badge.style.display = 'inline-block';
+                document.getElementById('cart-footer').style.display = 'block';
+                document.getElementById('cart-total-amount').textContent = `₹${activeCartTotal}`;
+                document.getElementById('checkout-pay-amount').textContent = `₹${activeCartTotal}`;
+                
+                activeCartItems.forEach(item => {
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.productName}">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${item.productName}</div>
+                                <div class="cart-item-price">₹${item.price} <span class="cart-qty">x${item.quantity}</span></div>
+                                <button class="cart-remove" onclick="removeFromCart('${item.id}')">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                badge.style.display = 'none'; document.getElementById('cart-footer').style.display = 'none';
+                container.innerHTML = `<div class="empty-state">Your cart is empty.<br>Discover our collections.</div>`;
+            }
+        }
+
+        window.addBundleToCart = async function(productCode, productName, price, image, subItemsArray, slug) {
+            if (!auth.currentUser) { alert("Please login to add items to your cart."); return; }
+            const qtyInput = document.getElementById('qty-' + slug);
+            const qtyToAdd = parseInt(qtyInput.value) || 1;
+            try {
+                const q = query(collection(db, "carts"), where("uid", "==", auth.currentUser.uid), where("productCode", "==", productCode));
+                const snap = await getDocs(q);
+                if (!snap.empty) {
+                    const docRef = snap.docs[0].ref;
+                    const newQty = snap.docs[0].data().quantity + qtyToAdd;
+                    await setDoc(docRef, { quantity: newQty }, { merge: true });
+                } else {
+                    await addDoc(collection(db, "carts"), { 
+                        uid: auth.currentUser.uid, 
+                        productCode: productCode, 
+                        productName: productName, 
+                        price: price, 
+                        image: image, 
+                        quantity: qtyToAdd, 
+                        subItems: subItemsArray,
+                        addedAt: new Date() 
+                    });
+                }
+                document.getElementById('modal-' + slug).style.display = 'none';
+                qtyInput.value = 1; await fetchCart(); openCartDrawer();
+            } catch (error) { console.error("Error adding bundle to cart: ", error); }
+        };
+
+        window.removeFromCart = async function(docId) { try { await deleteDoc(doc(db, "carts", docId)); fetchCart(); } catch (error) { console.error("Error removing item:", error); } };
+
+        window.openCheckoutFromCart = async function() {
+            if (activeCartItems.length === 0) return;
+            closeAllDrawers();
+            try {
+                const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
+                if (userDoc.exists() && userDoc.data().shippingAddress) {
+                    const addr = userDoc.data().shippingAddress;
+                    document.getElementById('chk-fname').value = addr.firstName || ''; document.getElementById('chk-lname').value = addr.lastName || '';
+                    document.getElementById('chk-add1').value = addr.line1 || ''; document.getElementById('chk-add2').value = addr.line2 || '';
+                    document.getElementById('chk-city').value = addr.city || ''; document.getElementById('chk-state').value = addr.state || '';
+                    document.getElementById('chk-pin').value = addr.pincode || ''; document.getElementById('chk-phone1').value = addr.phone1 || ''; document.getElementById('chk-phone2').value = addr.phone2 || '';
+                }
+            } catch (err) { console.log(err); }
+            document.getElementById('custom-address-modal').style.display = 'flex';
+        };
+
+        window.proceedToPayment = async function() {
+            const formObj = {
+                firstName: document.getElementById('chk-fname').value.trim(), lastName: document.getElementById('chk-lname').value.trim(),
+                line1: document.getElementById('chk-add1').value.trim(), line2: document.getElementById('chk-add2').value.trim(),
+                city: document.getElementById('chk-city').value.trim(), state: document.getElementById('chk-state').value.trim(),
+                pincode: document.getElementById('chk-pin').value.trim(), phone1: document.getElementById('chk-phone1').value.trim(), phone2: document.getElementById('chk-phone2').value.trim()
+            };
+            if (!formObj.firstName || !formObj.lastName || !formObj.line1 || !formObj.city || !formObj.state || !formObj.pincode || !formObj.phone1) { alert("Please fill in all required fields (marked with *)."); return; }
+            const fullAddressString = `${formObj.firstName} ${formObj.lastName}\n${formObj.line1}\n${formObj.line2 ? formObj.line2 + '\n' : ''}${formObj.city}, ${formObj.state} - ${formObj.pincode}\nPh: ${formObj.phone1} ${formObj.phone2 ? ', ' + formObj.phone2 : ''}`;
+            document.getElementById('custom-address-modal').style.display = 'none';
+            let productListStr = ""; let productCodesStr = "";
+            activeCartItems.forEach(item => { productListStr += `• ${item.productName} (x${item.quantity})\n`; productCodesStr += `${item.productCode}, `; });
+            processRazorpay(productCodesStr, productListStr, activeCartTotal, formObj, fullAddressString);
+        };
+
+        async function processRazorpay(productCodes, productListStr, totalAmount, formObj, formattedAddress) {
+            const user = auth.currentUser;
+            const amountInPaise = totalAmount * 100;
+            const options = {
+                key: "rzp_test_SiE0EnXNjaYjvC", amount: amountInPaise, currency: "INR", name: "RangMeera",
+                description: `Cart Checkout (${activeCartItems.length} items)`, image: "/images/logo.png",
+                handler: async function (response) {
+                    const paymentId = response.razorpay_payment_id;
+                    try {
+                        await setDoc(doc(db, "users", user.uid), { shippingAddress: { firstName: formObj.firstName, lastName: formObj.lastName, line1: formObj.line1, line2: formObj.line2, city: formObj.city, state: formObj.state, pincode: formObj.pincode, phone1: formObj.phone1, phone2: formObj.phone2 } }, { merge: true });
+                        await addDoc(collection(db, "orders"), { uid: user.uid, items: activeCartItems, amount_paid: totalAmount, shipping_address: formattedAddress, payment_id: paymentId, status: "Processing", date: new Date() });
+                        
+                        const processPromises = [];
+                        activeCartItems.forEach(item => {
+                            if (item.subItems && item.subItems.length > 0) {
+                                item.subItems.forEach(subCode => {
+                                    const invRef = doc(db, "inventory", subCode);
+                                    processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
+                                });
+                            } else {
+                                const invRef = doc(db, "inventory", item.productCode);
+                                processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
+                            }
+                            processPromises.push(deleteDoc(doc(db, "carts", item.id)));
+                        });
+                        
+                        await Promise.all(processPromises);
+                        fetchCart(); fetchOrders(); fetchAddress(); checkBundleInventory();
+                        
+                        await emailjs.send("service_w8lur8r", "template_jrx6bfd", { customer_name: `${formObj.firstName} ${formObj.lastName}`, customer_email: user.email, phone_number: formObj.phone1, product_code: `Multi-Item Cart:\n${productListStr}`, amount: totalAmount, shipping_address: formattedAddress, payment_id: paymentId });
+                        alert(`Payment Successful! 🎉 Your royal collection is being prepared. Order ID: ` + paymentId);
+                    } catch (error) { console.error("Order processing error:", error); alert("There was an error finalizing the order. Please contact support with Payment ID: " + paymentId); }
+                },
+                prefill: { name: `${formObj.firstName} ${formObj.lastName}`, email: user.email, contact: formObj.phone1 }, theme: { color: "#e23b70" }
+            };
+            const rzp = new window.Razorpay(options); rzp.open();
+        }
+    </script>
+</body>
+</html>

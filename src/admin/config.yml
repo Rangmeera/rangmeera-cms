@@ -106,3 +106,4 @@ collections:
       - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
       - {label: "Collection", name: "collection_type", widget: "select", options: ["The Heritage Collection", "The Lumière Collection"], default: "The Heritage Collection"}
+  
