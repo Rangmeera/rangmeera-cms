@@ -10,7 +10,7 @@
     <style>
         :root { --bg-color: #fcf6f2; --text-main: #1d1d1f; --text-light: #86868b; --pink: #e23b70; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); padding-bottom: 0; }
         h1, h2 { font-family: 'Playfair Display', serif; }
         
         /* FULL-WIDTH NAV - NO OVERFLOW HIDDEN SO DROPDOWN WORKS */
@@ -80,6 +80,47 @@
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
         .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
+
+        /* --- MOBILE BOTTOM NAVIGATION (Hidden on Desktop) --- */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            z-index: 1000;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 15px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav-item:hover, .mobile-nav-item:active {
+            color: var(--pink);
+        }
+
+        .mobile-nav-icon {
+            font-size: 1.4rem; 
+            margin-bottom: 4px;
+            font-weight: normal;
+        }
 
         .catalog-header { position: relative; padding: 260px 5% 40px; text-align: center; z-index: 1; }
         .catalog-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/images/logo.png'); background-size: 45%; background-position: center; background-repeat: no-repeat; opacity: 0.04; z-index: -1; pointer-events: none; }
@@ -175,11 +216,12 @@
         .order-total { font-size: 1rem; color: var(--text-main); font-weight: 600; }
 
         @media (max-width: 768px) { 
-            nav { height: 120px; padding: 0 10px; }
-            .nav-pill { padding: 8px 12px; gap: 15px; border-radius: 20px; }
-            .nav-item { font-size: 0.75rem; letter-spacing: 0.5px; }
-            .dropdown-content { min-width: 150px; right: auto; left: -10px; } 
-            .catalog-header { padding-top: 180px; }
+            .nav-left .nav-pill, .nav-right .nav-pill { display: none; } 
+            .mobile-bottom-nav { display: flex; } 
+            body { padding-bottom: 70px; } 
+
+            nav { height: 100px; padding: 0 10px; }
+            .catalog-header { padding-top: 140px; }
             .modal-content { flex-direction: column; padding: 20px; } 
             .modal-left { flex-direction: row; overflow-x: auto; } 
             .modal-left img { width: 100px; height: 100px; } 
@@ -231,11 +273,30 @@
         </div>
     </nav>
 
+    <div class="mobile-bottom-nav">
+        <a href="/" class="mobile-nav-item">
+            <span class="mobile-nav-icon">⌂</span>
+            Home
+        </a>
+        <a href="/bundles.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">✦</span>
+            Catalog
+        </a>
+        <a href="#" id="mobile-cart-btn" class="mobile-nav-item" style="position: relative;">
+            <span class="mobile-nav-icon">🛒</span>
+            Cart
+            <span id="mobile-cart-badge" class="cart-badge" style="display:none; top: -5px; right: -10px;">0</span>
+        </a>
+        <a href="#" id="mobile-auth-btn" class="mobile-nav-item">
+            <span class="mobile-nav-icon">👤</span>
+            Account
+        </a>
+    </div>
+
     <div class="drawer-overlay" id="drawer-overlay"></div>
     
     <div class="account-drawer" id="account-drawer">
         <span class="close-drawer" id="close-acc-drawer">&times;</span>
-        
         <div class="profile-header">
             <img src="/images/logo.png" alt="Profile Picture" class="profile-pic" id="profile-pic">
             <div class="profile-info">
@@ -243,21 +304,18 @@
                 <p id="profile-email">Loading...</p>
             </div>
         </div>
-        
         <div class="drawer-section">
             <h4>My Orders</h4>
             <div id="my-orders-container">
                 <div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>
             </div>
         </div>
-        
         <div class="drawer-section">
             <h4>Saved Addresses</h4>
             <div id="saved-addresses-container">
                 <div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>
             </div>
         </div>
-        
         <button class="logout-btn" id="logout-btn">Log Out</button>
     </div>
 
@@ -608,6 +666,17 @@
         closeCartBtn.addEventListener('click', closeAllDrawers);
         overlay.addEventListener('click', closeAllDrawers);
 
+        // ADD MOBILE BUTTON LISTENERS
+        document.getElementById('mobile-cart-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('cart-nav-btn').click(); 
+        });
+        
+        document.getElementById('mobile-auth-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('auth-btn').click(); 
+        });
+
         let activeCartItems = [];
         let activeCartTotal = 0;
 
@@ -699,6 +768,7 @@
             } else {
                 authBtn.textContent = "Login";
                 document.getElementById('cart-badge').style.display = 'none';
+                document.getElementById('mobile-cart-badge').style.display = 'none';
                 document.getElementById('my-orders-container').innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
                 document.getElementById('saved-addresses-container').innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
                 closeAllDrawers(); checkBundleInventory();
@@ -740,8 +810,12 @@
             });
 
             const badge = document.getElementById('cart-badge');
+            const mobileBadge = document.getElementById('mobile-cart-badge');
+
             if (activeCartItems.length > 0) {
                 badge.textContent = totalItemsCount; badge.style.display = 'inline-block';
+                mobileBadge.textContent = totalItemsCount; mobileBadge.style.display = 'inline-block';
+
                 document.getElementById('cart-footer').style.display = 'block';
                 document.getElementById('cart-total-amount').textContent = `₹${activeCartTotal}`;
                 document.getElementById('checkout-pay-amount').textContent = `₹${activeCartTotal}`;
@@ -759,7 +833,8 @@
                     `;
                 });
             } else {
-                badge.style.display = 'none'; document.getElementById('cart-footer').style.display = 'none';
+                badge.style.display = 'none'; mobileBadge.style.display = 'none';
+                document.getElementById('cart-footer').style.display = 'none';
                 container.innerHTML = `<div class="empty-state">Your cart is empty.<br>Discover our collections.</div>`;
             }
         }
@@ -845,8 +920,7 @@
                         });
                         
                         await Promise.all(processPromises);
-                        fetchCart(); fetchOrders(); fetchAddress(); checkBundleInventory();
-                        
+                        fetchCart(); checkBundleInventory();
                         await emailjs.send("service_w8lur8r", "template_jrx6bfd", { customer_name: `${formObj.firstName} ${formObj.lastName}`, customer_email: user.email, phone_number: formObj.phone1, product_code: `Multi-Item Cart:\n${productListStr}`, amount: totalAmount, shipping_address: formattedAddress, payment_id: paymentId });
                         alert(`Payment Successful! 🎉 Your royal collection is being prepared. Order ID: ` + paymentId);
                     } catch (error) { console.error("Order processing error:", error); alert("There was an error finalizing the order. Please contact support with Payment ID: " + paymentId); }

@@ -10,7 +10,7 @@
     <style>
         :root { --bg-color: #fcf6f2; --text-main: #1d1d1f; --text-light: #86868b; --pink: #e23b70; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); padding-bottom: 0; }
         h1, h2 { font-family: 'Playfair Display', serif; }
         
         /* FULL-WIDTH NAV - NO OVERFLOW HIDDEN SO DROPDOWN WORKS */
@@ -19,7 +19,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 3%;
-            height: clamp(140px, 16vw, 250px); /* Smart height to prevent over-cropping */
+            height: clamp(140px, 16vw, 250px); 
             background-color: var(--bg-color);
             position: fixed;
             width: 100%;
@@ -61,12 +61,12 @@
             height: 100%; 
             display: block; 
             z-index: 1;
-            overflow: hidden; /* Traps the image so it doesn't spill below the nav */
+            overflow: hidden; 
         }
         .logo-img { 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; /* Stretches perfectly edge-to-edge */
+            object-fit: cover; 
             object-position: center; 
             mix-blend-mode: multiply; 
             opacity: 0.95; 
@@ -81,7 +81,47 @@
         .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
         .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
 
-        /* Increased top padding so the taller nav doesn't cover the title */
+        /* --- MOBILE BOTTOM NAVIGATION (Hidden on Desktop) --- */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            z-index: 1000;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 15px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav-item:hover, .mobile-nav-item:active {
+            color: var(--pink);
+        }
+
+        .mobile-nav-icon {
+            font-size: 1.4rem; 
+            margin-bottom: 4px;
+            font-weight: normal;
+        }
+
         .catalog-header { position: relative; padding: 260px 5% 40px; text-align: center; z-index: 1; }
         .catalog-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/images/logo.png'); background-size: 45%; background-position: center; background-repeat: no-repeat; opacity: 0.04; z-index: -1; pointer-events: none; }
         .catalog-header h1 { font-size: 3rem; margin-bottom: 10px; }
@@ -157,7 +197,6 @@
         .logout-btn { margin-top: auto; background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 15px; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; width: 100%; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 500;}
         .logout-btn:hover { background: var(--text-main); color: #fff; }
 
-        /* CART UI SPECIFICS */
         .cart-badge { background: var(--pink); color: white; border-radius: 50%; padding: 2px 7px; font-size: 0.7rem; position: absolute; top: -8px; right: -15px; font-weight: 600;}
         .cart-item { display: flex; gap: 15px; border-bottom: 1px solid #f0f0f0; padding: 15px 0; align-items: center;}
         .cart-item img { width: 70px; height: 70px; object-fit: contain; background: #f8f8f8; border-radius: 8px; padding: 5px; mix-blend-mode: multiply;}
@@ -170,12 +209,21 @@
         .cart-footer { margin-top: auto; padding-top: 20px; border-top: 2px solid #f0f0f0; background: #fff; position: sticky; bottom: 0; padding-bottom: 20px;}
         .cart-total-row { display: flex; justify-content: space-between; font-size: 1.3rem; font-family: 'Playfair Display', serif; font-weight: 600; margin-bottom: 20px; color: var(--text-main);}
 
+        .order-card { border: 1px solid #f0f0f0; border-radius: 12px; padding: 18px; margin-bottom: 15px; background: #fff; transition: border-color 0.3s; }
+        .order-card:hover { border-color: #dcdcdc; }
+        .order-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; }
+        .order-id { font-weight: 600; font-size: 0.9rem; color: var(--text-main); }
+        .order-status { color: var(--pink); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; background: rgba(226, 59, 112, 0.1); padding: 4px 10px; border-radius: 12px;}
+        .order-date { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .order-total { font-size: 1rem; color: var(--text-main); font-weight: 600; }
+
         @media (max-width: 768px) { 
-            nav { height: 120px; padding: 0 10px; }
-            .nav-pill { padding: 8px 12px; gap: 15px; border-radius: 20px; }
-            .nav-item { font-size: 0.75rem; letter-spacing: 0.5px; }
-            .dropdown-content { min-width: 150px; right: auto; left: -10px; } 
-            .catalog-header { padding-top: 180px; }
+            .nav-left .nav-pill, .nav-right .nav-pill { display: none; } 
+            .mobile-bottom-nav { display: flex; } 
+            body { padding-bottom: 70px; } 
+
+            nav { height: 100px; padding: 0 10px; }
+            .catalog-header { padding-top: 140px; }
             .modal-content { flex-direction: column; padding: 20px; } 
             .modal-main-image { max-height: 300px; } 
             .form-row { flex-direction: column; gap: 0; } 
@@ -225,6 +273,26 @@
             </div>
         </div>
     </nav>
+
+    <div class="mobile-bottom-nav">
+        <a href="/" class="mobile-nav-item">
+            <span class="mobile-nav-icon">⌂</span>
+            Home
+        </a>
+        <a href="/bundles.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">✦</span>
+            Catalog
+        </a>
+        <a href="#" id="mobile-cart-btn" class="mobile-nav-item" style="position: relative;">
+            <span class="mobile-nav-icon">🛒</span>
+            Cart
+            <span id="mobile-cart-badge" class="cart-badge" style="display:none; top: -5px; right: -10px;">0</span>
+        </a>
+        <a href="#" id="mobile-auth-btn" class="mobile-nav-item">
+            <span class="mobile-nav-icon">👤</span>
+            Account
+        </a>
+    </div>
 
     <div class="drawer-overlay" id="drawer-overlay"></div>
     
@@ -508,6 +576,17 @@
         closeCartBtn.addEventListener('click', closeAllDrawers);
         overlay.addEventListener('click', closeAllDrawers);
 
+        // ADD MOBILE BUTTON LISTENERS
+        document.getElementById('mobile-cart-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('cart-nav-btn').click(); 
+        });
+        
+        document.getElementById('mobile-auth-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('auth-btn').click(); 
+        });
+
         let activeCartItems = [];
         let activeCartTotal = 0;
 
@@ -619,6 +698,7 @@
             } else {
                 authBtn.textContent = "Login";
                 document.getElementById('cart-badge').style.display = 'none';
+                document.getElementById('mobile-cart-badge').style.display = 'none';
                 
                 document.getElementById('my-orders-container').innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
                 document.getElementById('saved-addresses-container').innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
@@ -667,9 +747,14 @@
             });
 
             const badge = document.getElementById('cart-badge');
+            const mobileBadge = document.getElementById('mobile-cart-badge');
+
             if (activeCartItems.length > 0) {
                 badge.textContent = totalItemsCount;
                 badge.style.display = 'inline-block';
+                mobileBadge.textContent = totalItemsCount;
+                mobileBadge.style.display = 'inline-block';
+
                 document.getElementById('cart-footer').style.display = 'block';
                 document.getElementById('cart-total-amount').textContent = `₹${activeCartTotal}`;
                 document.getElementById('checkout-pay-amount').textContent = `₹${activeCartTotal}`;
@@ -688,6 +773,7 @@
                 });
             } else {
                 badge.style.display = 'none';
+                mobileBadge.style.display = 'none';
                 document.getElementById('cart-footer').style.display = 'none';
                 container.innerHTML = `<div class="empty-state">Your cart is empty.<br>Discover our collections.</div>`;
             }
@@ -840,6 +926,7 @@
                         });
                         
                         await Promise.all(processPromises);
+                        
                         fetchCart(); 
                         checkInventory();
 
