@@ -57,7 +57,6 @@
         .discount-tag { background: var(--pink); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;}
         .delivery-fee { font-size: 0.8rem; color: var(--text-light); display: block; margin-top: 5px; }
         
-        /* STANDARD MODAL */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; display: flex; gap: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); cursor: default; }
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; line-height: 1; }
@@ -65,7 +64,6 @@
         
         .modal-left { flex: 1; background-color: #f8f8f8; border-radius: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; }
         
-        /* SMART MODAL GALLERY CSS */
         .modal-gallery { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 20px; }
         .modal-main-image { width: 100%; max-height: 400px; object-fit: contain; mix-blend-mode: multiply; transition: opacity 0.2s ease-in-out; }
         .modal-thumbnails { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 5px; justify-content: center; width: 100%; max-width: 100%; }
@@ -78,15 +76,20 @@
         .modal-right { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: left; }
         .buy-btn { background-color: var(--text-main); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 30px; cursor: pointer; margin-top: 20px; font-weight: 500; transition: all 0.3s; width: 100%; font-family: 'Inter', sans-serif;}
         .buy-btn:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
-        
-        /* NEW ADDRESS MODAL STYLING */
-        .address-modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; text-align: center; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
-        .address-modal-content h2 { font-size: 1.8rem; margin-bottom: 10px; color: var(--text-main); }
-        .address-modal-content p { color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem;}
-        .address-input { width: 100%; border: 1px solid #e0e0e0; border-radius: 12px; padding: 15px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 20px; resize: none; outline: none; transition: border-color 0.3s; }
-        .address-input:focus { border-color: var(--pink); }
 
-        @media (max-width: 768px) { .modal-content { flex-direction: column; padding: 20px; } .modal-main-image { max-height: 300px; } }
+        /* UPGRADED CHECKOUT MODAL STYLING */
+        .address-modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 600px; width: 90%; text-align: left; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
+        .address-modal-content h2 { font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main); font-family: 'Playfair Display', serif; }
+        .address-modal-content p { color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem; }
+        
+        .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 150px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+        .form-group input:focus { border-color: var(--pink); }
+        .align-center { align-items: flex-end; }
+
+        @media (max-width: 768px) { .modal-content { flex-direction: column; padding: 20px; } .modal-main-image { max-height: 300px; } .form-row { flex-direction: column; gap: 0; } .form-group { margin-bottom: 15px; } }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -175,10 +178,72 @@
     <div id="custom-address-modal" class="modal">
         <div class="address-modal-content">
             <span class="close-btn" onclick="document.getElementById('custom-address-modal').style.display='none'">&times;</span>
-            <h2>Shipping Details</h2>
-            <p>Where should we deliver your royal collection?</p>
-            <textarea id="shipping-address-input" class="address-input" rows="4" placeholder="Enter your full street address, city, state, and Pincode..."></textarea>
-            <button class="buy-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+            <h2>Checkout Details</h2>
+            <p>Review your shipping information and order quantity.</p>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name*</label>
+                    <input type="text" id="chk-fname" placeholder="Enter first name" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name*</label>
+                    <input type="text" id="chk-lname" placeholder="Enter last name" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Address Line 1*</label>
+                    <input type="text" id="chk-add1" placeholder="Flat/House No, Floor, Building" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Address Line 2</label>
+                    <input type="text" id="chk-add2" placeholder="Colony, Street, Locality (Optional)">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>City*</label>
+                    <input type="text" id="chk-city" placeholder="e.g. Mumbai" required>
+                </div>
+                <div class="form-group">
+                    <label>State*</label>
+                    <input type="text" id="chk-state" placeholder="e.g. Maharashtra" required>
+                </div>
+                <div class="form-group">
+                    <label>Pincode*</label>
+                    <input type="number" id="chk-pin" placeholder="000000" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Contact Number*</label>
+                    <input type="tel" id="chk-phone1" placeholder="+91" required>
+                </div>
+                <div class="form-group">
+                    <label>Alternate Number</label>
+                    <input type="tel" id="chk-phone2" placeholder="(Optional)">
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.05); margin: 20px 0;">
+
+            <div class="form-row align-center">
+                <div class="form-group" style="flex: 0.5;">
+                    <label>Quantity</label>
+                    <input type="number" id="chk-qty" min="1" value="1" style="text-align: center;" required>
+                </div>
+                <div style="flex: 1.5; text-align: right;">
+                    <button class="buy-btn" style="margin-top:0; width: 100%;" onclick="proceedToPayment()">Proceed to Pay</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -275,16 +340,13 @@
     </footer>
 
     <script>
-        // GALLERY IMAGE SWAP FUNCTION
         function changeImage(slug, newSrc, thumbElement) {
             const mainImg = document.getElementById('main-img-' + slug);
             mainImg.style.opacity = 0;
-            
             setTimeout(() => {
                 mainImg.src = newSrc;
                 mainImg.style.opacity = 1;
             }, 200);
-
             const thumbnails = thumbElement.parentElement.querySelectorAll('.thumb-img');
             thumbnails.forEach(t => t.classList.remove('active'));
             thumbElement.classList.add('active');
@@ -309,7 +371,6 @@
                             card.style.display = 'none';
                         }
                     });
-
                     buttons.forEach(btn => {
                         if (btn.getAttribute('data-filter') === filterValue) {
                             btn.classList.add('active');
@@ -318,10 +379,7 @@
                         }
                     });
                 }
-
-                if (collectionParam) {
-                    filterProducts(collectionParam);
-                }
+                if (collectionParam) filterProducts(collectionParam);
 
                 buttons.forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -336,10 +394,10 @@
     </script>
 
     <script type="module">
-        // NEW: IMPORTED COLLECTION AND ADDDOC FOR ORDERS
+        // IMPORT getDoc TO FETCH SAVED PROFILE DATA
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA7X33xKrmG8RA-4C6eSSOvN-gjNxFQ3s0",
@@ -412,78 +470,132 @@
             await signOut(auth);
         });
 
-        // NEW CHECKOUT FLOW: 1. Store Selection, 2. Open Address Modal, 3. Process Razorpay
         let currentCheckoutItem = {};
 
-        window.startCheckout = function(productCode, productName, price, slug) {
+        window.startCheckout = async function(productCode, productName, price, slug) {
             if (!auth.currentUser) {
                 alert("Please login from the top right menu to place an order.");
                 openDrawer(); 
                 return;
             }
             
-            // Save the item details
             currentCheckoutItem = { productCode, productName, price };
             
-            // Hide product modal and show address modal
+            // FETCH SAVED PROFILE DATA
+            try {
+                const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
+                if (userDoc.exists() && userDoc.data().shippingAddress) {
+                    const addr = userDoc.data().shippingAddress;
+                    document.getElementById('chk-fname').value = addr.firstName || '';
+                    document.getElementById('chk-lname').value = addr.lastName || '';
+                    document.getElementById('chk-add1').value = addr.line1 || '';
+                    document.getElementById('chk-add2').value = addr.line2 || '';
+                    document.getElementById('chk-city').value = addr.city || '';
+                    document.getElementById('chk-state').value = addr.state || '';
+                    document.getElementById('chk-pin').value = addr.pincode || '';
+                    document.getElementById('chk-phone1').value = addr.phone1 || '';
+                    document.getElementById('chk-phone2').value = addr.phone2 || '';
+                }
+            } catch (err) {
+                console.log("No saved address found or error fetching.");
+            }
+
+            // Reset quantity to 1
+            document.getElementById('chk-qty').value = 1;
+            
             document.getElementById('modal-' + slug).style.display = 'none';
             document.getElementById('custom-address-modal').style.display = 'flex';
         };
 
-        window.proceedToPayment = function() {
-            const addressInput = document.getElementById('shipping-address-input').value;
+        window.proceedToPayment = async function() {
+            // GRAB ALL FORM VALUES
+            const formObj = {
+                firstName: document.getElementById('chk-fname').value.trim(),
+                lastName: document.getElementById('chk-lname').value.trim(),
+                line1: document.getElementById('chk-add1').value.trim(),
+                line2: document.getElementById('chk-add2').value.trim(),
+                city: document.getElementById('chk-city').value.trim(),
+                state: document.getElementById('chk-state').value.trim(),
+                pincode: document.getElementById('chk-pin').value.trim(),
+                phone1: document.getElementById('chk-phone1').value.trim(),
+                phone2: document.getElementById('chk-phone2').value.trim(),
+                quantity: parseInt(document.getElementById('chk-qty').value) || 1
+            };
             
-            if (addressInput.trim() === "") {
-                alert("Please enter a valid shipping address.");
+            // Basic Validation
+            if (!formObj.firstName || !formObj.lastName || !formObj.line1 || !formObj.city || !formObj.state || !formObj.pincode || !formObj.phone1) {
+                alert("Please fill in all required fields (marked with *).");
                 return;
             }
 
-            // Hide the address modal
+            // MULTIPLY PRICE BY QUANTITY
+            const unitPrice = parseInt(currentCheckoutItem.price);
+            const totalAmount = unitPrice * formObj.quantity;
+
+            // FORMAT ADDRESS STRING FOR DB/EMAIL
+            const fullAddressString = `${formObj.firstName} ${formObj.lastName}\n${formObj.line1}\n${formObj.line2 ? formObj.line2 + '\n' : ''}${formObj.city}, ${formObj.state} - ${formObj.pincode}\nPh: ${formObj.phone1} ${formObj.phone2 ? ', ' + formObj.phone2 : ''}`;
+
             document.getElementById('custom-address-modal').style.display = 'none';
             
             // Launch Razorpay
-            processRazorpay(currentCheckoutItem.productCode, currentCheckoutItem.productName, currentCheckoutItem.price, addressInput);
+            processRazorpay(currentCheckoutItem.productCode, currentCheckoutItem.productName, totalAmount, formObj, fullAddressString);
         };
 
-        async function processRazorpay(productCode, productName, price, shippingAddress) {
+        async function processRazorpay(productCode, productName, totalAmount, formObj, formattedAddress) {
             const user = auth.currentUser;
-            const amountInPaise = parseInt(price) * 100;
+            const amountInPaise = totalAmount * 100;
 
             const options = {
-                key: "rzp_test_SiE0EnXNjaYjvC", // YOUR TEST KEY IS SECURED HERE
+                key: "rzp_test_SiE0EnXNjaYjvC", 
                 amount: amountInPaise,
                 currency: "INR",
                 name: "RangMeera",
-                description: "Purchase: " + productCode,
+                description: `Purchase: ${productCode} (Qty: ${formObj.quantity})`,
                 image: "/images/logo.png",
                 handler: async function (response) {
                     const paymentId = response.razorpay_payment_id;
 
                     try {
-                        // 1. Save to Firebase (NOW UNLOCKED)
+                        // 1. SAVE NEW ADDRESS TO USER PROFILE
+                        await setDoc(doc(db, "users", user.uid), {
+                            shippingAddress: {
+                                firstName: formObj.firstName,
+                                lastName: formObj.lastName,
+                                line1: formObj.line1,
+                                line2: formObj.line2,
+                                city: formObj.city,
+                                state: formObj.state,
+                                pincode: formObj.pincode,
+                                phone1: formObj.phone1,
+                                phone2: formObj.phone2
+                            }
+                        }, { merge: true });
+
+                        // 2. SAVE THE ORDER
                         await addDoc(collection(db, "orders"), {
                             uid: user.uid,
                             product_code: productCode,
                             product_name: productName,
-                            amount: price,
-                            shipping_address: shippingAddress,
+                            quantity: formObj.quantity,
+                            amount_paid: totalAmount,
+                            shipping_address: formattedAddress,
                             payment_id: paymentId,
                             status: "Processing",
                             date: new Date()
                         });
 
-                        // 2. Send EmailJS Notification
+                        // 3. SEND EMAIL NOTIFICATION
                         await emailjs.send("service_w8lur8r", "template_jrx6bfd", {
-                            customer_name: user.displayName || "Guest",
+                            customer_name: `${formObj.firstName} ${formObj.lastName}`,
                             customer_email: user.email,
-                            phone_number: "Captured via Razorpay", 
-                            product_code: productCode + " - " + productName,
-                            amount: price,
-                            shipping_address: shippingAddress,
+                            phone_number: formObj.phone1, 
+                            product_code: `${productCode} - ${productName} (Qty: ${formObj.quantity})`,
+                            amount: totalAmount,
+                            shipping_address: formattedAddress,
                             payment_id: paymentId
                         });
 
-                        alert("Payment Successful! 🎉 Your order has been placed successfully. Order ID: " + paymentId);
+                        alert(`Payment Successful! 🎉 Your order for ${formObj.quantity}x ${productName} has been placed. Order ID: ` + paymentId);
                         
                     } catch (error) {
                         console.error("Order processing error:", error);
@@ -491,8 +603,9 @@
                     }
                 },
                 prefill: {
-                    name: user.displayName,
+                    name: `${formObj.firstName} ${formObj.lastName}`,
                     email: user.email,
+                    contact: formObj.phone1
                 },
                 theme: { color: "#e23b70" }
             };
