@@ -3,7 +3,7 @@ backend:
   repo: Rangmeera/rangmeera-cms
   branch: main
 
-media_folder: "src/images" # Where your uploaded photos will go
+media_folder: "src/images" 
 public_folder: "/images"
 
 collections:
@@ -17,10 +17,11 @@ collections:
       - {label: "Necklace Name", name: "name", widget: "string"}
       - {label: "Regular Price (MRP)", name: "price", widget: "string"}
       - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Total Units in Stock", name: "stock", widget: "number", default: 5, value_type: "int"}
       - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
-      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Occasion", name: "occasion", widget: "string", required: false}
       - {label: "Primary Color", name: "color", widget: "string", required: false}
-      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Stone Type", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
       - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
@@ -36,10 +37,11 @@ collections:
       - {label: "Earrings Name", name: "name", widget: "string"}
       - {label: "Regular Price (MRP)", name: "price", widget: "string"}
       - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Total Units in Stock", name: "stock", widget: "number", default: 5, value_type: "int"}
       - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
-      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Occasion", name: "occasion", widget: "string", required: false}
       - {label: "Primary Color", name: "color", widget: "string", required: false}
-      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Stone Type", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
       - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
@@ -55,10 +57,11 @@ collections:
       - {label: "Bracelet Name", name: "name", widget: "string"}
       - {label: "Regular Price (MRP)", name: "price", widget: "string"}
       - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Total Units in Stock", name: "stock", widget: "number", default: 5, value_type: "int"}
       - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
-      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Occasion", name: "occasion", widget: "string", required: false}
       - {label: "Primary Color", name: "color", widget: "string", required: false}
-      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Stone Type", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
       - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
@@ -74,10 +77,11 @@ collections:
       - {label: "Bangle Name", name: "name", widget: "string"}
       - {label: "Regular Price (MRP)", name: "price", widget: "string"}
       - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Total Units in Stock", name: "stock", widget: "number", default: 5, value_type: "int"}
       - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
-      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Occasion", name: "occasion", widget: "string", required: false}
       - {label: "Primary Color", name: "color", widget: "string", required: false}
-      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Stone Type", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
       - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
@@ -93,10 +97,11 @@ collections:
       - {label: "Ring Name", name: "name", widget: "string"}
       - {label: "Regular Price (MRP)", name: "price", widget: "string"}
       - {label: "Sale Price (Optional)", name: "sale_price", widget: "string", required: false}
+      - {label: "Total Units in Stock", name: "stock", widget: "number", default: 5, value_type: "int"}
       - {label: "Delivery Fee (Optional)", name: "delivery_fee", widget: "string", required: false}
-      - {label: "Occasion (e.g., Wedding, Festive, Everyday)", name: "occasion", widget: "string", required: false}
+      - {label: "Occasion", name: "occasion", widget: "string", required: false}
       - {label: "Primary Color", name: "color", widget: "string", required: false}
-      - {label: "Stone Type (e.g., Faux Ruby, Kundan, Pearl)", name: "stone", widget: "string", required: false}
+      - {label: "Stone Type", name: "stone", widget: "string", required: false}
       - {label: "Product Image", name: "image", widget: "image"}
       - {label: "Gallery (Extra Photos)", name: "gallery", widget: "list", required: false, field: {label: "Photo", widget: "image"}}
       - {label: "Description", name: "body", widget: "markdown"}
