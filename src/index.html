@@ -30,21 +30,20 @@
 
         h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
 
-        /* UPGRADED FULL-WIDTH NAV STYLING */
+        /* UPGRADED FULL-WIDTH NAV STYLING WITH PILLS */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 5%;
-            height: 140px; /* Slightly taller to fit the grand banner */
-            background-color: rgba(252, 246, 242, 0.95);
-            backdrop-filter: blur(10px);
+            padding: 0 3%;
+            height: 160px; /* Taller to prevent aggressive banner cropping */
+            background-color: var(--bg-color);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            overflow: hidden; /* Keeps the stretched image inside the nav */
+            overflow: hidden; 
         }
 
         .nav-left, .nav-right { 
@@ -53,10 +52,24 @@
             align-items: center; 
             position: relative;
             z-index: 10;
-            pointer-events: none; /* Allows clicks to pass through empty space to the logo */
+            pointer-events: none; 
         }
         .nav-left { justify-content: flex-start; }
-        .nav-right { justify-content: flex-end; gap: 30px; }
+        .nav-right { justify-content: flex-end; }
+
+        /* THE FROSTED GLASS PILL FOR READABILITY */
+        .nav-pill {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 12px 28px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            pointer-events: auto; /* Re-enables clicking inside the pill */
+            border: 1px solid rgba(226, 59, 112, 0.08); /* Very subtle pink border */
+        }
 
         /* FULL EDGE-TO-EDGE BANNER LOGIC */
         .logo-link { 
@@ -72,19 +85,19 @@
         .logo-img { 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; /* Stretches edge-to-edge beautifully */
+            object-fit: cover; 
             object-position: center; 
-            mix-blend-mode: multiply; /* Blends the paper texture seamlessly */
+            mix-blend-mode: multiply; 
+            opacity: 0.85; /* Softens the banner slightly */
         }
 
         .nav-item {
-            pointer-events: auto; /* Makes the text clickable again */
             text-decoration: none; color: var(--text-main); font-size: 0.9rem;
             letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase;
         }
         .nav-item:hover { color: var(--pink); }
 
-        .dropdown { position: relative; display: flex; align-items: center; height: 100%; pointer-events: auto;}
+        .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
         
         .dropdown-content {
             display: none; position: absolute; top: 100%; right: 0; 
@@ -215,6 +228,8 @@
         .order-total { font-size: 1rem; color: var(--text-main); font-weight: 600; }
 
         @media (max-width: 768px) { 
+            nav { height: 120px; padding: 0 15px; }
+            .nav-pill { padding: 8px 15px; gap: 15px; }
             .split-collections { flex-direction: column; height: auto; } 
             .split-item { height: 60vh; min-height: 400px; width: 100%; }
             .full-banner { height: 60vh; min-height: 400px; }
@@ -235,13 +250,14 @@
     <script type="text/javascript">
        (function(){ emailjs.init("lTpsgwT2__DySCIrW"); })();
     </script>
-
 </head>
 <body>
 
     <nav>
         <div class="nav-left">
-            <a href="/" class="nav-item">Home</a>
+            <div class="nav-pill">
+                <a href="/" class="nav-item">Home</a>
+            </div>
         </div>
         
         <a href="/" class="logo-link">
@@ -249,23 +265,25 @@
         </a>
 
         <div class="nav-right">
-            <div class="dropdown">
-                <a href="#collection" class="nav-item">Catalog ▾</a>
-                <div class="dropdown-content">
-                    <a href="/necklaces.html">Necklaces</a>
-                    <a href="/earrings.html">Earrings</a>
-                    <a href="/rings.html">Rings</a>
-                    <a href="/bangles.html">Bangles</a>
-                    <a href="/bundles.html">Sets & Bundles</a>
+            <div class="nav-pill">
+                <div class="dropdown">
+                    <a href="#collection" class="nav-item">Catalog ▾</a>
+                    <div class="dropdown-content">
+                        <a href="/necklaces.html">Necklaces</a>
+                        <a href="/earrings.html">Earrings</a>
+                        <a href="/rings.html">Rings</a>
+                        <a href="/bangles.html">Bangles</a>
+                        <a href="/bundles.html">Sets & Bundles</a>
+                    </div>
                 </div>
-            </div>
-            
-            <div style="position: relative; display: inline-block;">
-                <a href="#" id="cart-nav-btn" class="nav-item" style="font-weight: 500;">Cart</a>
-                <span id="cart-badge" class="cart-badge" style="display:none;">0</span>
-            </div>
+                
+                <div style="position: relative; display: inline-block;">
+                    <a href="#" id="cart-nav-btn" class="nav-item" style="font-weight: 500;">Cart</a>
+                    <span id="cart-badge" class="cart-badge" style="display:none;">0</span>
+                </div>
 
-            <a href="#" id="auth-btn" class="nav-item" style="font-weight: 500;">Login</a>
+                <a href="#" id="auth-btn" class="nav-item" style="font-weight: 500;">Login</a>
+            </div>
         </div>
     </nav>
 
