@@ -30,12 +30,13 @@
 
         h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
 
+        /* UPGRADED FULL-WIDTH NAV STYLING */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 5%;
-            height: 130px; 
+            height: 140px; /* Slightly taller to fit the grand banner */
             background-color: rgba(252, 246, 242, 0.95);
             backdrop-filter: blur(10px);
             position: fixed;
@@ -43,23 +44,47 @@
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(0,0,0,0.05);
+            overflow: hidden; /* Keeps the stretched image inside the nav */
         }
 
-        .nav-left, .nav-right { flex: 1; display: flex; align-items: center; }
+        .nav-left, .nav-right { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            position: relative;
+            z-index: 10;
+            pointer-events: none; /* Allows clicks to pass through empty space to the logo */
+        }
         .nav-left { justify-content: flex-start; }
         .nav-right { justify-content: flex-end; gap: 30px; }
 
-        /* UPGRADED LOGO BANNER STYLING */
-        .logo-link { flex: 0 1 auto; width: 550px; max-width: 50vw; display: flex; justify-content: center; }
-        .logo-img { width: 100%; height: auto; max-height: 120px; object-fit: contain; mix-blend-mode: multiply; }
+        /* FULL EDGE-TO-EDGE BANNER LOGIC */
+        .logo-link { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            justify-content: center; 
+            z-index: 1;
+        }
+        .logo-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Stretches edge-to-edge beautifully */
+            object-position: center; 
+            mix-blend-mode: multiply; /* Blends the paper texture seamlessly */
+        }
 
         .nav-item {
+            pointer-events: auto; /* Makes the text clickable again */
             text-decoration: none; color: var(--text-main); font-size: 0.9rem;
             letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase;
         }
         .nav-item:hover { color: var(--pink); }
 
-        .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
+        .dropdown { position: relative; display: flex; align-items: center; height: 100%; pointer-events: auto;}
         
         .dropdown-content {
             display: none; position: absolute; top: 100%; right: 0; 
@@ -239,7 +264,7 @@
                 <a href="#" id="cart-nav-btn" class="nav-item" style="font-weight: 500;">Cart</a>
                 <span id="cart-badge" class="cart-badge" style="display:none;">0</span>
             </div>
-            
+
             <a href="#" id="auth-btn" class="nav-item" style="font-weight: 500;">Login</a>
         </div>
     </nav>
@@ -486,7 +511,6 @@
         let activeCartItems = [];
         let activeCartTotal = 0;
 
-        // DYNAMIC PROFILE DATA: Fetch Past Orders
         async function fetchOrders() {
             if (!auth.currentUser) return;
             const ordersContainer = document.getElementById('my-orders-container');
@@ -505,7 +529,6 @@
                     orders.push({id: doc.id, ...doc.data()});
                 });
                 
-                // Sort newest to oldest
                 orders.sort((a, b) => b.date.toDate() - a.date.toDate());
 
                 let ordersHTML = '';
@@ -533,7 +556,6 @@
             }
         }
 
-        // DYNAMIC PROFILE DATA: Fetch Saved Address
         async function fetchAddress() {
             if (!auth.currentUser) return;
             const addressContainer = document.getElementById('saved-addresses-container');
@@ -568,7 +590,6 @@
                 document.getElementById('profile-email').textContent = user.email;
                 document.getElementById('profile-pic').src = user.photoURL || '/images/logo.png';
                 
-                // Fetch dynamic drawer content
                 fetchCart(); 
                 fetchOrders();
                 fetchAddress();
@@ -576,7 +597,6 @@
                 authBtn.textContent = "Login";
                 document.getElementById('cart-badge').style.display = 'none';
                 
-                // Clear dynamic drawer content
                 document.getElementById('my-orders-container').innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
                 document.getElementById('saved-addresses-container').innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
                 
@@ -748,10 +768,8 @@
                             date: new Date()
                         });
 
-                        // RECORD UNITS SOLD IN FIREBASE INVENTORY
                         const processPromises = activeCartItems.map(async item => {
                             if (item.subItems && item.subItems.length > 0) {
-                                // Decrement EACH individual component of the bundle
                                 item.subItems.forEach(subCode => {
                                     const invRef = doc(db, "inventory", subCode);
                                     processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
@@ -768,7 +786,6 @@
                         
                         await Promise.all(processPromises);
                         
-                        // Refresh data after successful checkout
                         fetchCart(); 
                         fetchOrders();
                         fetchAddress();
