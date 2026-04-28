@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* NEW: Seamless darker beige to blend perfectly with the header banner */
-            --bg-color: #e4d4c8; 
+            /* NEW: Exact darker tan from the circled shadow of the banner */
+            --bg-color: #dfd0c4; 
             --text-main: #1d1d1f; 
             --text-light: #86868b;
             --gold: #d4af37;
@@ -266,10 +266,10 @@
 
         /* UPGRADED MOBILE RESPONSIVENESS (Bottom Nav integration) */
         @media (max-width: 768px) { 
-            .nav-left .nav-pill, .nav-right .nav-pill { display: none; } 
-            .mobile-bottom-nav { display: flex; } 
+            .nav-left .nav-pill, .nav-right .nav-pill { display: none; } /* Hide pills on phone */
+            .mobile-bottom-nav { display: flex; } /* Show sticky bottom bar */
             
-            body { padding-bottom: 70px; } 
+            body { padding-bottom: 70px; } /* Prevents content from hiding behind bar */
             nav { height: 100px; padding: 0 10px; }
             .hero { padding-top: 140px; }
 
@@ -351,7 +351,7 @@
     </div>
 
     <div class="drawer-overlay" id="drawer-overlay"></div>
-
+    
     <div class="account-drawer" id="catalog-drawer">
         <span class="close-drawer" id="close-catalog-drawer">&times;</span>
         <h3 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 30px; color: var(--text-main); margin-top: 20px;">Explore</h3>
@@ -361,10 +361,10 @@
             <a href="/earrings.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">Earrings</a>
             <a href="/rings.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">Rings</a>
             <a href="/bangles.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">Bangles</a>
-            <a href="/bundles.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">Sets & Bundles</a>
+            <a href="/bundles.html" style="text-decoration: none; color: var(--text-main); font-size: 1.2rem; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-family: 'Inter', sans-serif; font-weight: 500; color: var(--pink);">Sets & Bundles</a>
         </div>
     </div>
-    
+
     <div class="account-drawer" id="account-drawer">
         <span class="close-drawer" id="close-acc-drawer">&times;</span>
         
@@ -604,7 +604,7 @@
         closeCatalogBtn.addEventListener('click', closeAllDrawers);
         overlay.addEventListener('click', closeAllDrawers);
 
-        // ADD MOBILE BUTTON LISTENERS
+        // MOBILE BUTTON LISTENERS
         document.getElementById('mobile-cart-btn').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('cart-nav-btn').click(); 
@@ -695,6 +695,28 @@
             }
         }
 
+        async function checkInventory() {
+            try {
+                const invSnap = await getDocs(collection(db, "inventory"));
+                const soldTracker = {};
+                invSnap.forEach(document => {
+                    soldTracker[document.id] = document.data().units_sold || 0;
+                });
+
+                const btns = window.document.querySelectorAll('.add-cart-btn');
+                btns.forEach(btn => {
+                    const code = btn.getAttribute('data-code');
+                    const totalStock = parseInt(btn.getAttribute('data-stock')) || 5;
+                    const sold = soldTracker[code] || 0;
+                    
+                    if ((totalStock - sold) <= 0) {
+                        btn.textContent = "Out of Stock";
+                        btn.disabled = true;
+                    }
+                });
+            } catch (e) { console.log("Inventory fetch error:", e); }
+        }
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 authBtn.textContent = "My Account";
@@ -705,6 +727,7 @@
                 fetchCart(); 
                 fetchOrders();
                 fetchAddress();
+                checkInventory();
             } else {
                 authBtn.textContent = "Login";
                 document.getElementById('cart-badge').style.display = 'none';
@@ -714,6 +737,7 @@
                 document.getElementById('saved-addresses-container').innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
                 
                 closeAllDrawers(); 
+                checkInventory();
             }
         });
 
@@ -787,6 +811,44 @@
                 container.innerHTML = `<div class="empty-state">Your cart is empty.<br>Discover our collections.</div>`;
             }
         }
+
+        window.addToCart = async function(productCode, productName, price, image, slug) {
+            if (!auth.currentUser) {
+                alert("Please login to add items to your cart.");
+                return;
+            }
+
+            const qtyInput = document.getElementById('qty-' + slug);
+            const qtyToAdd = parseInt(qtyInput.value) || 1;
+
+            try {
+                const q = query(collection(db, "carts"), where("uid", "==", auth.currentUser.uid), where("productCode", "==", productCode));
+                const snap = await getDocs(q);
+
+                if (!snap.empty) {
+                    const docRef = snap.docs[0].ref;
+                    const newQty = snap.docs[0].data().quantity + qtyToAdd;
+                    await setDoc(docRef, { quantity: newQty }, { merge: true });
+                } else {
+                    await addDoc(collection(db, "carts"), {
+                        uid: auth.currentUser.uid,
+                        productCode: productCode,
+                        productName: productName,
+                        price: price,
+                        image: image,
+                        quantity: qtyToAdd,
+                        addedAt: new Date()
+                    });
+                }
+
+                document.getElementById('modal-' + slug).style.display = 'none';
+                qtyInput.value = 1; 
+                await fetchCart();
+                openCartDrawer();
+            } catch (error) {
+                console.error("Error adding to cart: ", error);
+            }
+        };
 
         window.removeFromCart = async function(docId) {
             try {
@@ -899,6 +961,7 @@
                         await Promise.all(processPromises);
                         
                         fetchCart(); 
+                        checkInventory();
 
                         await emailjs.send("service_w8lur8r", "template_jrx6bfd", {
                             customer_name: `${formObj.firstName} ${formObj.lastName}`,
