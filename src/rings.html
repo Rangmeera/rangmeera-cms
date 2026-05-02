@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg-color: #e6dbce; 
+            /* Darker, warmer beige background */
+            --bg-color: #f3ebe4; 
             --text-main: #1d1d1f; 
             --text-light: #86868b; 
             --pink: #e23b70; 
@@ -18,25 +19,114 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); padding-bottom: 0; }
         h1, h2 { font-family: 'Playfair Display', serif; }
         
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 3%; height: clamp(140px, 16vw, 250px); background-color: var(--bg-color); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .nav-left, .nav-right { flex: 1; display: flex; align-items: center; position: relative; z-index: 10; pointer-events: none; }
+        /* FULL-WIDTH NAV - NO OVERFLOW HIDDEN SO DROPDOWN WORKS */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3%;
+            height: clamp(140px, 16vw, 250px); 
+            background-color: var(--bg-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-left, .nav-right { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            position: relative;
+            z-index: 10;
+            pointer-events: none; 
+        }
         .nav-left { justify-content: flex-start; }
         .nav-right { justify-content: flex-end; }
-        .nav-pill { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); padding: 12px 28px; border-radius: 40px; display: flex; align-items: center; gap: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); pointer-events: auto; }
-        .logo-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; z-index: 1; overflow: hidden; }
-        .logo-img { width: 100%; height: 100%; object-fit: cover; object-position: center; mix-blend-mode: multiply; opacity: 0.95; }
+
+        /* FROSTED GLASS PILLS */
+        .nav-pill {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 12px 28px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            pointer-events: auto; 
+        }
+
+        /* EDGE-TO-EDGE BANNER LOGIC */
+        .logo-link { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: block; 
+            z-index: 1;
+            overflow: hidden; 
+        }
+        .logo-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            object-position: center; 
+            mix-blend-mode: multiply; 
+            opacity: 0.95; 
+        }
+
         .nav-item { text-decoration: none; color: var(--text-main); font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
         .nav-item:hover { color: var(--pink); }
+        
         .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
         .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #ffffff; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 12px; padding: 15px 0; z-index: 1001; text-align: left; }
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
         .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
 
-        .mobile-bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; justify-content: space-around; align-items: center; padding: 0 15px; border-top: 1px solid rgba(0,0,0,0.05); }
-        .mobile-nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-light); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.3s; }
-        .mobile-nav-item:hover, .mobile-nav-item:active { color: var(--pink); }
-        .mobile-nav-icon { font-size: 1.4rem; margin-bottom: 4px; font-weight: normal; }
+        /* --- MOBILE BOTTOM NAVIGATION --- */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            z-index: 1000;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 15px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav-item:hover, .mobile-nav-item:active {
+            color: var(--pink);
+        }
+
+        .mobile-nav-icon {
+            font-size: 1.4rem; 
+            margin-bottom: 4px;
+            font-weight: normal;
+        }
 
         .catalog-header { position: relative; padding: 260px 5% 40px; text-align: center; z-index: 1; }
         .catalog-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/images/logo.png'); background-size: 45%; background-position: center; background-repeat: no-repeat; opacity: 0.04; z-index: -1; pointer-events: none; }
@@ -50,10 +140,13 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; padding: 0 5% 100px; }
         .product-card { background: #ffffff; border-radius: 20px; overflow: hidden; transition: transform 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: left; display: flex; flex-direction: column;}
         .product-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.08); cursor: pointer; }
+        
         .product-image { width: 100%; height: 350px; object-fit: contain; background-color: #f8f8f8; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.03); mix-blend-mode: multiply; }
+        
         .product-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1;}
         .product-code { color: var(--text-light); font-size: 0.8rem; margin-bottom: 5px; display: block; letter-spacing: 0.5px; text-transform: uppercase;}
         .product-info h3 { font-size: 1.1rem; font-family: 'Inter', sans-serif; font-weight: 600; margin-bottom: 8px; color: var(--text-main);}
+        
         .product-info .desc { color: var(--text-light); font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .product-info .desc p { margin: 0; }
         
@@ -64,6 +157,7 @@
         .discount-tag { background: var(--pink); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;}
         .delivery-fee { font-size: 0.8rem; color: var(--text-light); display: block; margin-top: 5px; }
         
+        /* MODALS & DRAWERS */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; display: flex; gap: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); cursor: default; }
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; line-height: 1; }
@@ -86,12 +180,6 @@
         .address-modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 600px; width: 90%; text-align: left; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
         .address-modal-content h2 { font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main); font-family: 'Playfair Display', serif; }
         .address-modal-content p { color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem; }
-        
-        /* UPI MODAL CSS */
-        .upi-modal-content { text-align: center; }
-        .qr-placeholder { width: 220px; height: 220px; margin: 20px auto; background: #fdf8f4; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid rgba(226, 59, 112, 0.1); padding: 10px; }
-        .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
-
         .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .form-group { flex: 1; min-width: 150px; display: flex; flex-direction: column; }
         .form-group label { font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -100,8 +188,10 @@
 
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1999; display: none; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.4s ease; }
         .drawer-overlay.active { display: block; opacity: 1; }
+        
         .account-drawer { position: fixed; top: 0; right: -450px; width: 450px; max-width: 100vw; height: 100vh; background: #ffffff; box-shadow: -10px 0 40px rgba(0,0,0,0.15); z-index: 2000; transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 50px 40px; display: flex; flex-direction: column; overflow-y: auto; }
         .account-drawer.open { right: 0; }
+        
         .close-drawer { position: absolute; top: 30px; right: 35px; font-size: 2.5rem; cursor: pointer; color: var(--text-light); line-height: 1; transition: color 0.3s; }
         .close-drawer:hover { color: var(--pink); }
         
@@ -109,6 +199,7 @@
         .profile-pic { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--text-main); padding: 3px; }
         .profile-info h3 { font-family: 'Playfair Display', serif; margin-bottom: 5px; font-size: 1.8rem; color: var(--text-main); }
         .profile-info p { color: var(--text-light); font-size: 0.95rem; }
+        
         .drawer-section { margin-bottom: 40px; }
         .drawer-section h4 { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); }
         .empty-state { color: var(--text-light); font-size: 0.95rem; background: #fafafa; padding: 25px; border-radius: 15px; text-align: center; border: 1px dashed rgba(0,0,0,0.1); line-height: 1.6; }
@@ -135,6 +226,7 @@
         .order-date { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
         .order-total { font-size: 1rem; color: var(--text-main); font-weight: 600; }
 
+        /* MOBILE RESPONSIVENESS */
         @media (max-width: 768px) { 
             .nav-left .nav-pill, .nav-right .nav-pill { display: none; } 
             .mobile-bottom-nav { display: flex; } 
@@ -150,6 +242,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
        (function(){ emailjs.init("lTpsgwT2__DySCIrW"); })();
@@ -260,16 +353,8 @@
         </div>
 
         <div class="cart-footer" id="cart-footer" style="display:none;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--text-light); font-size: 0.95rem;">
-                <span>Subtotal:</span>
-                <span id="cart-subtotal-amount">₹0</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-light); font-size: 0.95rem;">
-                <span>Delivery:</span>
-                <span id="cart-delivery-amount" style="color: var(--pink); font-weight: 500;">₹0</span>
-            </div>
             <div class="cart-total-row">
-                <span>Grand Total:</span>
+                <span>Subtotal:</span>
                 <span id="cart-total-amount">₹0</span>
             </div>
             <button class="buy-btn" onclick="openCheckoutFromCart()" style="margin-top:0; width: 100%;">Proceed to Checkout</button>
@@ -329,37 +414,10 @@
                 </div>
             </div>
             <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.05); margin: 20px 0;">
-            <button class="buy-btn" style="margin-top:0; width: 100%;" onclick="proceedToPayment()">Proceed to Pay <span id="checkout-pay-amount"></span></button>
+            <button class="buy-btn" style="margin-top:0; width: 100%;" onclick="proceedToPayment()">Pay <span id="checkout-pay-amount"></span></button>
         </div>
     </div>
 
-    <!-- NEW UPI PAYMENT MODAL -->
-    <div id="upi-payment-modal" class="modal">
-        <div class="address-modal-content upi-modal-content">
-            <span class="close-btn" onclick="document.getElementById('upi-payment-modal').style.display='none'">&times;</span>
-            <h2 style="margin-bottom: 5px;">Scan & Pay</h2>
-            <p style="margin-bottom: 15px;">Scan the QR code securely using any UPI app (GPay, PhonePe, Paytm) to complete your royal purchase.</p>
-            
-            <h3 style="color: var(--pink); font-family: 'Inter', sans-serif; font-size: 2.2rem; margin-bottom: 10px; font-weight: 600;" id="upi-amount-display">₹0</h3>
-            
-            <div class="qr-placeholder">
-                <img src="/images/upi-qr.jpg" alt="UPI QR Code" onerror="this.src='/images/logo.png'">
-            </div>
-            
-            <!-- Replace YOUR_UPI_ID_HERE with your actual business UPI ID -->
-            <p style="font-weight: 500; color: var(--text-main); margin-bottom: 25px; font-size: 1.1rem;">UPI ID: <span style="user-select: all; color: var(--pink);">YOUR_UPI_ID_HERE</span></p>
-            
-            <div class="form-group" style="text-align: left; margin-bottom: 25px;">
-                <label>Enter 12-Digit UTR / Ref Number*</label>
-                <input type="text" id="upi-utr" placeholder="e.g., 312345678901" required>
-                <span style="font-size: 0.75rem; color: var(--text-light); margin-top: 5px; display: block;">Found in your UPI app's transaction history after successful payment.</span>
-            </div>
-            
-            <button class="buy-btn" style="width: 100%;" onclick="confirmUPIPayment()">Confirm Payment</button>
-        </div>
-    </div>
-
-    <!-- HEADER FOR RINGS -->
     <div class="catalog-header">
         <h1>Rings</h1>
         <p>Make a statement with every gesture. Discover our exquisite selection of handcrafted rings, blending royal heritage with modern brilliance.</p>
@@ -372,7 +430,6 @@
     </div>
 
     <div class="grid">
-        <!-- RINGS LOOP -->
         {% for item in collections.rings %}
         
         <div class="product-card" data-collection="{{ item.data.collection_type }}" onclick="document.getElementById('modal-{{ item.fileSlug }}').style.display='flex'">
@@ -548,32 +605,51 @@
         closeCatalogBtn.addEventListener('click', closeAllDrawers);
         overlay.addEventListener('click', closeAllDrawers);
 
-        document.getElementById('mobile-cart-btn').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('cart-nav-btn').click(); });
-        document.getElementById('mobile-auth-btn').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('auth-btn').click(); });
-        document.getElementById('mobile-catalog-btn').addEventListener('click', (e) => { e.preventDefault(); openCatalogDrawer(); });
+        // MOBILE BUTTON LISTENERS
+        document.getElementById('mobile-cart-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('cart-nav-btn').click(); 
+        });
+        
+        document.getElementById('mobile-auth-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('auth-btn').click(); 
+        });
+
+        document.getElementById('mobile-catalog-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openCatalogDrawer();
+        });
 
         let activeCartItems = [];
         let activeCartTotal = 0;
-        let activeGrandTotal = 0;
-        let pendingOrderData = null;
 
         async function fetchOrders() {
             if (!auth.currentUser) return;
             const ordersContainer = document.getElementById('my-orders-container');
+            
             try {
                 const q = query(collection(db, "orders"), where("uid", "==", auth.currentUser.uid));
                 const querySnapshot = await getDocs(q);
+                
                 if (querySnapshot.empty) {
-                    ordersContainer.innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>'; return;
+                    ordersContainer.innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
+                    return;
                 }
+
                 let orders = [];
-                querySnapshot.forEach((doc) => { orders.push({id: doc.id, ...doc.data()}); });
+                querySnapshot.forEach((doc) => {
+                    orders.push({id: doc.id, ...doc.data()});
+                });
+                
                 orders.sort((a, b) => b.date.toDate() - a.date.toDate());
+
                 let ordersHTML = '';
                 orders.forEach(order => {
                     const dateObj = order.date.toDate();
                     const dateStr = dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
                     const displayId = order.payment_id ? order.payment_id.slice(-8).toUpperCase() : 'N/A';
+                    
                     ordersHTML += `
                         <div class="order-card">
                             <div class="order-header">
@@ -586,12 +662,17 @@
                     `;
                 });
                 ordersContainer.innerHTML = ordersHTML;
-            } catch (error) { console.error("Error fetching orders:", error); ordersContainer.innerHTML = '<div class="empty-state">Unable to load orders.</div>'; }
+                
+            } catch (error) {
+                console.error("Error fetching orders:", error);
+                ordersContainer.innerHTML = '<div class="empty-state">Unable to load orders.</div>';
+            }
         }
 
         async function fetchAddress() {
             if (!auth.currentUser) return;
             const addressContainer = document.getElementById('saved-addresses-container');
+            
             try {
                 const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
                 if (userDoc.exists() && userDoc.data().shippingAddress) {
@@ -600,25 +681,39 @@
                         <div style="background: #fafafa; padding: 18px; border-radius: 12px; border: 1px solid #f0f0f0; font-size: 0.9rem; line-height: 1.6;">
                             <strong style="color: var(--text-main); font-size: 1rem;">${addr.firstName} ${addr.lastName}</strong><br>
                             <span style="color: var(--text-light); margin-top: 8px; display: block;">
-                                ${addr.line1}<br>${addr.line2 ? addr.line2 + '<br>' : ''}${addr.city}, ${addr.state} - ${addr.pincode}<br>Ph: ${addr.phone1}
+                                ${addr.line1}<br>
+                                ${addr.line2 ? addr.line2 + '<br>' : ''}
+                                ${addr.city}, ${addr.state} - ${addr.pincode}<br>
+                                Ph: ${addr.phone1}
                             </span>
                         </div>
                     `;
-                } else { addressContainer.innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>'; }
-            } catch (error) { console.log("Error fetching address", error); }
+                } else {
+                    addressContainer.innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
+                }
+            } catch (error) {
+                console.log("Error fetching address", error);
+            }
         }
 
         async function checkInventory() {
             try {
                 const invSnap = await getDocs(collection(db, "inventory"));
                 const soldTracker = {};
-                invSnap.forEach(document => { soldTracker[document.id] = document.data().units_sold || 0; });
+                invSnap.forEach(document => {
+                    soldTracker[document.id] = document.data().units_sold || 0;
+                });
+
                 const btns = window.document.querySelectorAll('.add-cart-btn');
                 btns.forEach(btn => {
                     const code = btn.getAttribute('data-code');
                     const totalStock = parseInt(btn.getAttribute('data-stock')) || 5;
                     const sold = soldTracker[code] || 0;
-                    if ((totalStock - sold) <= 0) { btn.textContent = "Out of Stock"; btn.disabled = true; }
+                    
+                    if ((totalStock - sold) <= 0) {
+                        btn.textContent = "Out of Stock";
+                        btn.disabled = true;
+                    }
                 });
             } catch (e) { console.log("Inventory fetch error:", e); }
         }
@@ -629,14 +724,21 @@
                 document.getElementById('profile-name').textContent = user.displayName;
                 document.getElementById('profile-email').textContent = user.email;
                 document.getElementById('profile-pic').src = user.photoURL || '/images/logo.png';
-                fetchCart(); fetchOrders(); fetchAddress(); checkInventory();
+                
+                fetchCart(); 
+                fetchOrders();
+                fetchAddress();
+                checkInventory();
             } else {
                 authBtn.textContent = "Login";
                 document.getElementById('cart-badge').style.display = 'none';
                 document.getElementById('mobile-cart-badge').style.display = 'none';
+                
                 document.getElementById('my-orders-container').innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
                 document.getElementById('saved-addresses-container').innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
-                closeAllDrawers(); checkInventory();
+                
+                closeAllDrawers(); 
+                checkInventory();
             }
         });
 
@@ -666,10 +768,13 @@
             activeCartTotal = 0;
             const container = document.getElementById('cart-items-container');
             container.innerHTML = '';
+
             let totalItemsCount = 0;
 
             querySnapshot.forEach((doc) => {
-                let data = doc.data(); data.id = doc.id; data.quantity = data.quantity || 1; 
+                let data = doc.data();
+                data.id = doc.id; 
+                data.quantity = data.quantity || 1; 
                 activeCartItems.push(data);
                 activeCartTotal += (parseInt(data.price) * data.quantity);
                 totalItemsCount += data.quantity;
@@ -679,17 +784,14 @@
             const mobileBadge = document.getElementById('mobile-cart-badge');
 
             if (activeCartItems.length > 0) {
-                badge.textContent = totalItemsCount; badge.style.display = 'inline-block';
-                mobileBadge.textContent = totalItemsCount; mobileBadge.style.display = 'inline-block';
-                document.getElementById('cart-footer').style.display = 'block';
-                
-                let deliveryFee = activeCartTotal < 1000 ? 99 : 0;
-                activeGrandTotal = activeCartTotal + deliveryFee;
+                badge.textContent = totalItemsCount;
+                badge.style.display = 'inline-block';
+                mobileBadge.textContent = totalItemsCount;
+                mobileBadge.style.display = 'inline-block';
 
-                document.getElementById('cart-subtotal-amount').textContent = `₹${activeCartTotal}`;
-                document.getElementById('cart-delivery-amount').textContent = deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`;
-                document.getElementById('cart-total-amount').textContent = `₹${activeGrandTotal}`;
-                document.getElementById('checkout-pay-amount').textContent = `₹${activeGrandTotal}`;
+                document.getElementById('cart-footer').style.display = 'block';
+                document.getElementById('cart-total-amount').textContent = `₹${activeCartTotal}`;
+                document.getElementById('checkout-pay-amount').textContent = `₹${activeCartTotal}`;
                 
                 activeCartItems.forEach(item => {
                     container.innerHTML += `
@@ -704,106 +806,187 @@
                     `;
                 });
             } else {
-                badge.style.display = 'none'; mobileBadge.style.display = 'none';
+                badge.style.display = 'none';
+                mobileBadge.style.display = 'none';
                 document.getElementById('cart-footer').style.display = 'none';
                 container.innerHTML = `<div class="empty-state">Your cart is empty.<br>Discover our collections.</div>`;
             }
         }
 
         window.addToCart = async function(productCode, productName, price, image, slug) {
-            if (!auth.currentUser) { alert("Please login to add items to your cart."); return; }
+            if (!auth.currentUser) {
+                alert("Please login to add items to your cart.");
+                return;
+            }
+
             const qtyInput = document.getElementById('qty-' + slug);
             const qtyToAdd = parseInt(qtyInput.value) || 1;
+
             try {
                 const q = query(collection(db, "carts"), where("uid", "==", auth.currentUser.uid), where("productCode", "==", productCode));
                 const snap = await getDocs(q);
+
                 if (!snap.empty) {
                     const docRef = snap.docs[0].ref;
                     const newQty = snap.docs[0].data().quantity + qtyToAdd;
                     await setDoc(docRef, { quantity: newQty }, { merge: true });
                 } else {
-                    await addDoc(collection(db, "carts"), { uid: auth.currentUser.uid, productCode: productCode, productName: productName, price: price, image: image, quantity: qtyToAdd, addedAt: new Date() });
+                    await addDoc(collection(db, "carts"), {
+                        uid: auth.currentUser.uid,
+                        productCode: productCode,
+                        productName: productName,
+                        price: price,
+                        image: image,
+                        quantity: qtyToAdd,
+                        addedAt: new Date()
+                    });
                 }
+
                 document.getElementById('modal-' + slug).style.display = 'none';
-                qtyInput.value = 1; await fetchCart(); openCartDrawer();
-            } catch (error) { console.error("Error adding to cart: ", error); }
+                qtyInput.value = 1; 
+                await fetchCart();
+                openCartDrawer();
+            } catch (error) {
+                console.error("Error adding to cart: ", error);
+            }
         };
 
-        window.removeFromCart = async function(docId) { try { await deleteDoc(doc(db, "carts", docId)); fetchCart(); } catch (error) { console.error("Error removing item:", error); } };
+        window.removeFromCart = async function(docId) {
+            try {
+                await deleteDoc(doc(db, "carts", docId));
+                fetchCart();
+            } catch (error) {
+                console.error("Error removing item:", error);
+            }
+        };
 
         window.openCheckoutFromCart = async function() {
             if (activeCartItems.length === 0) return;
+            
             closeAllDrawers();
+            
             try {
                 const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
                 if (userDoc.exists() && userDoc.data().shippingAddress) {
                     const addr = userDoc.data().shippingAddress;
-                    document.getElementById('chk-fname').value = addr.firstName || ''; document.getElementById('chk-lname').value = addr.lastName || '';
-                    document.getElementById('chk-add1').value = addr.line1 || ''; document.getElementById('chk-add2').value = addr.line2 || '';
-                    document.getElementById('chk-city').value = addr.city || ''; document.getElementById('chk-state').value = addr.state || '';
-                    document.getElementById('chk-pin').value = addr.pincode || ''; document.getElementById('chk-phone1').value = addr.phone1 || ''; document.getElementById('chk-phone2').value = addr.phone2 || '';
+                    document.getElementById('chk-fname').value = addr.firstName || '';
+                    document.getElementById('chk-lname').value = addr.lastName || '';
+                    document.getElementById('chk-add1').value = addr.line1 || '';
+                    document.getElementById('chk-add2').value = addr.line2 || '';
+                    document.getElementById('chk-city').value = addr.city || '';
+                    document.getElementById('chk-state').value = addr.state || '';
+                    document.getElementById('chk-pin').value = addr.pincode || '';
+                    document.getElementById('chk-phone1').value = addr.phone1 || '';
+                    document.getElementById('chk-phone2').value = addr.phone2 || '';
                 }
             } catch (err) { console.log(err); }
+
             document.getElementById('custom-address-modal').style.display = 'flex';
         };
 
         window.proceedToPayment = async function() {
             const formObj = {
-                firstName: document.getElementById('chk-fname').value.trim(), lastName: document.getElementById('chk-lname').value.trim(),
-                line1: document.getElementById('chk-add1').value.trim(), line2: document.getElementById('chk-add2').value.trim(),
-                city: document.getElementById('chk-city').value.trim(), state: document.getElementById('chk-state').value.trim(),
-                pincode: document.getElementById('chk-pin').value.trim(), phone1: document.getElementById('chk-phone1').value.trim(), phone2: document.getElementById('chk-phone2').value.trim()
+                firstName: document.getElementById('chk-fname').value.trim(),
+                lastName: document.getElementById('chk-lname').value.trim(),
+                line1: document.getElementById('chk-add1').value.trim(),
+                line2: document.getElementById('chk-add2').value.trim(),
+                city: document.getElementById('chk-city').value.trim(),
+                state: document.getElementById('chk-state').value.trim(),
+                pincode: document.getElementById('chk-pin').value.trim(),
+                phone1: document.getElementById('chk-phone1').value.trim(),
+                phone2: document.getElementById('chk-phone2').value.trim()
             };
-            if (!formObj.firstName || !formObj.lastName || !formObj.line1 || !formObj.city || !formObj.state || !formObj.pincode || !formObj.phone1) { alert("Please fill in all required fields (marked with *)."); return; }
             
-            const fullAddressString = `${formObj.firstName} ${formObj.lastName}\n${formObj.line1}\n${formObj.line2 ? formObj.line2 + '\n' : ''}${formObj.city}, ${formObj.state} - ${formObj.pincode}\nPh: ${formObj.phone1} ${formObj.phone2 ? ', ' + formObj.phone2 : ''}`;
-            let productListStr = ""; 
-            activeCartItems.forEach(item => { productListStr += `• ${item.productName} (x${item.quantity})\n`; });
+            if (!formObj.firstName || !formObj.lastName || !formObj.line1 || !formObj.city || !formObj.state || !formObj.pincode || !formObj.phone1) {
+                alert("Please fill in all required fields (marked with *).");
+                return;
+            }
 
-            pendingOrderData = { formObj, fullAddressString, productListStr };
-            
+            const fullAddressString = `${formObj.firstName} ${formObj.lastName}\n${formObj.line1}\n${formObj.line2 ? formObj.line2 + '\n' : ''}${formObj.city}, ${formObj.state} - ${formObj.pincode}\nPh: ${formObj.phone1} ${formObj.phone2 ? ', ' + formObj.phone2 : ''}`;
+
             document.getElementById('custom-address-modal').style.display = 'none';
-            document.getElementById('upi-amount-display').textContent = `₹${activeGrandTotal}`;
-            document.getElementById('upi-payment-modal').style.display = 'flex';
+            
+            let productListStr = "";
+            let productCodesStr = "";
+            activeCartItems.forEach(item => {
+                productListStr += `• ${item.productName} (x${item.quantity})\n`;
+                productCodesStr += `${item.productCode}, `;
+            });
+
+            processRazorpay(productCodesStr, productListStr, activeCartTotal, formObj, fullAddressString);
         };
 
-        window.confirmUPIPayment = async function() {
-            const utrNumber = document.getElementById('upi-utr').value.trim();
+        async function processRazorpay(productCodes, productListStr, totalAmount, formObj, formattedAddress) {
             const user = auth.currentUser;
-            
-            if (!utrNumber || utrNumber.length < 12) { alert("Please enter a valid 12-digit UTR or Reference Number provided by your UPI app."); return; }
+            const amountInPaise = totalAmount * 100;
 
-            const paymentId = "UPI-" + utrNumber;
-            const { formObj, fullAddressString, productListStr } = pendingOrderData;
+            const options = {
+                key: "rzp_test_SiE0EnXNjaYjvC", 
+                amount: amountInPaise,
+                currency: "INR",
+                name: "RangMeera",
+                description: `Cart Checkout (${activeCartItems.length} items)`,
+                image: "/images/logo.png",
+                handler: async function (response) {
+                    const paymentId = response.razorpay_payment_id;
 
-            try {
-                await setDoc(doc(db, "users", user.uid), { shippingAddress: { firstName: formObj.firstName, lastName: formObj.lastName, line1: formObj.line1, line2: formObj.line2, city: formObj.city, state: formObj.state, pincode: formObj.pincode, phone1: formObj.phone1, phone2: formObj.phone2 } }, { merge: true });
-                
-                await addDoc(collection(db, "orders"), { uid: user.uid, items: activeCartItems, amount_paid: activeGrandTotal, shipping_address: fullAddressString, payment_id: paymentId, status: "Verifying UPI", date: new Date() });
+                    try {
+                        await setDoc(doc(db, "users", user.uid), {
+                            shippingAddress: {
+                                firstName: formObj.firstName, lastName: formObj.lastName,
+                                line1: formObj.line1, line2: formObj.line2,
+                                city: formObj.city, state: formObj.state, pincode: formObj.pincode,
+                                phone1: formObj.phone1, phone2: formObj.phone2
+                            }
+                        }, { merge: true });
 
-                const processPromises = activeCartItems.map(async item => {
-                    if (item.subItems && item.subItems.length > 0) {
-                        item.subItems.forEach(subCode => {
-                            const invRef = doc(db, "inventory", subCode);
-                            processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
+                        await addDoc(collection(db, "orders"), {
+                            uid: user.uid,
+                            items: activeCartItems,
+                            amount_paid: totalAmount,
+                            shipping_address: formattedAddress,
+                            payment_id: paymentId,
+                            status: "Processing",
+                            date: new Date()
                         });
-                    } else {
-                        const invRef = doc(db, "inventory", item.productCode);
-                        processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
+
+                        const processPromises = activeCartItems.map(async item => {
+                            const invRef = doc(db, "inventory", item.productCode);
+                            await setDoc(invRef, {
+                                units_sold: increment(item.quantity)
+                            }, { merge: true });
+                            
+                            return deleteDoc(doc(db, "carts", item.id));
+                        });
+                        
+                        await Promise.all(processPromises);
+                        
+                        fetchCart(); 
+                        checkInventory();
+
+                        await emailjs.send("service_w8lur8r", "template_jrx6bfd", {
+                            customer_name: `${formObj.firstName} ${formObj.lastName}`,
+                            customer_email: user.email,
+                            phone_number: formObj.phone1, 
+                            product_code: `Multi-Item Cart:\n${productListStr}`,
+                            amount: totalAmount,
+                            shipping_address: formattedAddress,
+                            payment_id: paymentId
+                        });
+
+                        alert(`Payment Successful! 🎉 Your royal collection is being prepared. Order ID: ` + paymentId);
+                        
+                    } catch (error) {
+                        console.error("Order processing error:", error);
+                        alert("There was an error finalizing the order. Please contact support with Payment ID: " + paymentId);
                     }
-                    return deleteDoc(doc(db, "carts", item.id));
-                });
-                
-                await Promise.all(processPromises);
-                fetchCart(); checkInventory();
+                },
+                prefill: { name: `${formObj.firstName} ${formObj.lastName}`, email: user.email, contact: formObj.phone1 },
+                theme: { color: "#e23b70" }
+            };
 
-                await emailjs.send("service_w8lur8r", "template_jrx6bfd", { customer_name: `${formObj.firstName} ${formObj.lastName}`, customer_email: user.email, phone_number: formObj.phone1, product_code: `Multi-Item Cart:\n${productListStr}`, amount: activeGrandTotal, shipping_address: fullAddressString, payment_id: paymentId });
-
-                document.getElementById('upi-payment-modal').style.display = 'none';
-                document.getElementById('upi-utr').value = ''; 
-                alert(`Order Placed Successfully! 🎉 We will verify your UPI transaction and begin preparing your royal collection. Ref: ` + paymentId);
-                
-            } catch (error) { console.error("Order processing error:", error); alert("There was an error finalizing the order. Please contact support."); }
+            const rzp = new window.Razorpay(options);
+            rzp.open();
         }
     </script>
 </body>

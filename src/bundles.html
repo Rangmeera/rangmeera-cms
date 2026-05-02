@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg-color: #e6dbce; 
+            /* Darker, warmer beige background */
+            --bg-color: #f3ebe4; 
             --text-main: #1d1d1f; 
             --text-light: #86868b; 
             --pink: #e23b70; 
@@ -18,14 +19,65 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); padding-bottom: 0; }
         h1, h2 { font-family: 'Playfair Display', serif; }
         
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 3%; height: clamp(140px, 16vw, 250px); background-color: var(--bg-color); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .nav-left, .nav-right { flex: 1; display: flex; align-items: center; position: relative; z-index: 10; pointer-events: none; }
+        /* FULL-WIDTH NAV - NO OVERFLOW HIDDEN SO DROPDOWN WORKS */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3%;
+            height: clamp(140px, 16vw, 250px);
+            background-color: var(--bg-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-left, .nav-right { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            position: relative;
+            z-index: 10;
+            pointer-events: none; 
+        }
         .nav-left { justify-content: flex-start; }
         .nav-right { justify-content: flex-end; }
 
-        .nav-pill { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); padding: 12px 28px; border-radius: 40px; display: flex; align-items: center; gap: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); pointer-events: auto; }
-        .logo-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; z-index: 1; overflow: hidden; }
-        .logo-img { width: 100%; height: 100%; object-fit: cover; object-position: center; mix-blend-mode: multiply; opacity: 0.95; }
+        /* FROSTED GLASS PILLS */
+        .nav-pill {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 12px 28px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            pointer-events: auto; 
+        }
+
+        /* EDGE-TO-EDGE BANNER LOGIC */
+        .logo-link { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: block; 
+            z-index: 1;
+            overflow: hidden; 
+        }
+        .logo-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            object-position: center; 
+            mix-blend-mode: multiply; 
+            opacity: 0.95; 
+        }
+
         .nav-item { text-decoration: none; color: var(--text-main); font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
         .nav-item:hover { color: var(--pink); }
         
@@ -35,10 +87,46 @@
         .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
         .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
 
-        .mobile-bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; justify-content: space-around; align-items: center; padding: 0 15px; border-top: 1px solid rgba(0,0,0,0.05); }
-        .mobile-nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-light); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.3s; }
-        .mobile-nav-item:hover, .mobile-nav-item:active { color: var(--pink); }
-        .mobile-nav-icon { font-size: 1.4rem; margin-bottom: 4px; font-weight: normal; }
+        /* --- MOBILE BOTTOM NAVIGATION --- */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            z-index: 1000;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 15px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav-item:hover, .mobile-nav-item:active {
+            color: var(--pink);
+        }
+
+        .mobile-nav-icon {
+            font-size: 1.4rem; 
+            margin-bottom: 4px;
+            font-weight: normal;
+        }
 
         .catalog-header { position: relative; padding: 260px 5% 40px; text-align: center; z-index: 1; }
         .catalog-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/images/logo.png'); background-size: 45%; background-position: center; background-repeat: no-repeat; opacity: 0.04; z-index: -1; pointer-events: none; }
@@ -68,6 +156,7 @@
         .new-price { font-weight: 600; color: var(--text-main); font-size: 1.2rem; }
         .discount-tag { background: var(--pink); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;}
         
+        /* MODALS & DRAWERS */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; display: flex; gap: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); cursor: default; }
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; line-height: 1; }
@@ -90,12 +179,6 @@
         .address-modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 600px; width: 90%; text-align: left; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
         .address-modal-content h2 { font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main); font-family: 'Playfair Display', serif; }
         .address-modal-content p { color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem; }
-        
-        /* UPI MODAL CSS */
-        .upi-modal-content { text-align: center; }
-        .qr-placeholder { width: 220px; height: 220px; margin: 20px auto; background: #fdf8f4; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid rgba(226, 59, 112, 0.1); padding: 10px; }
-        .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
-
         .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .form-group { flex: 1; min-width: 150px; display: flex; flex-direction: column; }
         .form-group label { font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -119,6 +202,7 @@
         .logout-btn { margin-top: auto; background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 15px; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; width: 100%; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 500;}
         .logout-btn:hover { background: var(--text-main); color: #fff; }
 
+        /* CART & ORDERS UI */
         .cart-badge { background: var(--pink); color: white; border-radius: 50%; padding: 2px 7px; font-size: 0.7rem; position: absolute; top: -8px; right: -15px; font-weight: 600;}
         .cart-item { display: flex; gap: 15px; border-bottom: 1px solid #f0f0f0; padding: 15px 0; align-items: center;}
         .cart-item img { width: 70px; height: 70px; object-fit: contain; background: #f8f8f8; border-radius: 8px; padding: 5px; mix-blend-mode: multiply;}
@@ -155,6 +239,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
        (function(){ emailjs.init("lTpsgwT2__DySCIrW"); })();
@@ -255,7 +340,6 @@
         <button class="logout-btn" id="logout-btn">Log Out</button>
     </div>
 
-    <!-- UPDATED CART DRAWER -->
     <div class="account-drawer" id="cart-drawer" style="padding: 40px 30px;">
         <span class="close-drawer" id="close-cart-drawer">&times;</span>
         <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 5px; color: var(--text-main);">Your Cart</h3>
@@ -266,23 +350,14 @@
         </div>
 
         <div class="cart-footer" id="cart-footer" style="display:none;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--text-light); font-size: 0.95rem;">
-                <span>Subtotal:</span>
-                <span id="cart-subtotal-amount">₹0</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-light); font-size: 0.95rem;">
-                <span>Delivery:</span>
-                <span id="cart-delivery-amount" style="color: var(--pink); font-weight: 500;">₹0</span>
-            </div>
             <div class="cart-total-row">
-                <span>Grand Total:</span>
+                <span>Subtotal:</span>
                 <span id="cart-total-amount">₹0</span>
             </div>
             <button class="buy-btn" onclick="openCheckoutFromCart()" style="margin-top:0; width: 100%;">Proceed to Checkout</button>
         </div>
     </div>
 
-    <!-- CHECKOUT ADDRESS MODAL -->
     <div id="custom-address-modal" class="modal">
         <div class="address-modal-content">
             <span class="close-btn" onclick="document.getElementById('custom-address-modal').style.display='none'">&times;</span>
@@ -336,33 +411,7 @@
                 </div>
             </div>
             <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.05); margin: 20px 0;">
-            <button class="buy-btn" style="margin-top:0; width: 100%;" onclick="proceedToPayment()">Proceed to Pay <span id="checkout-pay-amount"></span></button>
-        </div>
-    </div>
-
-    <!-- NEW UPI PAYMENT MODAL -->
-    <div id="upi-payment-modal" class="modal">
-        <div class="address-modal-content upi-modal-content">
-            <span class="close-btn" onclick="document.getElementById('upi-payment-modal').style.display='none'">&times;</span>
-            <h2 style="margin-bottom: 5px;">Scan & Pay</h2>
-            <p style="margin-bottom: 15px;">Scan the QR code securely using any UPI app (GPay, PhonePe, Paytm) to complete your royal purchase.</p>
-            
-            <h3 style="color: var(--pink); font-family: 'Inter', sans-serif; font-size: 2.2rem; margin-bottom: 10px; font-weight: 600;" id="upi-amount-display">₹0</h3>
-            
-            <div class="qr-placeholder">
-                <img src="/images/upi-qr.jpg" alt="UPI QR Code" onerror="this.src='/images/logo.png'">
-            </div>
-            
-            <!-- Replace YOUR_UPI_ID_HERE with your actual business UPI ID -->
-            <p style="font-weight: 500; color: var(--text-main); margin-bottom: 25px; font-size: 1.1rem;">UPI ID: <span style="user-select: all; color: var(--pink);">YOUR_UPI_ID_HERE</span></p>
-            
-            <div class="form-group" style="text-align: left; margin-bottom: 25px;">
-                <label>Enter 12-Digit UTR / Ref Number*</label>
-                <input type="text" id="upi-utr" placeholder="e.g., 312345678901" required>
-                <span style="font-size: 0.75rem; color: var(--text-light); margin-top: 5px; display: block;">Found in your UPI app's transaction history after successful payment.</span>
-            </div>
-            
-            <button class="buy-btn" style="width: 100%;" onclick="confirmUPIPayment()">Confirm Payment</button>
+            <button class="buy-btn" style="margin-top:0; width: 100%;" onclick="proceedToPayment()">Pay <span id="checkout-pay-amount"></span></button>
         </div>
     </div>
 
@@ -644,14 +693,24 @@
         closeCatalogBtn.addEventListener('click', closeAllDrawers);
         overlay.addEventListener('click', closeAllDrawers);
 
-        document.getElementById('mobile-cart-btn').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('cart-nav-btn').click(); });
-        document.getElementById('mobile-auth-btn').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('auth-btn').click(); });
-        document.getElementById('mobile-catalog-btn').addEventListener('click', (e) => { e.preventDefault(); openCatalogDrawer(); });
+        // MOBILE BUTTON LISTENERS
+        document.getElementById('mobile-cart-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('cart-nav-btn').click(); 
+        });
+        
+        document.getElementById('mobile-auth-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('auth-btn').click(); 
+        });
+
+        document.getElementById('mobile-catalog-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openCatalogDrawer();
+        });
 
         let activeCartItems = [];
         let activeCartTotal = 0;
-        let activeGrandTotal = 0;
-        let pendingOrderData = null;
 
         async function fetchOrders() {
             if (!auth.currentUser) return;
@@ -660,7 +719,8 @@
                 const q = query(collection(db, "orders"), where("uid", "==", auth.currentUser.uid));
                 const querySnapshot = await getDocs(q);
                 if (querySnapshot.empty) {
-                    ordersContainer.innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>'; return;
+                    ordersContainer.innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
+                    return;
                 }
                 let orders = [];
                 querySnapshot.forEach((doc) => { orders.push({id: doc.id, ...doc.data()}); });
@@ -787,15 +847,10 @@
             if (activeCartItems.length > 0) {
                 badge.textContent = totalItemsCount; badge.style.display = 'inline-block';
                 mobileBadge.textContent = totalItemsCount; mobileBadge.style.display = 'inline-block';
-                document.getElementById('cart-footer').style.display = 'block';
-                
-                let deliveryFee = activeCartTotal < 1000 ? 99 : 0;
-                activeGrandTotal = activeCartTotal + deliveryFee;
 
-                document.getElementById('cart-subtotal-amount').textContent = `₹${activeCartTotal}`;
-                document.getElementById('cart-delivery-amount').textContent = deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`;
-                document.getElementById('cart-total-amount').textContent = `₹${activeGrandTotal}`;
-                document.getElementById('checkout-pay-amount').textContent = `₹${activeGrandTotal}`;
+                document.getElementById('cart-footer').style.display = 'block';
+                document.getElementById('cart-total-amount').textContent = `₹${activeCartTotal}`;
+                document.getElementById('checkout-pay-amount').textContent = `₹${activeCartTotal}`;
                 
                 activeCartItems.forEach(item => {
                     container.innerHTML += `
@@ -864,56 +919,47 @@
                 pincode: document.getElementById('chk-pin').value.trim(), phone1: document.getElementById('chk-phone1').value.trim(), phone2: document.getElementById('chk-phone2').value.trim()
             };
             if (!formObj.firstName || !formObj.lastName || !formObj.line1 || !formObj.city || !formObj.state || !formObj.pincode || !formObj.phone1) { alert("Please fill in all required fields (marked with *)."); return; }
-            
             const fullAddressString = `${formObj.firstName} ${formObj.lastName}\n${formObj.line1}\n${formObj.line2 ? formObj.line2 + '\n' : ''}${formObj.city}, ${formObj.state} - ${formObj.pincode}\nPh: ${formObj.phone1} ${formObj.phone2 ? ', ' + formObj.phone2 : ''}`;
-            let productListStr = ""; 
-            activeCartItems.forEach(item => { productListStr += `• ${item.productName} (x${item.quantity})\n`; });
-
-            pendingOrderData = { formObj, fullAddressString, productListStr };
-            
             document.getElementById('custom-address-modal').style.display = 'none';
-            document.getElementById('upi-amount-display').textContent = `₹${activeGrandTotal}`;
-            document.getElementById('upi-payment-modal').style.display = 'flex';
+            let productListStr = ""; let productCodesStr = "";
+            activeCartItems.forEach(item => { productListStr += `• ${item.productName} (x${item.quantity})\n`; productCodesStr += `${item.productCode}, `; });
+            processRazorpay(productCodesStr, productListStr, activeCartTotal, formObj, fullAddressString);
         };
 
-        window.confirmUPIPayment = async function() {
-            const utrNumber = document.getElementById('upi-utr').value.trim();
+        async function processRazorpay(productCodes, productListStr, totalAmount, formObj, formattedAddress) {
             const user = auth.currentUser;
-            
-            if (!utrNumber || utrNumber.length < 12) { alert("Please enter a valid 12-digit UTR or Reference Number provided by your UPI app."); return; }
-
-            const paymentId = "UPI-" + utrNumber;
-            const { formObj, fullAddressString, productListStr } = pendingOrderData;
-
-            try {
-                await setDoc(doc(db, "users", user.uid), { shippingAddress: { firstName: formObj.firstName, lastName: formObj.lastName, line1: formObj.line1, line2: formObj.line2, city: formObj.city, state: formObj.state, pincode: formObj.pincode, phone1: formObj.phone1, phone2: formObj.phone2 } }, { merge: true });
-                
-                await addDoc(collection(db, "orders"), { uid: user.uid, items: activeCartItems, amount_paid: activeGrandTotal, shipping_address: fullAddressString, payment_id: paymentId, status: "Verifying UPI", date: new Date() });
-
-                // BUNDLE SPECIFIC INVENTORY UPDATE
-                const processPromises = activeCartItems.map(async item => {
-                    if (item.subItems && item.subItems.length > 0) {
-                        item.subItems.forEach(subCode => {
-                            const invRef = doc(db, "inventory", subCode);
-                            processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
+            const amountInPaise = totalAmount * 100;
+            const options = {
+                key: "rzp_test_SiE0EnXNjaYjvC", amount: amountInPaise, currency: "INR", name: "RangMeera",
+                description: `Cart Checkout (${activeCartItems.length} items)`, image: "/images/logo.png",
+                handler: async function (response) {
+                    const paymentId = response.razorpay_payment_id;
+                    try {
+                        await setDoc(doc(db, "users", user.uid), { shippingAddress: { firstName: formObj.firstName, lastName: formObj.lastName, line1: formObj.line1, line2: formObj.line2, city: formObj.city, state: formObj.state, pincode: formObj.pincode, phone1: formObj.phone1, phone2: formObj.phone2 } }, { merge: true });
+                        await addDoc(collection(db, "orders"), { uid: user.uid, items: activeCartItems, amount_paid: totalAmount, shipping_address: formattedAddress, payment_id: paymentId, status: "Processing", date: new Date() });
+                        
+                        const processPromises = activeCartItems.map(async item => {
+                            if (item.subItems && item.subItems.length > 0) {
+                                item.subItems.forEach(subCode => {
+                                    const invRef = doc(db, "inventory", subCode);
+                                    processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
+                                });
+                            } else {
+                                const invRef = doc(db, "inventory", item.productCode);
+                                processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
+                            }
+                            return deleteDoc(doc(db, "carts", item.id));
                         });
-                    } else {
-                        const invRef = doc(db, "inventory", item.productCode);
-                        processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
-                    }
-                    return deleteDoc(doc(db, "carts", item.id));
-                });
-                
-                await Promise.all(processPromises);
-                fetchCart(); checkBundleInventory();
-
-                await emailjs.send("service_w8lur8r", "template_jrx6bfd", { customer_name: `${formObj.firstName} ${formObj.lastName}`, customer_email: user.email, phone_number: formObj.phone1, product_code: `Multi-Item Cart:\n${productListStr}`, amount: activeGrandTotal, shipping_address: fullAddressString, payment_id: paymentId });
-
-                document.getElementById('upi-payment-modal').style.display = 'none';
-                document.getElementById('upi-utr').value = ''; 
-                alert(`Order Placed Successfully! 🎉 We will verify your UPI transaction and begin preparing your royal collection. Ref: ` + paymentId);
-                
-            } catch (error) { console.error("Order processing error:", error); alert("There was an error finalizing the order. Please contact support."); }
+                        
+                        await Promise.all(processPromises);
+                        fetchCart(); checkBundleInventory();
+                        await emailjs.send("service_w8lur8r", "template_jrx6bfd", { customer_name: `${formObj.firstName} ${formObj.lastName}`, customer_email: user.email, phone_number: formObj.phone1, product_code: `Multi-Item Cart:\n${productListStr}`, amount: totalAmount, shipping_address: formattedAddress, payment_id: paymentId });
+                        alert(`Payment Successful! 🎉 Your royal collection is being prepared. Order ID: ` + paymentId);
+                    } catch (error) { console.error("Order processing error:", error); alert("There was an error finalizing the order. Please contact support with Payment ID: " + paymentId); }
+                },
+                prefill: { name: `${formObj.firstName} ${formObj.lastName}`, email: user.email, contact: formObj.phone1 }, theme: { color: "#e23b70" }
+            };
+            const rzp = new window.Razorpay(options); rzp.open();
         }
     </script>
 </body>
