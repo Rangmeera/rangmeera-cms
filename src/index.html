@@ -11,8 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* NEW: A sophisticated, proper dark beige for a premium parchment feel */
-            --bg-color: #e6dbce; 
+            var(--bg-color): #e6dbce; 
             --text-main: #1d1d1f; 
             --text-light: #86868b;
             --gold: #d4af37;
@@ -32,7 +31,6 @@
 
         h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
 
-        /* FULL-WIDTH NAV */
         nav {
             display: flex;
             justify-content: space-between;
@@ -47,18 +45,10 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .nav-left, .nav-right { 
-            flex: 1; 
-            display: flex; 
-            align-items: center; 
-            position: relative;
-            z-index: 10;
-            pointer-events: none; 
-        }
+        .nav-left, .nav-right { flex: 1; display: flex; align-items: center; position: relative; z-index: 10; pointer-events: none; }
         .nav-left { justify-content: flex-start; }
         .nav-right { justify-content: flex-end; }
 
-        /* FROSTED GLASS PILLS */
         .nav-pill {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -71,110 +61,34 @@
             pointer-events: auto; 
         }
 
-        /* EDGE-TO-EDGE BANNER LOGIC */
-        .logo-link { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            display: block; 
-            z-index: 1;
-            overflow: hidden; 
-        }
-        .logo-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: center; 
-            mix-blend-mode: multiply; 
-            opacity: 0.95; 
-        }
+        .logo-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; z-index: 1; overflow: hidden; }
+        .logo-img { width: 100%; height: 100%; object-fit: cover; object-position: center; mix-blend-mode: multiply; opacity: 0.95; }
 
-        .nav-item {
-            text-decoration: none; color: var(--text-main); font-size: 0.9rem;
-            letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase;
-        }
+        .nav-item { text-decoration: none; color: var(--text-main); font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
         .nav-item:hover { color: var(--pink); }
 
         .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
-        
-        .dropdown-content {
-            display: none; position: absolute; top: 100%; right: 0; 
-            background-color: #ffffff; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            border-radius: 12px; padding: 15px 0; z-index: 1001; text-align: left;
-        }
-
+        .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #ffffff; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 12px; padding: 15px 0; z-index: 1001; text-align: left; }
         .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a {
-            color: var(--text-main); padding: 10px 25px; text-decoration: none;
-            display: block; font-size: 0.85rem; transition: background 0.3s;
-        }
+        .dropdown-content a { color: var(--text-main); padding: 10px 25px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.3s; }
         .dropdown-content a:hover { background-color: #fdf8f4; color: var(--pink); }
 
-        /* MOBILE BOTTOM NAVIGATION */
         .mobile-bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            z-index: 1000;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 15px;
-            border-top: 1px solid rgba(0,0,0,0.05);
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000;
+            justify-content: space-around; align-items: center; padding: 0 15px; border-top: 1px solid rgba(0,0,0,0.05);
         }
+        .mobile-nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-light); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.3s; }
+        .mobile-nav-item:hover, .mobile-nav-item:active { color: var(--pink); }
+        .mobile-nav-icon { font-size: 1.4rem; margin-bottom: 4px; font-weight: normal; }
 
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--text-light);
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-
-        .mobile-nav-item:hover, .mobile-nav-item:active {
-            color: var(--pink);
-        }
-
-        .mobile-nav-icon {
-            font-size: 1.4rem; 
-            margin-bottom: 4px;
-            font-weight: normal;
-        }
-
-        .hero {
-            position: relative; min-height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            padding: 220px 20px 50px; z-index: 1; 
-        }
-
-        .hero::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('/images/logo.png'); background-size: 55%; 
-            background-position: center 30%; background-repeat: no-repeat;
-            opacity: 0.04; z-index: -1; pointer-events: none; 
-        }
-
+        .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 220px 20px 50px; z-index: 1; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/images/logo.png'); background-size: 55%; background-position: center 30%; background-repeat: no-repeat; opacity: 0.04; z-index: -1; pointer-events: none; }
         .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 10px; letter-spacing: -0.5px; }
         .hero p { font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--text-light); margin-bottom: 40px; max-width: 650px; }
 
-        .featured-btn {
-            position: relative; display: inline-flex; align-items: center; justify-content: center;
-            width: 320px; height: 80px; border-radius: 40px; overflow: hidden;
-            text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
-        }
+        .featured-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 320px; height: 80px; border-radius: 40px; overflow: hidden; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease; }
         .featured-btn:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
         .featured-btn-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transition: transform 0.6s ease; }
         .featured-btn:hover .featured-btn-bg { transform: scale(1.08); }
@@ -189,7 +103,6 @@
 
         .split-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); z-index: 0; }
         .split-item:hover .split-bg, .full-banner:hover .split-bg { transform: scale(1.04); }
-        
         .split-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); transition: background 0.5s ease; z-index: 1;}
         .split-item:hover .split-overlay, .full-banner:hover .split-overlay { background: rgba(0,0,0,0.55); }
 
@@ -198,19 +111,18 @@
         
         .split-item .collection-content { margin-top: 340px; }
         .split-item .collection-content p { min-height: 80px; display: flex; align-items: center; }
-
         #earrings-banner .collection-content { margin-top: 480px; }
         #rings-banner, #bangles-banner { margin-top: 5px; } 
         #rings-banner .collection-content, #bangles-banner .collection-content { margin-top: 0; } 
         
         .collection-content h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 15px; }
         .collection-content p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.6; margin-bottom: 35px; opacity: 0.95; letter-spacing: 0.5px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.3); text-align: center; }
-        
         .collection-btn { display: inline-block; padding: 14px 32px; border: 1px solid #ffffff; color: #ffffff; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: all 0.3s; backdrop-filter: blur(4px); border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);}
         .split-item:hover .collection-btn, .full-banner:hover .collection-btn { background: #ffffff; color: var(--text-main); }
 
         .buy-btn { background-color: var(--text-main); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 30px; cursor: pointer; font-weight: 500; transition: all 0.3s; width: 100%; font-family: 'Inter', sans-serif;}
         .buy-btn:hover { background-color: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 59, 112, 0.2); }
+        
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; line-height: 1; }
         .close-btn:hover { color: var(--pink); }
@@ -218,6 +130,12 @@
         .address-modal-content { background-color: #ffffff; padding: 40px; border-radius: 20px; max-width: 600px; width: 90%; text-align: left; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
         .address-modal-content h2 { font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main); font-family: 'Playfair Display', serif; }
         .address-modal-content p { color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem; }
+        
+        /* NEW UPI MODAL SPECIFICS */
+        .upi-modal-content { text-align: center; }
+        .qr-placeholder { width: 220px; height: 220px; margin: 20px auto; background: #fdf8f4; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid rgba(226, 59, 112, 0.1); padding: 10px; }
+        .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+
         .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .form-group { flex: 1; min-width: 150px; display: flex; flex-direction: column; }
         .form-group label { font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -226,10 +144,8 @@
 
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1999; display: none; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.4s ease; }
         .drawer-overlay.active { display: block; opacity: 1; }
-        
         .account-drawer { position: fixed; top: 0; right: -450px; width: 450px; max-width: 100vw; height: 100vh; background: #ffffff; box-shadow: -10px 0 40px rgba(0,0,0,0.15); z-index: 2000; transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding: 50px 40px; display: flex; flex-direction: column; overflow-y: auto; }
         .account-drawer.open { right: 0; }
-        
         .close-drawer { position: absolute; top: 30px; right: 35px; font-size: 2.5rem; cursor: pointer; color: var(--text-light); line-height: 1; transition: color 0.3s; }
         .close-drawer:hover { color: var(--pink); }
         
@@ -237,7 +153,6 @@
         .profile-pic { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--text-main); padding: 3px; }
         .profile-info h3 { font-family: 'Playfair Display', serif; margin-bottom: 5px; font-size: 1.8rem; color: var(--text-main); }
         .profile-info p { color: var(--text-light); font-size: 0.95rem; }
-        
         .drawer-section { margin-bottom: 40px; }
         .drawer-section h4 { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); }
         .empty-state { color: var(--text-light); font-size: 0.95rem; background: #fafafa; padding: 25px; border-radius: 15px; text-align: center; border: 1px dashed rgba(0,0,0,0.1); line-height: 1.6; }
@@ -264,15 +179,12 @@
         .order-date { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
         .order-total { font-size: 1rem; color: var(--text-main); font-weight: 600; }
 
-        /* UPGRADED MOBILE RESPONSIVENESS (Bottom Nav integration) */
         @media (max-width: 768px) { 
             .nav-left .nav-pill, .nav-right .nav-pill { display: none; } 
             .mobile-bottom-nav { display: flex; } 
-            
             body { padding-bottom: 70px; } 
             nav { height: 100px; padding: 0 10px; }
             .hero { padding-top: 140px; }
-
             .split-collections { flex-direction: column; height: auto; } 
             .split-item { height: 60vh; min-height: 400px; width: 100%; }
             .full-banner { height: 60vh; min-height: 400px; }
@@ -288,7 +200,7 @@
         footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(0,0,0,0.05); }
     </style>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- EmailJS ONLY (Razorpay script removed) -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
        (function(){ emailjs.init("lTpsgwT2__DySCIrW"); })();
@@ -296,6 +208,7 @@
 </head>
 <body>
 
+    <!-- TOP NAVIGATION -->
     <nav>
         <div class="nav-left">
             <div class="nav-pill">
@@ -330,6 +243,7 @@
         </div>
     </nav>
 
+    <!-- MOBILE BOTTOM NAVIGATION -->
     <div class="mobile-bottom-nav">
         <a href="/" class="mobile-nav-item">
             <span class="mobile-nav-icon">⌂</span>
@@ -352,6 +266,7 @@
 
     <div class="drawer-overlay" id="drawer-overlay"></div>
     
+    <!-- MOBILE CATALOG DRAWER -->
     <div class="account-drawer" id="catalog-drawer">
         <span class="close-drawer" id="close-catalog-drawer">&times;</span>
         <h3 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 30px; color: var(--text-main); margin-top: 20px;">Explore</h3>
@@ -365,6 +280,7 @@
         </div>
     </div>
 
+    <!-- ACCOUNT DRAWER -->
     <div class="account-drawer" id="account-drawer">
         <span class="close-drawer" id="close-acc-drawer">&times;</span>
         
@@ -393,6 +309,7 @@
         <button class="logout-btn" id="logout-btn">Log Out</button>
     </div>
 
+    <!-- UPDATED CART DRAWER -->
     <div class="account-drawer" id="cart-drawer" style="padding: 40px 30px;">
         <span class="close-drawer" id="close-cart-drawer">&times;</span>
         <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 5px; color: var(--text-main);">Your Cart</h3>
@@ -403,14 +320,24 @@
         </div>
 
         <div class="cart-footer" id="cart-footer" style="display:none;">
-            <div class="cart-total-row">
+            <!-- Added breakdown for delivery fee -->
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--text-light); font-size: 0.95rem;">
                 <span>Subtotal:</span>
+                <span id="cart-subtotal-amount">₹0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-light); font-size: 0.95rem;">
+                <span>Delivery:</span>
+                <span id="cart-delivery-amount" style="color: var(--pink); font-weight: 500;">₹0</span>
+            </div>
+            <div class="cart-total-row">
+                <span>Grand Total:</span>
                 <span id="cart-total-amount">₹0</span>
             </div>
             <button class="buy-btn" onclick="openCheckoutFromCart()" style="margin-top:0; width: 100%;">Proceed to Checkout</button>
         </div>
     </div>
 
+    <!-- CHECKOUT ADDRESS MODAL -->
     <div id="custom-address-modal" class="modal">
         <div class="address-modal-content">
             <span class="close-btn" onclick="document.getElementById('custom-address-modal').style.display='none'">&times;</span>
@@ -464,7 +391,33 @@
                 </div>
             </div>
             <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.05); margin: 20px 0;">
-            <button class="buy-btn" style="margin-top:0; width: 100%;" onclick="proceedToPayment()">Pay <span id="checkout-pay-amount"></span></button>
+            <button class="buy-btn" style="margin-top:0; width: 100%;" onclick="proceedToPayment()">Proceed to Pay <span id="checkout-pay-amount"></span></button>
+        </div>
+    </div>
+
+    <!-- NEW UPI PAYMENT MODAL -->
+    <div id="upi-payment-modal" class="modal">
+        <div class="address-modal-content upi-modal-content">
+            <span class="close-btn" onclick="document.getElementById('upi-payment-modal').style.display='none'">&times;</span>
+            <h2 style="margin-bottom: 5px;">Scan & Pay</h2>
+            <p style="margin-bottom: 15px;">Scan the QR code securely using any UPI app (GPay, PhonePe, Paytm) to complete your royal purchase.</p>
+            
+            <h3 style="color: var(--pink); font-family: 'Inter', sans-serif; font-size: 2.2rem; margin-bottom: 10px; font-weight: 600;" id="upi-amount-display">₹0</h3>
+            
+            <div class="qr-placeholder">
+                <img src="/images/upi-qr.jpg" alt="UPI QR Code" onerror="this.src='/images/logo.png'">
+            </div>
+            
+            <!-- Replace YOUR_UPI_ID_HERE with your actual business UPI ID -->
+            <p style="font-weight: 500; color: var(--text-main); margin-bottom: 25px; font-size: 1.1rem;">UPI ID: <span style="user-select: all; color: var(--pink);">YOUR_UPI_ID_HERE</span></p>
+            
+            <div class="form-group" style="text-align: left; margin-bottom: 25px;">
+                <label>Enter 12-Digit UTR / Ref Number*</label>
+                <input type="text" id="upi-utr" placeholder="e.g., 312345678901" required>
+                <span style="font-size: 0.75rem; color: var(--text-light); margin-top: 5px; display: block;">Found in your UPI app's transaction history after successful payment.</span>
+            </div>
+            
+            <button class="buy-btn" style="width: 100%;" onclick="confirmUPIPayment()">Confirm Payment</button>
         </div>
     </div>
 
@@ -604,51 +557,33 @@
         closeCatalogBtn.addEventListener('click', closeAllDrawers);
         overlay.addEventListener('click', closeAllDrawers);
 
-        // MOBILE BUTTON LISTENERS
-        document.getElementById('mobile-cart-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('cart-nav-btn').click(); 
-        });
-        
-        document.getElementById('mobile-auth-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('auth-btn').click(); 
-        });
-
-        document.getElementById('mobile-catalog-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            openCatalogDrawer();
-        });
+        document.getElementById('mobile-cart-btn').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('cart-nav-btn').click(); });
+        document.getElementById('mobile-auth-btn').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('auth-btn').click(); });
+        document.getElementById('mobile-catalog-btn').addEventListener('click', (e) => { e.preventDefault(); openCatalogDrawer(); });
 
         let activeCartItems = [];
         let activeCartTotal = 0;
+        let activeGrandTotal = 0; // Added for delivery logic
+        let pendingOrderData = null; // Stores details between address step and UPI step
 
         async function fetchOrders() {
             if (!auth.currentUser) return;
             const ordersContainer = document.getElementById('my-orders-container');
-            
             try {
                 const q = query(collection(db, "orders"), where("uid", "==", auth.currentUser.uid));
                 const querySnapshot = await getDocs(q);
-                
                 if (querySnapshot.empty) {
-                    ordersContainer.innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
-                    return;
+                    ordersContainer.innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>'; return;
                 }
-
                 let orders = [];
-                querySnapshot.forEach((doc) => {
-                    orders.push({id: doc.id, ...doc.data()});
-                });
-                
+                querySnapshot.forEach((doc) => { orders.push({id: doc.id, ...doc.data()}); });
                 orders.sort((a, b) => b.date.toDate() - a.date.toDate());
-
                 let ordersHTML = '';
                 orders.forEach(order => {
                     const dateObj = order.date.toDate();
                     const dateStr = dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                    // Safely display payment ID (handles UPI UTR format)
                     const displayId = order.payment_id ? order.payment_id.slice(-8).toUpperCase() : 'N/A';
-                    
                     ordersHTML += `
                         <div class="order-card">
                             <div class="order-header">
@@ -661,17 +596,12 @@
                     `;
                 });
                 ordersContainer.innerHTML = ordersHTML;
-                
-            } catch (error) {
-                console.error("Error fetching orders:", error);
-                ordersContainer.innerHTML = '<div class="empty-state">Unable to load orders.</div>';
-            }
+            } catch (error) { console.error("Error fetching orders:", error); ordersContainer.innerHTML = '<div class="empty-state">Unable to load orders.</div>'; }
         }
 
         async function fetchAddress() {
             if (!auth.currentUser) return;
             const addressContainer = document.getElementById('saved-addresses-container');
-            
             try {
                 const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
                 if (userDoc.exists() && userDoc.data().shippingAddress) {
@@ -680,41 +610,12 @@
                         <div style="background: #fafafa; padding: 18px; border-radius: 12px; border: 1px solid #f0f0f0; font-size: 0.9rem; line-height: 1.6;">
                             <strong style="color: var(--text-main); font-size: 1rem;">${addr.firstName} ${addr.lastName}</strong><br>
                             <span style="color: var(--text-light); margin-top: 8px; display: block;">
-                                ${addr.line1}<br>
-                                ${addr.line2 ? addr.line2 + '<br>' : ''}
-                                ${addr.city}, ${addr.state} - ${addr.pincode}<br>
-                                Ph: ${addr.phone1}
+                                ${addr.line1}<br>${addr.line2 ? addr.line2 + '<br>' : ''}${addr.city}, ${addr.state} - ${addr.pincode}<br>Ph: ${addr.phone1}
                             </span>
                         </div>
                     `;
-                } else {
-                    addressContainer.innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
-                }
-            } catch (error) {
-                console.log("Error fetching address", error);
-            }
-        }
-
-        async function checkInventory() {
-            try {
-                const invSnap = await getDocs(collection(db, "inventory"));
-                const soldTracker = {};
-                invSnap.forEach(document => {
-                    soldTracker[document.id] = document.data().units_sold || 0;
-                });
-
-                const btns = window.document.querySelectorAll('.add-cart-btn');
-                btns.forEach(btn => {
-                    const code = btn.getAttribute('data-code');
-                    const totalStock = parseInt(btn.getAttribute('data-stock')) || 5;
-                    const sold = soldTracker[code] || 0;
-                    
-                    if ((totalStock - sold) <= 0) {
-                        btn.textContent = "Out of Stock";
-                        btn.disabled = true;
-                    }
-                });
-            } catch (e) { console.log("Inventory fetch error:", e); }
+                } else { addressContainer.innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>'; }
+            } catch (error) { console.log("Error fetching address", error); }
         }
 
         onAuthStateChanged(auth, (user) => {
@@ -723,21 +624,14 @@
                 document.getElementById('profile-name').textContent = user.displayName;
                 document.getElementById('profile-email').textContent = user.email;
                 document.getElementById('profile-pic').src = user.photoURL || '/images/logo.png';
-                
-                fetchCart(); 
-                fetchOrders();
-                fetchAddress();
-                checkInventory();
+                fetchCart(); fetchOrders(); fetchAddress();
             } else {
                 authBtn.textContent = "Login";
                 document.getElementById('cart-badge').style.display = 'none';
                 document.getElementById('mobile-cart-badge').style.display = 'none';
-                
                 document.getElementById('my-orders-container').innerHTML = '<div class="empty-state">No orders yet.<br>Your royal collection awaits.</div>';
                 document.getElementById('saved-addresses-container').innerHTML = '<div class="empty-state">No addresses saved.<br>Add one during checkout to speed up future orders.</div>';
-                
                 closeAllDrawers(); 
-                checkInventory();
             }
         });
 
@@ -767,13 +661,10 @@
             activeCartTotal = 0;
             const container = document.getElementById('cart-items-container');
             container.innerHTML = '';
-
             let totalItemsCount = 0;
 
             querySnapshot.forEach((doc) => {
-                let data = doc.data();
-                data.id = doc.id; 
-                data.quantity = data.quantity || 1; 
+                let data = doc.data(); data.id = doc.id; data.quantity = data.quantity || 1; 
                 activeCartItems.push(data);
                 activeCartTotal += (parseInt(data.price) * data.quantity);
                 totalItemsCount += data.quantity;
@@ -783,14 +674,18 @@
             const mobileBadge = document.getElementById('mobile-cart-badge');
 
             if (activeCartItems.length > 0) {
-                badge.textContent = totalItemsCount;
-                badge.style.display = 'inline-block';
-                mobileBadge.textContent = totalItemsCount;
-                mobileBadge.style.display = 'inline-block';
-
+                badge.textContent = totalItemsCount; badge.style.display = 'inline-block';
+                mobileBadge.textContent = totalItemsCount; mobileBadge.style.display = 'inline-block';
                 document.getElementById('cart-footer').style.display = 'block';
-                document.getElementById('cart-total-amount').textContent = `₹${activeCartTotal}`;
-                document.getElementById('checkout-pay-amount').textContent = `₹${activeCartTotal}`;
+                
+                // --- DYNAMIC DELIVERY LOGIC ADDED HERE ---
+                let deliveryFee = activeCartTotal < 1000 ? 99 : 0;
+                activeGrandTotal = activeCartTotal + deliveryFee;
+
+                document.getElementById('cart-subtotal-amount').textContent = `₹${activeCartTotal}`;
+                document.getElementById('cart-delivery-amount').textContent = deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`;
+                document.getElementById('cart-total-amount').textContent = `₹${activeGrandTotal}`;
+                document.getElementById('checkout-pay-amount').textContent = `₹${activeGrandTotal}`;
                 
                 activeCartItems.forEach(item => {
                     container.innerHTML += `
@@ -805,187 +700,121 @@
                     `;
                 });
             } else {
-                badge.style.display = 'none';
-                mobileBadge.style.display = 'none';
+                badge.style.display = 'none'; mobileBadge.style.display = 'none';
                 document.getElementById('cart-footer').style.display = 'none';
                 container.innerHTML = `<div class="empty-state">Your cart is empty.<br>Discover our collections.</div>`;
             }
         }
 
-        window.addToCart = async function(productCode, productName, price, image, slug) {
-            if (!auth.currentUser) {
-                alert("Please login to add items to your cart.");
-                return;
-            }
-
-            const qtyInput = document.getElementById('qty-' + slug);
-            const qtyToAdd = parseInt(qtyInput.value) || 1;
-
-            try {
-                const q = query(collection(db, "carts"), where("uid", "==", auth.currentUser.uid), where("productCode", "==", productCode));
-                const snap = await getDocs(q);
-
-                if (!snap.empty) {
-                    const docRef = snap.docs[0].ref;
-                    const newQty = snap.docs[0].data().quantity + qtyToAdd;
-                    await setDoc(docRef, { quantity: newQty }, { merge: true });
-                } else {
-                    await addDoc(collection(db, "carts"), {
-                        uid: auth.currentUser.uid,
-                        productCode: productCode,
-                        productName: productName,
-                        price: price,
-                        image: image,
-                        quantity: qtyToAdd,
-                        addedAt: new Date()
-                    });
-                }
-
-                document.getElementById('modal-' + slug).style.display = 'none';
-                qtyInput.value = 1; 
-                await fetchCart();
-                openCartDrawer();
-            } catch (error) {
-                console.error("Error adding to cart: ", error);
-            }
-        };
-
-        window.removeFromCart = async function(docId) {
-            try {
-                await deleteDoc(doc(db, "carts", docId));
-                fetchCart();
-            } catch (error) {
-                console.error("Error removing item:", error);
-            }
-        };
+        window.removeFromCart = async function(docId) { try { await deleteDoc(doc(db, "carts", docId)); fetchCart(); } catch (error) { console.error("Error removing item:", error); } };
 
         window.openCheckoutFromCart = async function() {
             if (activeCartItems.length === 0) return;
-            
             closeAllDrawers();
-            
             try {
                 const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
                 if (userDoc.exists() && userDoc.data().shippingAddress) {
                     const addr = userDoc.data().shippingAddress;
-                    document.getElementById('chk-fname').value = addr.firstName || '';
-                    document.getElementById('chk-lname').value = addr.lastName || '';
-                    document.getElementById('chk-add1').value = addr.line1 || '';
-                    document.getElementById('chk-add2').value = addr.line2 || '';
-                    document.getElementById('chk-city').value = addr.city || '';
-                    document.getElementById('chk-state').value = addr.state || '';
-                    document.getElementById('chk-pin').value = addr.pincode || '';
-                    document.getElementById('chk-phone1').value = addr.phone1 || '';
-                    document.getElementById('chk-phone2').value = addr.phone2 || '';
+                    document.getElementById('chk-fname').value = addr.firstName || ''; document.getElementById('chk-lname').value = addr.lastName || '';
+                    document.getElementById('chk-add1').value = addr.line1 || ''; document.getElementById('chk-add2').value = addr.line2 || '';
+                    document.getElementById('chk-city').value = addr.city || ''; document.getElementById('chk-state').value = addr.state || '';
+                    document.getElementById('chk-pin').value = addr.pincode || ''; document.getElementById('chk-phone1').value = addr.phone1 || ''; document.getElementById('chk-phone2').value = addr.phone2 || '';
                 }
             } catch (err) { console.log(err); }
-
             document.getElementById('custom-address-modal').style.display = 'flex';
         };
 
         window.proceedToPayment = async function() {
             const formObj = {
-                firstName: document.getElementById('chk-fname').value.trim(),
-                lastName: document.getElementById('chk-lname').value.trim(),
-                line1: document.getElementById('chk-add1').value.trim(),
-                line2: document.getElementById('chk-add2').value.trim(),
-                city: document.getElementById('chk-city').value.trim(),
-                state: document.getElementById('chk-state').value.trim(),
-                pincode: document.getElementById('chk-pin').value.trim(),
-                phone1: document.getElementById('chk-phone1').value.trim(),
-                phone2: document.getElementById('chk-phone2').value.trim()
+                firstName: document.getElementById('chk-fname').value.trim(), lastName: document.getElementById('chk-lname').value.trim(),
+                line1: document.getElementById('chk-add1').value.trim(), line2: document.getElementById('chk-add2').value.trim(),
+                city: document.getElementById('chk-city').value.trim(), state: document.getElementById('chk-state').value.trim(),
+                pincode: document.getElementById('chk-pin').value.trim(), phone1: document.getElementById('chk-phone1').value.trim(), phone2: document.getElementById('chk-phone2').value.trim()
             };
             
             if (!formObj.firstName || !formObj.lastName || !formObj.line1 || !formObj.city || !formObj.state || !formObj.pincode || !formObj.phone1) {
-                alert("Please fill in all required fields (marked with *).");
-                return;
+                alert("Please fill in all required fields (marked with *)."); return;
             }
 
             const fullAddressString = `${formObj.firstName} ${formObj.lastName}\n${formObj.line1}\n${formObj.line2 ? formObj.line2 + '\n' : ''}${formObj.city}, ${formObj.state} - ${formObj.pincode}\nPh: ${formObj.phone1} ${formObj.phone2 ? ', ' + formObj.phone2 : ''}`;
 
-            document.getElementById('custom-address-modal').style.display = 'none';
-            
             let productListStr = "";
-            let productCodesStr = "";
-            activeCartItems.forEach(item => {
-                productListStr += `• ${item.productName} (x${item.quantity})\n`;
-                productCodesStr += `${item.productCode}, `;
-            });
+            activeCartItems.forEach(item => { productListStr += `• ${item.productName} (x${item.quantity})\n`; });
 
-            processRazorpay(productCodesStr, productListStr, activeCartTotal, formObj, fullAddressString);
+            // Store data temporarily and switch to UPI Modal
+            pendingOrderData = { formObj, fullAddressString, productListStr };
+            
+            document.getElementById('custom-address-modal').style.display = 'none';
+            document.getElementById('upi-amount-display').textContent = `₹${activeGrandTotal}`;
+            document.getElementById('upi-payment-modal').style.display = 'flex';
         };
 
-        async function processRazorpay(productCodes, productListStr, totalAmount, formObj, formattedAddress) {
+        // NEW MANUAL UPI CONFIRMATION LOGIC
+        window.confirmUPIPayment = async function() {
+            const utrNumber = document.getElementById('upi-utr').value.trim();
             const user = auth.currentUser;
-            const amountInPaise = totalAmount * 100;
+            
+            if (!utrNumber || utrNumber.length < 12) {
+                alert("Please enter a valid 12-digit UTR or Reference Number provided by your UPI app.");
+                return;
+            }
 
-            const options = {
-                key: "rzp_test_SiE0EnXNjaYjvC", 
-                amount: amountInPaise,
-                currency: "INR",
-                name: "RangMeera",
-                description: `Cart Checkout (${activeCartItems.length} items)`,
-                image: "/images/logo.png",
-                handler: async function (response) {
-                    const paymentId = response.razorpay_payment_id;
+            const paymentId = "UPI-" + utrNumber;
+            const { formObj, fullAddressString, productListStr } = pendingOrderData;
 
-                    try {
-                        await setDoc(doc(db, "users", user.uid), {
-                            shippingAddress: {
-                                firstName: formObj.firstName, lastName: formObj.lastName,
-                                line1: formObj.line1, line2: formObj.line2,
-                                city: formObj.city, state: formObj.state, pincode: formObj.pincode,
-                                phone1: formObj.phone1, phone2: formObj.phone2
-                            }
-                        }, { merge: true });
+            try {
+                // Save Address to Profile
+                await setDoc(doc(db, "users", user.uid), {
+                    shippingAddress: { firstName: formObj.firstName, lastName: formObj.lastName, line1: formObj.line1, line2: formObj.line2, city: formObj.city, state: formObj.state, pincode: formObj.pincode, phone1: formObj.phone1, phone2: formObj.phone2 }
+                }, { merge: true });
 
-                        await addDoc(collection(db, "orders"), {
-                            uid: user.uid,
-                            items: activeCartItems,
-                            amount_paid: totalAmount,
-                            shipping_address: formattedAddress,
-                            payment_id: paymentId,
-                            status: "Processing",
-                            date: new Date()
+                // Create Final Order
+                await addDoc(collection(db, "orders"), {
+                    uid: user.uid,
+                    items: activeCartItems,
+                    amount_paid: activeGrandTotal, 
+                    shipping_address: fullAddressString,
+                    payment_id: paymentId,
+                    status: "Verifying UPI", // You can change this to "Processing" later
+                    date: new Date()
+                });
+
+                // Update Inventory & Clear Cart
+                const processPromises = activeCartItems.map(async item => {
+                    if (item.subItems && item.subItems.length > 0) {
+                        item.subItems.forEach(subCode => {
+                            const invRef = doc(db, "inventory", subCode);
+                            processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
                         });
-
-                        const processPromises = activeCartItems.map(async item => {
-                            const invRef = doc(db, "inventory", item.productCode);
-                            await setDoc(invRef, {
-                                units_sold: increment(item.quantity)
-                            }, { merge: true });
-                            
-                            return deleteDoc(doc(db, "carts", item.id));
-                        });
-                        
-                        await Promise.all(processPromises);
-                        
-                        fetchCart(); 
-                        checkInventory();
-
-                        await emailjs.send("service_w8lur8r", "template_jrx6bfd", {
-                            customer_name: `${formObj.firstName} ${formObj.lastName}`,
-                            customer_email: user.email,
-                            phone_number: formObj.phone1, 
-                            product_code: `Multi-Item Cart:\n${productListStr}`,
-                            amount: totalAmount,
-                            shipping_address: formattedAddress,
-                            payment_id: paymentId
-                        });
-
-                        alert(`Payment Successful! 🎉 Your royal collection is being prepared. Order ID: ` + paymentId);
-                        
-                    } catch (error) {
-                        console.error("Order processing error:", error);
-                        alert("There was an error finalizing the order. Please contact support with Payment ID: " + paymentId);
+                    } else {
+                        const invRef = doc(db, "inventory", item.productCode);
+                        processPromises.push(setDoc(invRef, { units_sold: increment(item.quantity) }, { merge: true }));
                     }
-                },
-                prefill: { name: `${formObj.firstName} ${formObj.lastName}`, email: user.email, contact: formObj.phone1 },
-                theme: { color: "#e23b70" }
-            };
+                    return deleteDoc(doc(db, "carts", item.id));
+                });
+                await Promise.all(processPromises);
+                
+                fetchCart(); 
 
-            const rzp = new window.Razorpay(options);
-            rzp.open();
+                // Send Email Notification
+                await emailjs.send("service_w8lur8r", "template_jrx6bfd", {
+                    customer_name: `${formObj.firstName} ${formObj.lastName}`,
+                    customer_email: user.email,
+                    phone_number: formObj.phone1, 
+                    product_code: `Multi-Item Cart:\n${productListStr}`,
+                    amount: activeGrandTotal,
+                    shipping_address: fullAddressString,
+                    payment_id: paymentId
+                });
+
+                document.getElementById('upi-payment-modal').style.display = 'none';
+                document.getElementById('upi-utr').value = ''; // Clear the input field
+                alert(`Order Placed Successfully! 🎉 We will verify your UPI transaction and begin preparing your royal collection. Ref: ` + paymentId);
+                
+            } catch (error) {
+                console.error("Order processing error:", error);
+                alert("There was an error finalizing the order. Please contact support.");
+            }
         }
     </script>
 </body>
